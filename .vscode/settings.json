@@ -1,0 +1,22 @@
+{
+	"files.exclude": {
+		"**/.git": true,
+		"**/.DS_Store": true,
+		"**/*.js": {
+			"when": "$(basename).ts"
+		},
+		"**/*.js.map": {
+			"when": "$(basename)"
+		}
+	},
+	"json.schemas": [
+		{
+			"fileMatch": ["/test/queries/**"]
+		}
+	],
+	"editor.defaultFormatter": "esbenp.prettier-vscode",
+	"eslint.useFlatConfig": false,
+	"eslint.problems.shortenToSingleLine": true,
+	"eslint.run": "onSave",
+  	"prettier.useTabs": true
+}
