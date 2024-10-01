@@ -1,0 +1,22 @@
+{
+	"title": "anunknowntitle",
+	"input": {
+		"WHERE": {
+			"IS": {
+				"sections_dept": "CPSC"
+			}
+		},
+		"OPTIONS": {
+			"COLUMNS": [
+				"sections_dept",
+				"sections_id",
+				"sections_title",
+				"sections_instructor",
+				"sections_year",
+				"sections_avg"
+			]
+		}
+	},
+	"errorExpected": false,
+	"expected": []
+}

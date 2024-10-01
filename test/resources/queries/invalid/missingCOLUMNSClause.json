@@ -1,0 +1,15 @@
+{
+	"title": "MissingCOLUMNSClause",
+	"input": {
+		"WHERE": {
+			"IS": {
+				"sections_dept": "*th*"
+			}
+		},
+		"OPTIONS": {
+			"ORDER": "sections_dept"
+		}
+	},
+	"errorExpected": true,
+	"expected": "InsightError"
+}

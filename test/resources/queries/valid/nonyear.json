@@ -1,0 +1,19 @@
+{
+	"title": "nonyear",
+	"input": {
+		"WHERE": {
+			"GT": {
+				"sections_year": 3000
+			}
+		},
+		"OPTIONS": {
+			"COLUMNS": [
+				"sections_dept",
+				"sections_year"
+			],
+			"ORDER": "sections_year"
+		}
+	},
+	"errorExpected": false,
+	"expected": []
+}

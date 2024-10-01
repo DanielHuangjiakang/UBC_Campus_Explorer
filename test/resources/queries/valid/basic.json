@@ -1,0 +1,22 @@
+{
+  "input": {
+    "WHERE": {
+      "GT": {
+        "avg": 90
+      }
+    },
+    "OPTIONS": {
+      "COLUMNS": [
+        "dept"
+      ]
+    }
+  },
+  "expected": [
+    {
+      "dept": "Physics"
+    },
+    {
+      "dept": "Chemistry"
+    }
+  ]
+}

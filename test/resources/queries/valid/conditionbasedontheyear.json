@@ -1,0 +1,3880 @@
+{
+	"title": "conditionbasedontheyear",
+	"input": {
+		"WHERE": {
+			"GT": {
+				"sections_year": 2015
+			}
+		},
+		"OPTIONS": {
+			"COLUMNS": [
+				"sections_dept",
+				"sections_year"
+			],
+			"ORDER": "sections_year"
+		}
+	},
+	"errorExpected": false,
+	"expected": [
+		{
+			"sections_dept": "poli",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "poli",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "poli",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "poli",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "poli",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "poli",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "poli",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "poli",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "poli",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "plan",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "plan",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "plan",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "plan",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "plan",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "phys",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "phys",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "phys",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "phys",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "phys",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "phys",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "phys",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "phys",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "phys",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "phys",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "phys",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "phys",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "phys",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "phys",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "phth",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "phth",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "phth",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "phth",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "phil",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "phil",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "phil",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "phar",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "phar",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "phar",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "phar",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "phar",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "phar",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "phar",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "pcth",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "pcth",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "nurs",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "nurs",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "nurs",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "nurs",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "nurs",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "nurs",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "nurs",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "nurs",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "nurs",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "nurs",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "nurs",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "nurs",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "nurs",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "nurs",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "nurs",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "nurs",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "nurs",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "nurs",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "nurs",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "nest",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "musc",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "musc",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "musc",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "musc",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "musc",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "musc",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "mtrl",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "mtrl",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "mtrl",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "mine",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "mine",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "mine",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "mine",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "mine",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "mine",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "mine",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "mine",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "midw",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "midw",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "midw",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "midw",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "micb",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "medg",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "medg",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "math",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "math",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "math",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "math",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "math",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "math",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "math",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "math",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "math",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "math",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "math",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "math",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "math",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "math",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "math",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "math",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "math",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "math",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "math",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "math",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "math",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "math",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "math",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "math",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "math",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "math",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "math",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "math",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "math",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "math",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "math",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "math",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "math",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "math",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "math",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "math",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "math",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "math",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "math",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "math",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "math",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "math",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "math",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "math",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "math",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "math",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "math",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "math",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "math",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "math",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "math",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "math",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "math",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "math",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "math",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "math",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "math",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "math",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "math",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "math",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "math",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "math",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "math",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "math",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "math",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "math",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "math",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "lled",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "lled",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "lled",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "lled",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "lled",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "lled",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "lled",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "lled",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "lled",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "lled",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "lled",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "lled",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "lled",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "lled",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "lled",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "lled",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "lled",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "lled",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "lled",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "lled",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "lled",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "lled",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "lled",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "lled",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "lled",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "lled",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "lled",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "lled",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "lled",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "lled",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "lled",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "lled",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "ling",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "ling",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "ling",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "ling",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "ling",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "ling",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "libr",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "libr",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "libr",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "libr",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "libr",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "libr",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "libr",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "libr",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "libr",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "libr",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "libr",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "libr",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "libe",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "libe",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "lfs",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "lfs",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "lfs",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "lfs",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "lfs",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "latn",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "latn",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "latn",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "latn",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "latn",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "larc",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "larc",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "larc",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "larc",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "larc",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "larc",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "larc",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "larc",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "larc",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "larc",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "larc",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "larc",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "larc",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "lais",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "korn",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "kin",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "kin",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "kin",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "kin",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "kin",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "kin",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "kin",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "kin",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "kin",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "kin",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "kin",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "kin",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "kin",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "kin",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "kin",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "japn",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "japn",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "japn",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "itst",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "itst",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "itst",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "ital",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "ital",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "ital",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "ital",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "ital",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "ital",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "ital",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "ital",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "ital",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "ital",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "ital",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "isci",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "igen",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "igen",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "hist",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "hist",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "hist",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "hist",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "hist",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "hist",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "hist",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "hist",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "hist",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "hist",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "hist",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "hist",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "hist",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "hgse",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "hgse",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "hgse",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "hgse",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "hgse",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "hebr",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "grsj",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "grsj",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "grsj",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "grsj",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "grsj",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "grsj",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "grek",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "grek",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "gpp",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "gpp",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "germ",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "germ",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "germ",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "germ",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "germ",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "germ",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "germ",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "germ",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "germ",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "germ",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "germ",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "germ",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "germ",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "germ",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "germ",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "germ",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "germ",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "germ",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "germ",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "germ",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "germ",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "germ",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "germ",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "geog",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "geog",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "geog",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "geog",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "geog",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "geog",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "geob",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "geob",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "geob",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "geob",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "geob",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "frst",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "frst",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "frst",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "frst",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "frst",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "frst",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "frst",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "frst",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "frst",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "frst",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "frst",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "frst",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "frst",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "frst",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "frst",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "frst",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "fren",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "fren",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "fren",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "fren",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "fren",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "fren",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "fren",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "fren",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "fren",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "fren",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "fren",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "fren",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "fren",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "fren",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "fren",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "fren",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "fren",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "fren",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "fren",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "fren",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "fren",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "fren",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "fren",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "fren",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "fren",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "fren",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "fren",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "fren",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "fren",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "fren",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "fren",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "fre",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "fre",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "fopr",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "fopr",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "fopr",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "food",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "food",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "food",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "food",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "food",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "fnh",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "fnh",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "fnh",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "fnh",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "fnel",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "fmst",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "fmst",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "fmst",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "fmst",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "fmst",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "fmst",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "fist",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "fist",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "fist",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "fist",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "fist",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "fipr",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "fipr",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "fipr",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "etec",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "etec",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "etec",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "etec",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "epse",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "epse",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "epse",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "epse",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "epse",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "epse",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "epse",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "epse",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "epse",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "epse",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "epse",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "epse",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "epse",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "epse",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "epse",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "epse",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "epse",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "epse",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "eosc",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "eosc",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "eosc",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "eosc",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "eosc",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "eosc",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "eosc",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "eosc",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "eosc",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "eosc",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "eosc",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "eosc",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "eosc",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "eosc",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "eosc",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "eosc",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "envr",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "engl",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "engl",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "engl",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "engl",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "engl",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "engl",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "engl",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "engl",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "engl",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "engl",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "engl",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "engl",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "engl",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "engl",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "engl",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "engl",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "engl",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "engl",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "engl",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "engl",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "engl",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "engl",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "engl",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "engl",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "engl",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "engl",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "engl",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "engl",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "engl",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "engl",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "engl",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "engl",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "engl",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "engl",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "engl",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "engl",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "engl",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "engl",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "engl",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "engl",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "engl",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "engl",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "engl",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "engl",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "engl",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "engl",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "engl",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "engl",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "engl",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "engl",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "engl",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "engl",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "engl",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "engl",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "engl",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "engl",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "engl",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "engl",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "engl",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "engl",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "engl",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "engl",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "engl",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "engl",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "engl",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "engl",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "ends",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "ends",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "ends",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "elec",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "elec",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "eece",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "eece",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "eece",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "eece",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "educ",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "educ",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "educ",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "edst",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "edst",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "edst",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "edst",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "edst",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "edst",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "edst",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "edst",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "edcp",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "edcp",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "edcp",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "edcp",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "econ",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "econ",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "econ",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "econ",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "econ",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "econ",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "econ",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "econ",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "econ",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "econ",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "econ",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "econ",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "econ",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "econ",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "econ",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "econ",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "econ",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "econ",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "econ",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "econ",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "econ",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "econ",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "econ",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "econ",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "econ",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "econ",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "econ",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "econ",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "econ",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "econ",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "econ",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "econ",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "econ",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "eced",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "eced",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "eced",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "dani",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "dani",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "crwr",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "crwr",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "crwr",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "crwr",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "crwr",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "crwr",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "crwr",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "crwr",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "crwr",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "crwr",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "crwr",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "crwr",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "crwr",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "crwr",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "cpen",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "cons",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "comm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "cohr",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "cohr",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "cohr",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "cohr",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "cogs",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "cogs",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "coec",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "coec",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "cnps",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "cnps",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "cnps",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "cnps",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "cnps",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "cnps",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "cnps",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "cnps",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "cnps",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "cnps",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "cnps",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "cnps",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "cnps",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "clst",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "clst",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "clst",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "clst",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "clch",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "civl",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "civl",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "civl",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "chin",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "chin",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "chin",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "chin",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "chin",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "chin",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "chin",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "chin",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "chem",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "chem",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "chem",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "chem",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "chem",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "chem",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "chem",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "chem",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "chem",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "chem",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "chem",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "chem",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "chem",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "chem",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "chem",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "chem",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "chem",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "chem",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "chem",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "chem",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "chem",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "chem",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "chem",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "chem",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "chem",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "chem",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "chem",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "chem",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "chem",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "chem",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "chem",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "chem",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "chem",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "chem",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "chem",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "chem",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "chem",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "chem",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "chem",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "chem",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "chem",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "chem",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "chem",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "chem",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "chem",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "chem",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "chem",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "chem",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "chbe",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "chbe",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "chbe",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "cens",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "caps",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "busi",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "busi",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "busi",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "busi",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "busi",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "busi",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "busi",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "busi",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "busi",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "busi",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "busi",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "busi",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "busi",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "busi",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "busi",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "busi",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "busi",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "busi",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "busi",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "busi",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "bota",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "bmeg",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "bmeg",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "bmeg",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "biol",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "biol",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "biol",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "biol",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "biol",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "biol",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "biol",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "biol",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "biol",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "biol",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "biol",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "biol",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "biol",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "biol",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "biol",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "biol",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "biol",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "biol",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "biol",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "biol",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "biol",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "biol",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "biol",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "biol",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "bioc",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "bioc",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "bioc",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "baul",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "basm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "basm",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "basc",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "basc",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "basc",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "basc",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "basc",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "bapa",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "bapa",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "bapa",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "bapa",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "bams",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "bams",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "bams",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "bams",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "bams",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "bams",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "bams",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "bama",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "bama",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "bama",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "bama",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "bama",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "bama",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "bama",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "bama",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "bama",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "bama",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "bama",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "bait",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "bait",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "bahr",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "bahr",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "bahr",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "bahr",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "bahr",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "bahr",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "bahr",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "bahr",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "bahr",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "bafi",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "bafi",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "bafi",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "bafi",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "bafi",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "bafi",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "bafi",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "bafi",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "bafi",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "bafi",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "bafi",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "bafi",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "bafi",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "bafi",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "baen",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "baen",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "baen",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "baen",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "babs",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "babs",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "babs",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "baac",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "baac",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "baac",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "baac",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "baac",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "baac",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "baac",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "ba",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "ba",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "ba",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "ba",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "ba",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "ba",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "audi",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "audi",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "audi",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "audi",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "audi",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "astu",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "astr",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "astr",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "asia",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "asia",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "asia",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "asia",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "asia",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "arth",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "arth",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "arst",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "arst",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "arst",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "arst",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "arst",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "arst",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "arst",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "arch",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "arch",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "arch",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "arch",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "arch",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "arch",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "arch",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "arch",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "arch",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "arch",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "arch",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "arch",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "arch",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "arch",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "arch",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "arch",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "arch",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "apsc",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "apsc",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "apsc",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "appp",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "apbi",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "apbi",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "apbi",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "apbi",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "apbi",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "apbi",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "apbi",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "anth",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "anth",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "anth",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "anat",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "adhe",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "adhe",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "adhe",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "adhe",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "adhe",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "adhe",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "adhe",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "adhe",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "adhe",
+			"sections_year": 2016
+		},
+		{
+			"sections_dept": "adhe",
+			"sections_year": 2016
+		}
+	]
+}

@@ -1,0 +1,127 @@
+{
+	"title": "aspecificprofessor",
+	"input": {
+		"WHERE": {
+			"IS": {
+				"sections_instructor": "mckellin, william"
+			}
+		},
+		"OPTIONS": {
+			"COLUMNS": [
+				"sections_dept",
+				"sections_id",
+				"sections_title",
+				"sections_instructor",
+				"sections_year",
+				"sections_avg"
+			]
+		}
+	},
+	"errorExpected": false,
+	"expected": [
+		{
+			"sections_dept": "anth",
+			"sections_id": "227",
+			"sections_title": "cult health ill",
+			"sections_instructor": "mckellin, william",
+			"sections_year": 2013,
+			"sections_avg": 73.73
+		},
+		{
+			"sections_dept": "anth",
+			"sections_id": "227",
+			"sections_title": "cult health ill",
+			"sections_instructor": "mckellin, william",
+			"sections_year": 2009,
+			"sections_avg": 71.15
+		},
+		{
+			"sections_dept": "anth",
+			"sections_id": "407",
+			"sections_title": "prncpls fld work",
+			"sections_instructor": "mckellin, william",
+			"sections_year": 2014,
+			"sections_avg": 67.58
+		},
+		{
+			"sections_dept": "anth",
+			"sections_id": "407",
+			"sections_title": "prncpls fld work",
+			"sections_instructor": "mckellin, william",
+			"sections_year": 2015,
+			"sections_avg": 74.16
+		},
+		{
+			"sections_dept": "anth",
+			"sections_id": "407",
+			"sections_title": "prncpls fld work",
+			"sections_instructor": "mckellin, william",
+			"sections_year": 2013,
+			"sections_avg": 75.95
+		},
+		{
+			"sections_dept": "anth",
+			"sections_id": "407",
+			"sections_title": "prncpls fld work",
+			"sections_instructor": "mckellin, william",
+			"sections_year": 2012,
+			"sections_avg": 74.76
+		},
+		{
+			"sections_dept": "anth",
+			"sections_id": "428",
+			"sections_title": "med, soci, cultr",
+			"sections_instructor": "mckellin, william",
+			"sections_year": 2014,
+			"sections_avg": 77.76
+		},
+		{
+			"sections_dept": "anth",
+			"sections_id": "428",
+			"sections_title": "med tech cul soc",
+			"sections_instructor": "mckellin, william",
+			"sections_year": 2015,
+			"sections_avg": 79.42
+		},
+		{
+			"sections_dept": "anth",
+			"sections_id": "428",
+			"sections_title": "med, soci, cultr",
+			"sections_instructor": "mckellin, william",
+			"sections_year": 2013,
+			"sections_avg": 77.54
+		},
+		{
+			"sections_dept": "anth",
+			"sections_id": "428",
+			"sections_title": "med, soci, cultr",
+			"sections_instructor": "mckellin, william",
+			"sections_year": 2010,
+			"sections_avg": 77.6
+		},
+		{
+			"sections_dept": "anth",
+			"sections_id": "428",
+			"sections_title": "med, soci, cultr",
+			"sections_instructor": "mckellin, william",
+			"sections_year": 2011,
+			"sections_avg": 75.55
+		},
+		{
+			"sections_dept": "anth",
+			"sections_id": "428",
+			"sections_title": "med, soci, cultr",
+			"sections_instructor": "mckellin, william",
+			"sections_year": 2012,
+			"sections_avg": 77.77
+		},
+		{
+			"sections_dept": "anth",
+			"sections_id": "519",
+			"sections_title": "sem medical anth",
+			"sections_instructor": "mckellin, william",
+			"sections_year": 2010,
+			"sections_avg": 88
+		}
+	]
+}

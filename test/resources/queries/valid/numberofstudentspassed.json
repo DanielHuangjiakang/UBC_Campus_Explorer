@@ -1,0 +1,958 @@
+{
+	"title": "numberofstudentspassed",
+	"input": {
+		"WHERE": {
+			"GT": {
+				"sections_pass": 1000
+			}
+		},
+		"OPTIONS": {
+			"COLUMNS": [
+				"sections_dept",
+				"sections_pass",
+				"sections_fail",
+				"sections_audit"
+			],
+			"ORDER": "sections_pass"
+		}
+	},
+	"errorExpected": false,
+	"expected": [
+		{
+			"sections_dept": "chem",
+			"sections_pass": 1006,
+			"sections_fail": 213,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "math",
+			"sections_pass": 1012,
+			"sections_fail": 203,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "math",
+			"sections_pass": 1018,
+			"sections_fail": 186,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "math",
+			"sections_pass": 1020,
+			"sections_fail": 70,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "biol",
+			"sections_pass": 1026,
+			"sections_fail": 106,
+			"sections_audit": 1
+		},
+		{
+			"sections_dept": "chem",
+			"sections_pass": 1042,
+			"sections_fail": 1,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "math",
+			"sections_pass": 1044,
+			"sections_fail": 106,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "chem",
+			"sections_pass": 1049,
+			"sections_fail": 3,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "math",
+			"sections_pass": 1050,
+			"sections_fail": 193,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "psyc",
+			"sections_pass": 1053,
+			"sections_fail": 96,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "chem",
+			"sections_pass": 1057,
+			"sections_fail": 2,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "psyc",
+			"sections_pass": 1058,
+			"sections_fail": 90,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "math",
+			"sections_pass": 1058,
+			"sections_fail": 120,
+			"sections_audit": 1
+		},
+		{
+			"sections_dept": "eosc",
+			"sections_pass": 1059,
+			"sections_fail": 55,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "biol",
+			"sections_pass": 1062,
+			"sections_fail": 143,
+			"sections_audit": 2
+		},
+		{
+			"sections_dept": "math",
+			"sections_pass": 1064,
+			"sections_fail": 72,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "eosc",
+			"sections_pass": 1064,
+			"sections_fail": 48,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "math",
+			"sections_pass": 1065,
+			"sections_fail": 107,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "psyc",
+			"sections_pass": 1067,
+			"sections_fail": 75,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "chem",
+			"sections_pass": 1073,
+			"sections_fail": 129,
+			"sections_audit": 1
+		},
+		{
+			"sections_dept": "chem",
+			"sections_pass": 1084,
+			"sections_fail": 4,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "biol",
+			"sections_pass": 1084,
+			"sections_fail": 122,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "chem",
+			"sections_pass": 1086,
+			"sections_fail": 1,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "biol",
+			"sections_pass": 1087,
+			"sections_fail": 66,
+			"sections_audit": 3
+		},
+		{
+			"sections_dept": "biol",
+			"sections_pass": 1091,
+			"sections_fail": 123,
+			"sections_audit": 2
+		},
+		{
+			"sections_dept": "crwr",
+			"sections_pass": 1111,
+			"sections_fail": 16,
+			"sections_audit": 1
+		},
+		{
+			"sections_dept": "math",
+			"sections_pass": 1114,
+			"sections_fail": 145,
+			"sections_audit": 1
+		},
+		{
+			"sections_dept": "math",
+			"sections_pass": 1122,
+			"sections_fail": 222,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "biol",
+			"sections_pass": 1126,
+			"sections_fail": 74,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "biol",
+			"sections_pass": 1126,
+			"sections_fail": 72,
+			"sections_audit": 6
+		},
+		{
+			"sections_dept": "biol",
+			"sections_pass": 1126,
+			"sections_fail": 72,
+			"sections_audit": 2
+		},
+		{
+			"sections_dept": "biol",
+			"sections_pass": 1133,
+			"sections_fail": 133,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "math",
+			"sections_pass": 1137,
+			"sections_fail": 190,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "biol",
+			"sections_pass": 1146,
+			"sections_fail": 81,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "biol",
+			"sections_pass": 1147,
+			"sections_fail": 86,
+			"sections_audit": 7
+		},
+		{
+			"sections_dept": "biol",
+			"sections_pass": 1153,
+			"sections_fail": 26,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "chem",
+			"sections_pass": 1156,
+			"sections_fail": 1,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "biol",
+			"sections_pass": 1158,
+			"sections_fail": 24,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "chem",
+			"sections_pass": 1159,
+			"sections_fail": 48,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "math",
+			"sections_pass": 1166,
+			"sections_fail": 190,
+			"sections_audit": 1
+		},
+		{
+			"sections_dept": "math",
+			"sections_pass": 1171,
+			"sections_fail": 91,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "biol",
+			"sections_pass": 1174,
+			"sections_fail": 95,
+			"sections_audit": 2
+		},
+		{
+			"sections_dept": "biol",
+			"sections_pass": 1174,
+			"sections_fail": 95,
+			"sections_audit": 1
+		},
+		{
+			"sections_dept": "psyc",
+			"sections_pass": 1188,
+			"sections_fail": 81,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "biol",
+			"sections_pass": 1215,
+			"sections_fail": 230,
+			"sections_audit": 1
+		},
+		{
+			"sections_dept": "eosc",
+			"sections_pass": 1227,
+			"sections_fail": 36,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "phil",
+			"sections_pass": 1245,
+			"sections_fail": 87,
+			"sections_audit": 3
+		},
+		{
+			"sections_dept": "phys",
+			"sections_pass": 1247,
+			"sections_fail": 99,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "biol",
+			"sections_pass": 1257,
+			"sections_fail": 45,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "comm",
+			"sections_pass": 1288,
+			"sections_fail": 100,
+			"sections_audit": 1
+		},
+		{
+			"sections_dept": "engl",
+			"sections_pass": 1294,
+			"sections_fail": 33,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "biol",
+			"sections_pass": 1307,
+			"sections_fail": 162,
+			"sections_audit": 1
+		},
+		{
+			"sections_dept": "comm",
+			"sections_pass": 1309,
+			"sections_fail": 37,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "biol",
+			"sections_pass": 1318,
+			"sections_fail": 20,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "phys",
+			"sections_pass": 1342,
+			"sections_fail": 177,
+			"sections_audit": 1
+		},
+		{
+			"sections_dept": "chem",
+			"sections_pass": 1359,
+			"sections_fail": 157,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "comm",
+			"sections_pass": 1367,
+			"sections_fail": 3,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "biol",
+			"sections_pass": 1377,
+			"sections_fail": 4,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "psyc",
+			"sections_pass": 1383,
+			"sections_fail": 125,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "chem",
+			"sections_pass": 1386,
+			"sections_fail": 168,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "math",
+			"sections_pass": 1390,
+			"sections_fail": 205,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "psyc",
+			"sections_pass": 1391,
+			"sections_fail": 113,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "chem",
+			"sections_pass": 1394,
+			"sections_fail": 112,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "phys",
+			"sections_pass": 1395,
+			"sections_fail": 171,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "engl",
+			"sections_pass": 1398,
+			"sections_fail": 20,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "chem",
+			"sections_pass": 1409,
+			"sections_fail": 63,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "biol",
+			"sections_pass": 1419,
+			"sections_fail": 142,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "phys",
+			"sections_pass": 1423,
+			"sections_fail": 171,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "engl",
+			"sections_pass": 1435,
+			"sections_fail": 25,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "psyc",
+			"sections_pass": 1438,
+			"sections_fail": 134,
+			"sections_audit": 2
+		},
+		{
+			"sections_dept": "chem",
+			"sections_pass": 1441,
+			"sections_fail": 97,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "psyc",
+			"sections_pass": 1442,
+			"sections_fail": 102,
+			"sections_audit": 1
+		},
+		{
+			"sections_dept": "biol",
+			"sections_pass": 1442,
+			"sections_fail": 116,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "phys",
+			"sections_pass": 1460,
+			"sections_fail": 162,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "eosc",
+			"sections_pass": 1470,
+			"sections_fail": 21,
+			"sections_audit": 3
+		},
+		{
+			"sections_dept": "engl",
+			"sections_pass": 1474,
+			"sections_fail": 29,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "eosc",
+			"sections_pass": 1475,
+			"sections_fail": 52,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "biol",
+			"sections_pass": 1476,
+			"sections_fail": 14,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "biol",
+			"sections_pass": 1483,
+			"sections_fail": 15,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "phys",
+			"sections_pass": 1497,
+			"sections_fail": 90,
+			"sections_audit": 1
+		},
+		{
+			"sections_dept": "biol",
+			"sections_pass": 1501,
+			"sections_fail": 19,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "biol",
+			"sections_pass": 1501,
+			"sections_fail": 17,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "biol",
+			"sections_pass": 1518,
+			"sections_fail": 10,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "phys",
+			"sections_pass": 1521,
+			"sections_fail": 109,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "biol",
+			"sections_pass": 1525,
+			"sections_fail": 17,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "chem",
+			"sections_pass": 1526,
+			"sections_fail": 266,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "chem",
+			"sections_pass": 1530,
+			"sections_fail": 115,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "chem",
+			"sections_pass": 1545,
+			"sections_fail": 121,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "biol",
+			"sections_pass": 1546,
+			"sections_fail": 137,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "chem",
+			"sections_pass": 1551,
+			"sections_fail": 235,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "phys",
+			"sections_pass": 1558,
+			"sections_fail": 184,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "biol",
+			"sections_pass": 1571,
+			"sections_fail": 26,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "biol",
+			"sections_pass": 1578,
+			"sections_fail": 150,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "engl",
+			"sections_pass": 1579,
+			"sections_fail": 34,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "chem",
+			"sections_pass": 1586,
+			"sections_fail": 192,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "biol",
+			"sections_pass": 1586,
+			"sections_fail": 84,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "engl",
+			"sections_pass": 1590,
+			"sections_fail": 23,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "engl",
+			"sections_pass": 1626,
+			"sections_fail": 19,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "biol",
+			"sections_pass": 1630,
+			"sections_fail": 69,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "chem",
+			"sections_pass": 1634,
+			"sections_fail": 260,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "biol",
+			"sections_pass": 1648,
+			"sections_fail": 147,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "chem",
+			"sections_pass": 1667,
+			"sections_fail": 250,
+			"sections_audit": 1
+		},
+		{
+			"sections_dept": "biol",
+			"sections_pass": 1670,
+			"sections_fail": 116,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "chem",
+			"sections_pass": 1674,
+			"sections_fail": 287,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "chem",
+			"sections_pass": 1699,
+			"sections_fail": 251,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "econ",
+			"sections_pass": 1705,
+			"sections_fail": 135,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "econ",
+			"sections_pass": 1705,
+			"sections_fail": 187,
+			"sections_audit": 1
+		},
+		{
+			"sections_dept": "biol",
+			"sections_pass": 1710,
+			"sections_fail": 53,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "wrds",
+			"sections_pass": 1721,
+			"sections_fail": 72,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "eosc",
+			"sections_pass": 1738,
+			"sections_fail": 32,
+			"sections_audit": 1
+		},
+		{
+			"sections_dept": "biol",
+			"sections_pass": 1758,
+			"sections_fail": 136,
+			"sections_audit": 1
+		},
+		{
+			"sections_dept": "biol",
+			"sections_pass": 1760,
+			"sections_fail": 84,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "biol",
+			"sections_pass": 1761,
+			"sections_fail": 73,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "chem",
+			"sections_pass": 1762,
+			"sections_fail": 264,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "biol",
+			"sections_pass": 1768,
+			"sections_fail": 162,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "biol",
+			"sections_pass": 1780,
+			"sections_fail": 110,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "psyc",
+			"sections_pass": 1785,
+			"sections_fail": 146,
+			"sections_audit": 1
+		},
+		{
+			"sections_dept": "econ",
+			"sections_pass": 1787,
+			"sections_fail": 187,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "biol",
+			"sections_pass": 1795,
+			"sections_fail": 73,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "biol",
+			"sections_pass": 1817,
+			"sections_fail": 131,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "econ",
+			"sections_pass": 1827,
+			"sections_fail": 135,
+			"sections_audit": 6
+		},
+		{
+			"sections_dept": "eosc",
+			"sections_pass": 1830,
+			"sections_fail": 52,
+			"sections_audit": 2
+		},
+		{
+			"sections_dept": "wrds",
+			"sections_pass": 1856,
+			"sections_fail": 87,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "econ",
+			"sections_pass": 1866,
+			"sections_fail": 142,
+			"sections_audit": 2
+		},
+		{
+			"sections_dept": "engl",
+			"sections_pass": 1948,
+			"sections_fail": 27,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "econ",
+			"sections_pass": 1948,
+			"sections_fail": 120,
+			"sections_audit": 2
+		},
+		{
+			"sections_dept": "eosc",
+			"sections_pass": 1950,
+			"sections_fail": 69,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "psyc",
+			"sections_pass": 1953,
+			"sections_fail": 169,
+			"sections_audit": 1
+		},
+		{
+			"sections_dept": "econ",
+			"sections_pass": 1962,
+			"sections_fail": 181,
+			"sections_audit": 2
+		},
+		{
+			"sections_dept": "psyc",
+			"sections_pass": 1966,
+			"sections_fail": 175,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "engl",
+			"sections_pass": 1990,
+			"sections_fail": 32,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "eosc",
+			"sections_pass": 2015,
+			"sections_fail": 62,
+			"sections_audit": 1
+		},
+		{
+			"sections_dept": "eosc",
+			"sections_pass": 2016,
+			"sections_fail": 85,
+			"sections_audit": 2
+		},
+		{
+			"sections_dept": "econ",
+			"sections_pass": 2019,
+			"sections_fail": 145,
+			"sections_audit": 1
+		},
+		{
+			"sections_dept": "econ",
+			"sections_pass": 2023,
+			"sections_fail": 145,
+			"sections_audit": 1
+		},
+		{
+			"sections_dept": "econ",
+			"sections_pass": 2063,
+			"sections_fail": 172,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "econ",
+			"sections_pass": 2083,
+			"sections_fail": 119,
+			"sections_audit": 2
+		},
+		{
+			"sections_dept": "psyc",
+			"sections_pass": 2095,
+			"sections_fail": 144,
+			"sections_audit": 1
+		},
+		{
+			"sections_dept": "econ",
+			"sections_pass": 2099,
+			"sections_fail": 79,
+			"sections_audit": 2
+		},
+		{
+			"sections_dept": "econ",
+			"sections_pass": 2124,
+			"sections_fail": 221,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "econ",
+			"sections_pass": 2134,
+			"sections_fail": 142,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "econ",
+			"sections_pass": 2169,
+			"sections_fail": 166,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "psyc",
+			"sections_pass": 2201,
+			"sections_fail": 172,
+			"sections_audit": 1
+		},
+		{
+			"sections_dept": "econ",
+			"sections_pass": 2278,
+			"sections_fail": 149,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "econ",
+			"sections_pass": 2286,
+			"sections_fail": 126,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "psyc",
+			"sections_pass": 2289,
+			"sections_fail": 135,
+			"sections_audit": 1
+		},
+		{
+			"sections_dept": "econ",
+			"sections_pass": 2378,
+			"sections_fail": 132,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "econ",
+			"sections_pass": 2438,
+			"sections_fail": 135,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "engl",
+			"sections_pass": 2466,
+			"sections_fail": 69,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "engl",
+			"sections_pass": 2491,
+			"sections_fail": 57,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "engl",
+			"sections_pass": 2498,
+			"sections_fail": 45,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "engl",
+			"sections_pass": 2502,
+			"sections_fail": 65,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "engl",
+			"sections_pass": 2557,
+			"sections_fail": 59,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "engl",
+			"sections_pass": 2655,
+			"sections_fail": 52,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "engl",
+			"sections_pass": 2698,
+			"sections_fail": 79,
+			"sections_audit": 0
+		},
+		{
+			"sections_dept": "engl",
+			"sections_pass": 2994,
+			"sections_fail": 63,
+			"sections_audit": 0
+		}
+	]
+}

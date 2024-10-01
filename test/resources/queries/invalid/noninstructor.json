@@ -1,0 +1,22 @@
+{
+	"title": "noninstructor",
+	"input": {
+		"WHERE": {
+			"IS": {
+				"sections_instructor": "non"
+			}
+		},
+		"OPTIONS": {
+			"COLUMNS": [
+				"sections_dept",
+				"sections_id",
+				"sections_title",
+				"sections_instructor",
+				"sections_year",
+				"sections_avg"
+			]
+		}
+	},
+	"errorExpected": false,
+	"expected": []
+}

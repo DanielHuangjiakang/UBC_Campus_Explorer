@@ -1,0 +1,27 @@
+{
+	"title": "Query references multiple datasets",
+	"input": {
+		"WHERE": {
+			"AND": [
+				{
+					"GT": {
+						"dataset1_avg": 90
+					}
+				},
+				{
+					"LT": {
+						"dataset2_pass": 50
+					}
+				}
+			]
+		},
+		"OPTIONS": {
+			"COLUMNS": [
+				"dataset1_dept",
+				"dataset2_instructor"
+			]
+		}
+	},
+	"errorExpected": true,
+	"expected": "InsightError"
+}

@@ -1,0 +1,13 @@
+{
+	"title": "MissingWHEREClause",
+	"input": {
+		"OPTIONS": {
+			"COLUMNS": [
+				"sections_dept"
+			],
+			"ORDER": "sections_dept"
+		}
+	},
+	"errorExpected": true,
+	"expected": "InsightError"
+}

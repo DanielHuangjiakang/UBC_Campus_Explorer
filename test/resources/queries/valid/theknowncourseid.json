@@ -1,0 +1,60 @@
+{
+	"title": "No Title Specified",
+	"input": {
+		"WHERE": {
+			"AND": [
+				{
+					"GT": {
+						"sections_avg": 93
+					}
+				},
+				{
+					"IS": {
+						"sections_id": "101"
+					}
+				}
+			]
+		},
+		"OPTIONS": {
+			"COLUMNS": [
+				"sections_dept",
+				"sections_id",
+				"sections_avg"
+			],
+			"ORDER": "sections_avg"
+		}
+	},
+	"errorExpected": false,
+	"expected": [
+		{
+			"sections_dept": "midw",
+			"sections_id": "101",
+			"sections_avg": 93.47
+		},
+		{
+			"sections_dept": "midw",
+			"sections_id": "101",
+			"sections_avg": 93.47
+		},
+		{
+			"sections_dept": "midw",
+			"sections_id": "101",
+			"sections_avg": 94.15
+		},
+		{
+			"sections_dept": "midw",
+			"sections_id": "101",
+			"sections_avg": 94.15
+		},
+		{
+			"sections_dept": "midw",
+			"sections_id": "101",
+			"sections_avg": 96.5
+		},
+		{
+			"sections_dept": "midw",
+			"sections_id": "101",
+			"sections_avg": 96.5
+		}
+	]
+}

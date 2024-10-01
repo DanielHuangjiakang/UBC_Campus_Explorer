@@ -1,0 +1,21 @@
+{
+	"title": "nonnumberofstudentspassed",
+	"input": {
+		"WHERE": {
+			"GT": {
+				"sections_pass": 1
+			}
+		},
+		"OPTIONS": {
+			"COLUMNS": [
+				"sections_dept",
+				"sections_pass",
+				"sections_fail",
+				"sections_audit"
+			],
+			"ORDER": "sections_pass"
+		}
+	},
+	"errorExpected": true,
+	"expected": "ResultTooLargeError"
+}

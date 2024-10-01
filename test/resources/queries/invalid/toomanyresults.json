@@ -1,0 +1,19 @@
+{
+	"title": "toomanyresults",
+	"input": {
+		"WHERE": {
+			"GT": {
+				"sections_avg": 0
+			}
+		},
+		"OPTIONS": {
+			"COLUMNS": [
+				"sections_dept",
+				"sections_avg"
+			],
+			"ORDER": "sections_avg"
+		}
+	},
+	"errorExpected": true,
+	"expected": "ResultTooLargeError"
+}

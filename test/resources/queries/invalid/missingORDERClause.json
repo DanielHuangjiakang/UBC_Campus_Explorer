@@ -1,0 +1,18 @@
+{
+	"title": "MissingORDERClause",
+	"input": {
+		"WHERE": {
+			"IS": {
+				"sections_dept": "*th*"
+			}
+		},
+		"OPTIONS": {
+			"COLUMNS": [
+				"sections_id"
+			],
+			"ORDER": "sections_dept"
+		}
+	},
+	"errorExpected": true,
+	"expected": "InsightError"
+}
