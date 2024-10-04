@@ -9,6 +9,7 @@ export enum InsightDatasetKind {
 	Rooms = "rooms",
 }
 
+
 export interface InsightDataset {
 	id: string;
 	kind: InsightDatasetKind;
