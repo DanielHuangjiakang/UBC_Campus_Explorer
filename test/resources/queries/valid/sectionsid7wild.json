@@ -1,0 +1,68 @@
+{
+	"title": "sectionsid7wild",
+	"input": {
+		"WHERE": {
+			"IS": {
+				"sections_id": "7*"
+			}
+		},
+		"OPTIONS": {
+			"COLUMNS": [
+				"sections_avg",
+				"sections_id"
+			],
+			"ORDER": "sections_avg"
+		}
+	},
+	"errorExpected": false,
+	"expected": [
+		{
+			"sections_avg": 82.5,
+			"sections_id": "721"
+		},
+		{
+			"sections_avg": 82.5,
+			"sections_id": "721"
+		},
+		{
+			"sections_avg": 83.75,
+			"sections_id": "722"
+		},
+		{
+			"sections_avg": 83.75,
+			"sections_id": "722"
+		},
+		{
+			"sections_avg": 85.75,
+			"sections_id": "721"
+		},
+		{
+			"sections_avg": 85.75,
+			"sections_id": "721"
+		},
+		{
+			"sections_avg": 89.25,
+			"sections_id": "724"
+		},
+		{
+			"sections_avg": 89.25,
+			"sections_id": "724"
+		},
+		{
+			"sections_avg": 90,
+			"sections_id": "724"
+		},
+		{
+			"sections_avg": 90,
+			"sections_id": "724"
+		},
+		{
+			"sections_avg": 90.5,
+			"sections_id": "722"
+		},
+		{
+			"sections_avg": 90.5,
+			"sections_id": "722"
+		}
+	]
+}
