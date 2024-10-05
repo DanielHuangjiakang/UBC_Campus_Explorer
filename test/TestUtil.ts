@@ -69,23 +69,15 @@ export function extractFileFromTestName(name: string): string {
  */
 function assertTestQuery(testQuery: any): asserts testQuery is ITestQuery {
 	if (Array.isArray(testQuery)) {
-		throw new Error(
-			"ValidationError: Test Query must be an object not an array."
-		);
+		throw new Error("ValidationError: Test Query must be an object not an array.");
 	}
 	if (!Object.hasOwn(testQuery, "input")) {
-		throw new Error(
-			"ValidationError: Test Query is missing required field 'input'."
-		);
+		throw new Error("ValidationError: Test Query is missing required field 'input'.");
 	}
 	if (!Object.hasOwn(testQuery, "expected")) {
-		throw new Error(
-			"ValidationError: Test Query is missing required field 'expected'."
-		);
+		throw new Error("ValidationError: Test Query is missing required field 'expected'.");
 	}
 	if (!Object.hasOwn(testQuery, "errorExpected")) {
-		throw new Error(
-			"ValidationError: Test Query is missing required field 'errorExpected'."
-		);
+		throw new Error("ValidationError: Test Query is missing required field 'errorExpected'.");
 	}
 }
