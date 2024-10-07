@@ -81,7 +81,7 @@ export default class InsightFacade implements IInsightFacade {
 			// 处理 zip 文件
 			await this.processStoredZipFiles(ids);
 
-			console.log("Initialization completed successfully.");
+			// console.log("Initialization completed successfully.");
 		} catch (err) {
 			console.error("Initialization failed:", err);
 			throw err; // 抛出错误以供外部处理
@@ -172,7 +172,7 @@ export default class InsightFacade implements IInsightFacade {
 								throw new InsightError("No valid sections");
 							}
 							// Return the valid sections
-							console.log(`Successfully parsed: ${file.name}`);
+							// console.log(`Successfully parsed: ${file.name}`);
 							return sections;
 						} catch (err) {
 							console.error(`Error parsing file ${file.name}:`, err);
@@ -215,7 +215,7 @@ export default class InsightFacade implements IInsightFacade {
 		try {
 			const two = 2;
 			await fs.writeFile(filePath, JSON.stringify(paresedData, null, two), "utf8");
-			console.log(`New id_log has been added successfully: ${id}`);
+			// console.log(`New id_log has been added successfully: ${id}`);
 		} catch (_) {
 			return Promise.reject("Failed to updateIdToJsonFile");
 		}
@@ -247,10 +247,10 @@ export default class InsightFacade implements IInsightFacade {
 	public async addDataset(id: string, content: string, kind: InsightDatasetKind): Promise<string[]> {
 		// check if id is valid
 		await this.validateID(id);
-		console.log("id passed");
+		// console.log("id passed");
 		// check if kind === InsightDatasetKind.Sections
 		await this.validateKind(kind);
-		console.log("kind passed");
+		// console.log("kind passed");
 		const zip: JSZip = new JSZip();
 		try {
 			if (this.initialized === false) {
@@ -263,7 +263,7 @@ export default class InsightFacade implements IInsightFacade {
 			const folderName = "courses/";
 			// check if courses folder exists
 			if (!Object.prototype.hasOwnProperty.call(unzipped.files, folderName)) {
-				console.log("failed");
+				// console.log("failed");
 				return Promise.reject(new InsightError("No courses folder exists"));
 			}
 			// console.log('courses folder found 1')
@@ -285,8 +285,8 @@ export default class InsightFacade implements IInsightFacade {
 			return Promise.reject(new InsightError());
 		}
 		const message = Array.from(this.datasetsSections.keys());
-		console.log(`returning message has a length of ${message.length}`);
-		return Promise.resolve(Array.from(this.datasetsSections.keys()));
+		// console.log(`returning message has a length of ${message.length}`);
+		return Promise.resolve(message);
 	}
 
 	public async removeDataset(id: string): Promise<string> {
