@@ -105,8 +105,8 @@ describe("InsightFacade", function () {
 
 		it("should reject with duplicate ids", async function () {
 			try {
-				await facade.addDataset("UBC", sections, InsightDatasetKind.Sections);
-				await facade.addDataset("UBC", sections, InsightDatasetKind.Sections);
+				await facade.addDataset("UBC", twoSubjects, InsightDatasetKind.Sections);
+				await facade.addDataset("UBC", twoSubjects, InsightDatasetKind.Sections);
 				expect.fail("Should have thrown above.");
 			} catch (err) {
 				expect(err).to.be.instanceOf(InsightError);
@@ -231,22 +231,24 @@ describe("InsightFacade", function () {
 				expect(result[0].kind).to.equal(InsightDatasetKind.Sections);
 				expect(result[0].id).to.equal("UBC");
 			} catch (err) {
+				expect(err).not.equal(null);
 				expect.fail("Should not have thrown above.");
 			}
 		});
 
 		it("should return correct string [] ids when two facade used", async function () {
-			const facade_1 = new InsightFacade();
-			const facade_2 = new InsightFacade();
+			const facade1 = new InsightFacade();
+			const facade2 = new InsightFacade();
 			try {
-				const message_1: string[] = await facade_1.addDataset("UBC", validCourse, InsightDatasetKind.Sections);
-				expect(message_1).to.have.lengthOf(1);
-				expect(message_1[0]).to.equal("UBC");
-				const message_2: string[] = await facade_2.addDataset("PASS", numRows2, InsightDatasetKind.Sections);
-				expect(message_2).to.have.lengthOf(2);
-				expect(message_2[0]).to.equal("UBC");
-				expect(message_2[1]).to.equal("PASS");
-			} catch (err) {
+				const message1: string[] = await facade1.addDataset("UBC", validCourse, InsightDatasetKind.Sections);
+				expect(message1).to.have.lengthOf(1);
+				expect(message1[0]).to.equal("UBC");
+				const message2: string[] = await facade2.addDataset("PASS", numRows2, InsightDatasetKind.Sections);
+				const two = 2;
+				expect(message2).to.have.lengthOf(two);
+				expect(message2[0]).to.equal("UBC");
+				expect(message2[1]).to.equal("PASS");
+			} catch (_) {
 				expect.fail("Should not have thrown above.");
 			}
 		});
@@ -260,7 +262,29 @@ describe("InsightFacade", function () {
 				expect(result).to.have.lengthOf(1);
 				expect(result[0].kind).to.equal(InsightDatasetKind.Sections);
 				expect(result[0].id).to.equal("sections");
-			} catch (err) {
+			} catch (_) {
+				expect.fail("Should not have thrown above");
+			}
+		});
+
+		it("should add two simple datasets", async function () {
+			try {
+				const mes1 = await facade.addDataset("simple", twoSubjects, InsightDatasetKind.Sections);
+				expect(mes1).to.has.lengthOf(1);
+				expect(mes1[0]).equal("simple");
+				const mes2 = await facade.addDataset("simpleUBC", twoSubjects, InsightDatasetKind.Sections);
+				const two = 2;
+				expect(mes2).to.has.lengthOf(two);
+				expect(mes2[1]).equal("simpleUBC");
+			} catch (_) {
+				expect.fail(`Should not have thrown above`);
+			}
+		});
+
+		it("should add a complex dataset", async function () {
+			try {
+				await facade.addDataset("sections", sections, InsightDatasetKind.Sections);
+			} catch (_) {
 				expect.fail("Should not have thrown above");
 			}
 		});
@@ -281,10 +305,11 @@ describe("InsightFacade", function () {
 				// Add the second dataset sfu
 				await facade.addDataset("sfu", sections, InsightDatasetKind.Sections);
 				result = await facade.listDatasets();
-				expect(result).to.have.lengthOf(2);
+				const two = 2;
+				expect(result).to.have.lengthOf(two);
 				expect(result[1].id).to.equal("sfu");
 				expect(result[1].kind).to.equal(InsightDatasetKind.Sections);
-			} catch (err) {
+			} catch (_) {
 				expect.fail("Should not have thrown above.");
 			}
 		});
@@ -351,7 +376,7 @@ describe("InsightFacade", function () {
 				await facade.removeDataset("UBC");
 				result = await facade.listDatasets();
 				expect(result).to.have.lengthOf(0);
-			} catch (err) {
+			} catch (_) {
 				expect.fail("Should not have thrown above.");
 			}
 		});
@@ -364,22 +389,22 @@ describe("InsightFacade", function () {
 				await facade.removeDataset("u");
 				await facade.removeDataset("b");
 				await facade.removeDataset("c");
-			} catch (err) {
+			} catch (_) {
 				expect.fail("Should not  have thrown above.");
 			}
 		});
 
 		it("should successfully remove a dataset added by a different facade", async function () {
-			const facade_1 = new InsightFacade();
-			const facade_2 = new InsightFacade();
+			const facade1 = new InsightFacade();
+			const facade2 = new InsightFacade();
 			try {
-				const messages_1: string[] = await facade_1.addDataset("UBC", validCourse, InsightDatasetKind.Sections);
-				expect(messages_1).to.have.lengthOf(1);
-				expect(messages_1[0]).to.equal("UBC");
+				const messages1: string[] = await facade1.addDataset("UBC", validCourse, InsightDatasetKind.Sections);
+				expect(messages1).to.have.lengthOf(1);
+				expect(messages1[0]).to.equal("UBC");
 
-				const message_2: string = await facade_2.removeDataset("UBC");
-				expect(message_2).to.equal("UBC");
-			} catch (err) {
+				const message2: string = await facade2.removeDataset("UBC");
+				expect(message2).to.equal("UBC");
+			} catch (_) {
 				expect.fail("Should not have thrown above.");
 			}
 		});
@@ -402,7 +427,7 @@ describe("InsightFacade", function () {
 			try {
 				const result = await facade.listDatasets();
 				expect(result).to.have.lengthOf(0);
-			} catch (err) {
+			} catch (_) {
 				expect.fail("Should not  have thrown above.");
 			}
 		});
@@ -416,8 +441,9 @@ describe("InsightFacade", function () {
 				expect(result).to.have.lengthOf(1);
 				expect(result[0].id).to.equal("UBC");
 				expect(result[0].kind).to.equal(InsightDatasetKind.Sections);
-				expect(result[0].numRows).to.equal(2);
-			} catch (err) {
+				const two = 2;
+				expect(result[0].numRows).to.equal(two);
+			} catch (_) {
 				expect.fail("Should not have thrown above.");
 			}
 		});
@@ -428,7 +454,7 @@ describe("InsightFacade", function () {
 				expect(result).to.have.lengthOf(0);
 				await facade.addDataset("", numRows2, InsightDatasetKind.Sections);
 				expect.fail("Should not have thrown above.");
-			} catch (err) {
+			} catch (_) {
 				const result = await facade.listDatasets();
 				expect(result).to.have.lengthOf(0);
 			}
