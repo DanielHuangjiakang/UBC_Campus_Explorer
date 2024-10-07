@@ -12,7 +12,6 @@ import { clearDisk, getContentFromArchives, loadTestQuery } from "../TestUtil";
 import { expect, use } from "chai";
 import chaiAsPromised from "chai-as-promised";
 
-
 use(chaiAsPromised);
 
 export interface ITestQuery {
@@ -232,7 +231,7 @@ describe("InsightFacade", function () {
 				expect(result[0].kind).to.equal(InsightDatasetKind.Sections);
 				expect(result[0].id).to.equal("UBC");
 			} catch (err) {
-				expect(err).not.equal(null)
+				expect(err).not.equal(null);
 				expect.fail("Should not have thrown above.");
 			}
 		});
