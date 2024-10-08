@@ -1,0 +1,53 @@
+{
+	"name": "insightubc",
+	"description": "CPSC 310 Course Project",
+	"homepage": "https://github.com/ubccpsc/310",
+	"author": "Reid Holmes",
+	"private": true,
+	"version": "1.0.0",
+	"engines": {
+		"node": ">= 18 < 19"
+	},
+	"dependencies": {
+		"decimal.js": "10.4.3",
+		"express": "4.18.2",
+		"fs-extra": "11.1.0",
+		"jszip": "3.10.1",
+		"parse5": "7.1.2"
+	},
+	"devDependencies": {
+		"@tsconfig/node18": "1.0.1",
+		"@types/chai": "4.3.0",
+		"@types/chai-as-promised": "7.1.4",
+		"@types/express": "4.17.13",
+		"@types/fs-extra": "9.0.13",
+		"@types/mocha": "10.0.1",
+		"@types/node": "18.11.18",
+		"@typescript-eslint/eslint-plugin": "5.48.0",
+		"@typescript-eslint/parser": "5.48.0",
+		"@ubccpsc310/folder-test": "3.0.0",
+		"chai": "4.3.4",
+		"chai-as-promised": "7.1.1",
+		"chai-http": "4.4.0",
+		"eslint": "8.57.0",
+		"eslint-config-prettier": "9.1.0",
+		"eslint-plugin-descriptive": "1.4.0",
+		"eslint-plugin-import": "2.29.1",
+		"eslint-plugin-jsdoc": "50.0.0",
+		"mocha": "10.2.0",
+		"nyc": "15.1.0",
+		"prettier": "2.8.2",
+		"ts-node": "10.9.1",
+		"typescript": "4.9.4"
+	},
+	"scripts": {
+		"postinstall": "git config core.hooksPath .githooks",
+		"cover": "nyc --reporter text --reporter html yarn run test",
+		"build": "tsc && yarn prettier:check && yarn lint",
+		"test": "mocha --require ts-node/register --timeout 10000 --extension .spec.ts --recursive test",
+		"lint:check": "eslint src test --ext .ts",
+		"lint:fix": "eslint src test --ext .ts --fix",
+		"prettier:check": "prettier src/**/*.ts test/**/*.ts --check",
+		"prettier:fix": "prettier src/**/*.ts test/**/*.ts --write"
+	}
+}

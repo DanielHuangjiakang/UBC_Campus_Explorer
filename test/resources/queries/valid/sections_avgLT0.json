@@ -1,0 +1,19 @@
+{
+	"title": "sections_avg LT 0",
+	"input": {
+		"WHERE": {
+			"LT": {
+				"sections_avg": 0
+			}
+		},
+		"OPTIONS": {
+			"COLUMNS": [
+				"sections_avg",
+				"sections_id"
+			],
+			"ORDER": "sections_avg"
+		}
+	},
+	"errorExpected": false,
+	"expected": []
+}

@@ -1,0 +1,28 @@
+{
+	"title": "* select all dept",
+	"input": {
+		"WHERE": {
+			"IS": {
+				"pass_dept": "*"
+			}
+		},
+		"OPTIONS": {
+			"COLUMNS": [
+				"pass_dept",
+				"pass_avg"
+			],
+			"ORDER": "pass_avg"
+		}
+	},
+	"errorExpected": false,
+	"expected": [
+		{
+			"pass_dept": "anth",
+			"pass_avg": 75.25
+		},
+		{
+			"pass_dept": "math",
+			"pass_avg": 76.25
+		}
+	]
+}
