@@ -236,7 +236,6 @@ describe("InsightFacade", function () {
 			}
 		});
 
-
 		it("should return correct string [] ids when two facade used", async function () {
 			const facade1 = new InsightFacade();
 			const facade2 = new InsightFacade();

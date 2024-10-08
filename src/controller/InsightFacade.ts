@@ -361,7 +361,6 @@ export default class InsightFacade implements IInsightFacade {
 		return true;
 	}
 
-
 	private isValidFilter(filter: any): Boolean {
 		if (typeof filter !== "object" || filter === null) {
 			return false;
@@ -435,8 +434,7 @@ export default class InsightFacade implements IInsightFacade {
 			return false;
 		}
 
-		const validKeys = ["avg", "pass", "fail", "audit", "year",
-			"dept", "id", "instructor", "title", "uuid"];
+		const validKeys = ["avg", "pass", "fail", "audit", "year", "dept", "id", "instructor", "title", "uuid"];
 		options.COLUMNS.forEach((key: string) => {
 			if (!validKeys.includes(key.split("_")[1])) {
 				return false;
