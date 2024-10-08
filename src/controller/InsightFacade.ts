@@ -361,6 +361,7 @@ export default class InsightFacade implements IInsightFacade {
 		return true;
 	}
 
+
 	private isValidFilter(filter: any): Boolean {
 		if (typeof filter !== "object" || filter === null) {
 			return false;
