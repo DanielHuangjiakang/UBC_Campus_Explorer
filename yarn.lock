@@ -525,16 +525,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/espree@npm:^10":
-  version: 10.1.0
-  resolution: "@types/espree@npm:10.1.0"
-  dependencies:
-    acorn: "npm:^8.12.0"
-    eslint-visitor-keys: "npm:^4.0.0"
-  checksum: 8e3fb60c3e2f2921022ed76ce53720ae9c42561c7ee8310090acddda2712e6ef15e45176b337aea794a64496fd575cbfecde8730f965496f54f187bfd1001b38
-  languageName: node
-  linkType: hard
-
 "@types/express-serve-static-core@npm:^4.17.18":
   version: 4.19.6
   resolution: "@types/express-serve-static-core@npm:4.19.6"
@@ -2241,7 +2231,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-visitor-keys@npm:^4.0.0, eslint-visitor-keys@npm:^4.1.0":
+"eslint-visitor-keys@npm:^4.1.0":
   version: 4.1.0
   resolution: "eslint-visitor-keys@npm:4.1.0"
   checksum: 5483ef114c93a136aa234140d7aa3bd259488dae866d35cb0d0b52e6a158f614760a57256ac8d549acc590a87042cb40f6951815caa821e55dc4fd6ef4c722eb
@@ -2296,7 +2286,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"espree@npm:^10.1.0, espree@npm:^10.2.0":
+"espree@npm:^10.1.0":
   version: 10.2.0
   resolution: "espree@npm:10.2.0"
   dependencies:
@@ -3107,7 +3097,6 @@ __metadata:
     "@tsconfig/node18": "npm:1.0.1"
     "@types/chai": "npm:^4.3.0"
     "@types/chai-as-promised": "npm:7.1.4"
-    "@types/espree": "npm:^10"
     "@types/express": "npm:4.17.13"
     "@types/fs-extra": "npm:9.0.13"
     "@types/mocha": "npm:10.0.1"
@@ -3124,7 +3113,6 @@ __metadata:
     eslint-plugin-descriptive: "npm:1.4.0"
     eslint-plugin-import: "npm:2.29.1"
     eslint-plugin-jsdoc: "npm:50.0.0"
-    espree: "npm:^10.2.0"
     express: "npm:4.18.2"
     fs-extra: "npm:11.1.0"
     jszip: "npm:3.10.1"
