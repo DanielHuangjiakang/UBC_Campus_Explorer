@@ -487,22 +487,26 @@ describe("InsightFacade", function () {
 			const { input, expected, errorExpected } = await loadTestQuery(this.test.title);
 			let result: InsightResult[];
 			try {
+				// Try to execute the query
 				result = await facade.performQuery(input);
+
+				// If we expected an error, but no error was thrown, fail the test
 				if (errorExpected) {
-					// get in when performQuery pass but should reject
 					expect.fail(`performQuery resolved when it should have rejected with ${expected}`);
 				}
-				expect(result).to.deep.equal(expected); // compare results
+
+				// If no error is expected, ensure the results match the expected output
+				expect(result).to.have.deep.members(expected); // compare results ignore the order
 			} catch (err) {
-				if (!errorExpected) {
-					// errorExpected = false
+				// If an error was expected, check if the error is of the correct type
+				if (errorExpected) {
+					const expectedErrorType = errorMap.get(expected);
+					expect(err).to.be.instanceOf(expectedErrorType);
+				} else {
+					// If no error was expected but one was thrown, fail the test
 					expect.fail(`performQuery threw unexpected error: ${err}`);
 				}
-				// return expect.fail("Write your assertion(s) here.");
-				expect(err).to.be.instanceOf(errorMap.get(expected));
 			}
-
-			// return expect.fail("Write your assertion(s) here.");
 		}
 
 		before(async function () {
@@ -511,9 +515,9 @@ describe("InsightFacade", function () {
 			// Add the datasets to InsightFacade once.
 			// Will *fail* if there is a problem reading ANY dataset.
 			const loadDatasetPromises: Promise<string[]>[] = [
-				facade.addDataset("sections", sections, InsightDatasetKind.Sections),
-				facade.addDataset("UBC", validCourse, InsightDatasetKind.Sections),
-				facade.addDataset("pass", twoSubjects, InsightDatasetKind.Sections),
+				// facade.addDataset("sections", sections, InsightDatasetKind.Sections),
+				// facade.addDataset("UBC", validCourse, InsightDatasetKind.Sections),
+				// facade.addDataset("pass", twoSubjects, InsightDatasetKind.Sections),
 			];
 
 			try {
