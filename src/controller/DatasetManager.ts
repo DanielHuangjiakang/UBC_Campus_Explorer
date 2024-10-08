@@ -8,13 +8,13 @@ export default class DatasetManager {
 	private datasetsSections: Map<string, Section[]> = new Map<string, Section[]>();
 
 	public async initialize(): Promise<void> {
-		try {
-			const ids = await this.readIdsFromFile();
-			await this.processStoredZipFiles(ids);
-		} catch (err) {
-			console.error("Initialization failed:", err);
-			throw err;
-		}
+		// try {
+		const ids = await this.readIdsFromFile();
+		await this.processStoredZipFiles(ids);
+		// } catch (err) {
+		// 	console.error("Initialization failed:", err);
+		// 	throw err;
+		// }
 	}
 
 	public getDatasets(): Map<string, Section[]> {
@@ -116,8 +116,12 @@ export default class DatasetManager {
 							}
 							return this.validateAndExtractSectionQueryableFields(parsedData.result);
 						} catch (err) {
-							console.error(`Error parsing file ${file.name}:`, err);
-							return [];
+							// console.error(`Error parsing file ${file.name}:`, err);
+							if (err) {
+								//
+							}
+							const empty: Section[] = [];
+							return Promise.resolve(empty);
 						}
 					})()
 				);
