@@ -1,90 +1,130 @@
-import { InsightDataset, InsightDatasetKind, InsightError } from "./IInsightFacade";
-import JSZip = require("jszip");
+import JSZip from "jszip";
 import fs from "fs-extra";
 import path from "node:path";
 import Section from "./Section";
+import { InsightError, InsightDatasetKind } from "./IInsightFacade"; // Adjust the imports as needed
 
 export default class DatasetManager {
 	private datasetsSections: Map<string, Section[]> = new Map<string, Section[]>();
-	private insightDatasets: Map<string, InsightDataset> = new Map<string, InsightDataset>();
-	private initialized = false;
 
-	constructor() {
-		//
+	public async initialize(): Promise<void> {
+		try {
+			const ids = await this.readIdsFromFile();
+			await this.processStoredZipFiles(ids);
+		} catch (err) {
+			console.error("Initialization failed:", err);
+			throw err;
+		}
 	}
 
-	public getDatasetsSections(): Map<string, Section[]> {
+	public getDatasets(): Map<string, Section[]> {
 		return this.datasetsSections;
 	}
 
-	private async readIdsFromFile(): Promise<string[]> {
-		let paresedData: string[] = [];
+	// Setter for datasetsSections
+	public setDatasetSections(id: string, sections: Section[]): void {
+		this.datasetsSections.set(id, sections);
+	}
+
+	// Getter for datasetsSections
+	public getDatasetSections(id: string): Section[] | undefined {
+		return this.datasetsSections.get(id);
+	}
+
+	// Getter for datasetsSections (optional, if you need to read the data externally)
+	public getDatasetIDs(): string[] {
+		return Array.from(this.datasetsSections.keys());
+	}
+
+	public async readIdsFromFile(): Promise<string[]> {
+		let parsedData: string[] = [];
 		try {
 			await fs.ensureDir(path.join(__dirname, "../../data"));
-			const idFilePath = path.join(__dirname, "../../data/id_log.json"); // first
+			const idFilePath = path.join(__dirname, "../../data/id_log.json");
 			const fileContent = await fs.readFile(idFilePath, "utf8");
-			paresedData = JSON.parse(fileContent);
-			return paresedData;
+			parsedData = JSON.parse(fileContent);
+			return parsedData;
 		} catch (_) {
-			// console.error("Error reading id_log.json:", err);
-			return paresedData;
+			return parsedData;
 		}
 	}
 
-	private async processStoredZipFiles(ids: string[]): Promise<void> {
+	public async processStoredZipFiles(ids: string[]): Promise<void> {
 		await fs.ensureDir(path.join(__dirname, "../../data"));
 		const folderPath = path.join(__dirname, "../../data");
-		const promises: Promise<Section[]>[] = [];
-		// 读取 data 文件夹中的文件
+		const promises: Promise<Section[]>[] = ids.map(async (id) =>
+			(async (): Promise<Section[]> => {
+				const zip = new JSZip();
+				const buffer = await fs.readFile(path.join(folderPath, `${id}.zip`));
+				const content = buffer.toString("base64");
+				const unzipped = await zip.loadAsync(content, { base64: true });
+				const courseFolder = unzipped.folder("courses/");
+				if (courseFolder === null) {
+					throw new Error(`No courses folder found in ${id}.zip`);
+				}
+				const sections = await this.parseJson(courseFolder);
+				return sections;
+			})()
+		);
+
+		const arrayOfSectionsArray: Section[][] = await Promise.all(promises);
+		for (let i = 0; i < ids.length; i++) {
+			this.datasetsSections.set(ids[i], arrayOfSectionsArray[i]);
+		}
+	}
+
+	public async validateID(id: string): Promise<void> {
+		if (id === "" || id === " " || id.includes("_")) {
+			throw new InsightError("Invalid ID string");
+		}
+
+		if (this.datasetsSections.has(id)) {
+			throw new InsightError("ID is used");
+		}
+	}
+
+	public async validateKind(kind: InsightDatasetKind): Promise<void> {
+		if (kind !== InsightDatasetKind.Sections) {
+			throw new InsightError("Invalid Kind");
+		}
+	}
+
+	public async writeDatasetToZip(id: string, courseFolder: JSZip): Promise<void> {
 		try {
-			for (const id of ids) {
+			await fs.ensureDir(path.join(__dirname, "../../data"));
+			const folderPath = path.join(__dirname, "../../data");
+			const filePath = path.join(folderPath, `${id}.zip`);
+			const zipContent = await courseFolder.generateAsync({ type: "nodebuffer" });
+			await this.updateIdToJsonFile(id);
+			await fs.writeFile(filePath, zipContent);
+		} catch (_) {
+			throw new InsightError("Failed to save .zip file");
+		}
+	}
+
+	public async parseJson(courseFolder: JSZip): Promise<Section[]> {
+		const promises: Promise<Section[]>[] = [];
+		courseFolder.forEach((_, file: JSZip.JSZipObject) => {
+			if (!file.dir && !file.name.startsWith("courses/.") && file.name.startsWith("courses/")) {
 				promises.push(
 					(async (): Promise<Section[]> => {
-						const zip = new JSZip();
-						// try {
-						const buffer = await fs.readFile(path.join(folderPath, `${id}.zip`)); // 拼接路径
-						const content = buffer.toString("base64");
-						const unzipped = await zip.loadAsync(content, { base64: true });
-						const courseFolder = unzipped.folder("courses/");
-						if (courseFolder === null) {
-							throw new Error(`No courses folder found in ${id}.zip`);
+						try {
+							const fileContent = await file.async("string");
+							const parsedData = JSON.parse(fileContent);
+							if (parsedData.result === undefined) {
+								throw new InsightError("Result is undefined");
+							}
+							return this.validateAndExtractSectionQueryableFields(parsedData.result);
+						} catch (err) {
+							console.error(`Error parsing file ${file.name}:`, err);
+							return [];
 						}
-						const sections = await this.parseJsonHelper(courseFolder);
-						return sections;
-
-						// } catch (err) {
-						// 	// console.error(`Error processing ${id}.zip:`, err);
-						// 	throw err;
-						// }
 					})()
 				);
 			}
-			// 等待所有 Promise 完成
-			const arrayOfSectionsArray: Section[][] = await Promise.all(promises);
-			// 将结果存入 this.datasets
-			for (let i = 0; i < ids.length; i++) {
-				this.datasetsSections.set(ids[i], arrayOfSectionsArray[i]);
-			}
-		} catch (err) {
-			console.error("Error during processing zip files:", err);
-			throw err; // 抛出错误
-		}
-		return;
-	}
-
-	private async initialization(): Promise<void> {
-		try {
-			// 读取 ids
-			const ids = await this.readIdsFromFile();
-
-			// 处理 zip 文件
-			await this.processStoredZipFiles(ids);
-
-			// console.log("Initialization completed successfully.");
-		} catch (err) {
-			console.error("Initialization failed:", err);
-			throw err; // 抛出错误以供外部处理
-		}
+		});
+		const sectionsArray = await Promise.all(promises);
+		return sectionsArray.flat();
 	}
 
 	private validateAndExtractSectionQueryableFields(data: any[]): Section[] {
@@ -101,10 +141,8 @@ export default class DatasetManager {
 				typeof singleSection.Pass === "number" &&
 				typeof singleSection.Fail === "number" &&
 				typeof singleSection.Audit === "number";
-
-			let section;
-			if (valid === true) {
-				section = new Section(
+			if (valid) {
+				const section = new Section(
 					singleSection.id.toString(),
 					singleSection.Course,
 					singleSection.Title,
@@ -122,155 +160,15 @@ export default class DatasetManager {
 		return sections;
 	}
 
-	private async parseJsonHelper(courseFolder: JSZip): Promise<Section[]> {
-		// Create an array to hold promises for each file
-		const promises: Promise<Section[]>[] = [];
-		// Iterate through each file in the 'courses/' folder
-		courseFolder.forEach((_, file: JSZip.JSZipObject) => {
-			// Ensure file starts with courses/ and is not a directory
-			if (!file.dir && !file.name.startsWith("courses/.") && file.name.startsWith("courses/")) {
-				// Push a promise to the array for processing the file
-				promises.push(
-					(async (): Promise<Section[]> => {
-						try {
-							// Read the file content as a string
-							const fileContent = await file.async("string");
-							// Parse the JSON content
-							const parsedData = JSON.parse(fileContent);
-							// Check if the parsed JSON contains the 'result' field
-							if (parsedData.result === undefined) {
-								throw new InsightError("Result is undefined");
-							}
-							// Validate and extract sections
-							const sections = this.validateAndExtractSectionQueryableFields(parsedData.result);
-							if (sections.length === 0) {
-								throw new InsightError("No valid sections");
-							}
-							// Return the valid sections
-							// console.log(`Successfully parsed: ${file.name}`);
-							return sections;
-						} catch (err) {
-							console.error(`Error parsing file ${file.name}:`, err);
-							return []; // Return an empty array if an error occurs to avoid failing Promise.all
-						}
-					})()
-				);
-			}
-		});
-		// Wait for all promises to resolve using Promise.all
-		const sectionsArray = await Promise.all(promises);
-		// Flatten the array of sections and return the result
-		return sectionsArray.flat();
-	}
-
-	private async validateID(id: string): Promise<void> {
-		if (id === "" || id === " " || id.includes("_")) {
-			return Promise.reject(new InsightError("Invalid ID string"));
-		}
-
-		if (Array.from(this.datasetsSections.keys()).includes(id)) {
-			return Promise.reject(new InsightError("ID is used"));
-		}
-
-		return Promise.resolve();
-	}
-
-	private async validateKind(kind: InsightDatasetKind): Promise<void> {
-		if (kind !== InsightDatasetKind.Sections) {
-			return Promise.reject(new InsightError("Invalid Kind"));
-		}
-
-		return Promise.resolve();
-	}
-
 	private async updateIdToJsonFile(id: string): Promise<void> {
 		const filePath = path.join(__dirname, "../../data/id_log.json");
-		const paresedData: string[] = await this.readIdsFromFile();
-		paresedData.push(id);
+		const parsedData: string[] = await this.readIdsFromFile();
+		parsedData.push(id);
 		try {
 			const two = 2;
-			await fs.writeFile(filePath, JSON.stringify(paresedData, null, two), "utf8");
-			// console.log(`New id_log has been added successfully: ${id}`);
+			await fs.writeFile(filePath, JSON.stringify(parsedData, null, two), "utf8");
 		} catch (_) {
-			return Promise.reject("Failed to updateIdToJsonFile");
+			throw new InsightError("Failed to updateIdToJsonFile");
 		}
-		return Promise.resolve();
-	}
-
-	private async writeDatasetIntoZip(id: string, courseFolder: JSZip): Promise<void> {
-		try {
-			await fs.ensureDir(path.join(__dirname, "../../data"));
-			const folderPath = path.join(__dirname, "../../data");
-			const filePath = path.join(folderPath, `${id}.zip`);
-			// console.log("writeDatasetIntoZip start")
-			const zipContent = await courseFolder.generateAsync({ type: "nodebuffer" });
-			// console.log("writeDatasetIntoZip generateAsync")
-			// console.log(__dirname);
-			// Write the content to a zip file and update id log
-			await this.updateIdToJsonFile(id);
-			await fs.writeFile(filePath, zipContent);
-			// console.log("writeDatasetIntoZip writeFile")
-			// console.log(`Zip file created: ${id}.zip`);
-		} catch (err) {
-			if (err) {
-				return Promise.reject(new InsightError("Failed to save .zip file"));
-			}
-		}
-		return Promise.resolve();
-	}
-
-	public async addDataset(id: string, content: string, kind: InsightDatasetKind): Promise<string[]> {
-		// check if id is valid
-		await this.validateID(id);
-		// console.log("id passed");
-		// check if kind === InsightDatasetKind.Sections
-		await this.validateKind(kind);
-		// console.log("kind passed");
-		const zip: JSZip = new JSZip();
-		try {
-			if (this.initialized === false) {
-				await this.initialization();
-				this.initialized = true;
-			}
-			const unzipped = await zip.loadAsync(content, { base64: true });
-			// console.log('loaded')
-			// if no courses folder, throw an error
-			const folderName = "courses/";
-			// check if courses folder exists
-			if (!Object.prototype.hasOwnProperty.call(unzipped.files, folderName)) {
-				// console.log("failed");
-				return Promise.reject(new InsightError("No courses folder exists"));
-			}
-			// console.log('courses folder found 1')
-			// parse folder file into section[]
-			const courseFolder = unzipped.folder(folderName);
-			if (courseFolder === null) {
-				return Promise.reject(new InsightError());
-			}
-			// console.log('courses folder found 2')
-			const parsedSections: Section[] = await this.parseJsonHelper(courseFolder);
-			if (parsedSections.length === 0) {
-				return Promise.reject(new InsightError());
-			}
-			// addDataset and save .zip file for persistence
-			// console.log(`length, ${parsedSections.length}`)
-			await this.writeDatasetIntoZip(id, courseFolder);
-			this.datasetsSections.set(id, parsedSections);
-		} catch (_) {
-			return Promise.reject(new InsightError());
-		}
-		const message = Array.from(this.datasetsSections.keys());
-		// console.log(`returning message has a length of ${message.length}`);
-		return Promise.resolve(message);
-	}
-
-	public async removeDataset(id: string): Promise<string> {
-		// TODO: Remove this once you implement the methods!
-		throw new Error(`DatasetManager::removeDataset() is unimplemented! - id=${id};`);
-	}
-
-	public async listDatasets(): Promise<InsightDataset[]> {
-		// TODO: Remove this once you implement the methods!
-		throw new Error(`DatasetManager::listDatasets is unimplemented!`);
 	}
 }
