@@ -185,8 +185,8 @@ export default class DatasetManager {
 			}
 		});
 		await this.updateIdToJsonFile(id, null, -1);
-		this.datasetsKinds["delete"](id);
-		this.datasetsSections["delete"](id);
+		this.datasetsKinds.delete(id);
+		this.datasetsSections.delete(id);
 	}
 
 	private async updateIdToJsonFile(id: string, kind: InsightDatasetKind | null, rowNum: number): Promise<void> {
