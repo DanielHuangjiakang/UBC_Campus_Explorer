@@ -1,4 +1,3 @@
-
 import {
 	IInsightFacade,
 	InsightDataset,
@@ -16,7 +15,6 @@ export default class InsightFacade implements IInsightFacade {
 
 	constructor() {
 		this.datasetManager = new DatasetManager();
-
 	}
 
 	public async addDataset(id: string, content: string, kind: InsightDatasetKind): Promise<string[]> {
