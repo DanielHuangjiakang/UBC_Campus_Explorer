@@ -5,6 +5,7 @@ import {
 	InsightError,
 	InsightResult,
 	ResultTooLargeError,
+	NotFoundError,
 } from "./IInsightFacade";
 import DatasetManager from "./DatasetManager";
 import QueryValidator from "./QueryValidator";
@@ -19,6 +20,7 @@ export default class InsightFacade implements IInsightFacade {
 
 	public async addDataset(id: string, content: string, kind: InsightDatasetKind): Promise<string[]> {
 		await this.datasetManager.validateID(id);
+		await this.datasetManager.idExisted(id);
 		await this.datasetManager.validateKind(kind);
 
 		const zip = new JSZip();
@@ -37,12 +39,12 @@ export default class InsightFacade implements IInsightFacade {
 			}
 
 			const parsedSections = await this.datasetManager.parseJson(courseFolder);
-			if (parsedSections.length === 0) {
+			const rowNum = parsedSections.length;
+			if (rowNum === 0) {
 				throw new InsightError();
 			}
-
-			await this.datasetManager.writeDatasetToZip(id, unzipped);
-			this.datasetManager.setDatasetSections(id, parsedSections);
+			await this.datasetManager.writeDatasetToZip(id, kind, rowNum, unzipped);
+			this.datasetManager.setDatasetMaps(id, kind, parsedSections);
 		} catch (_) {
 			throw new InsightError();
 		}
@@ -76,12 +78,20 @@ export default class InsightFacade implements IInsightFacade {
 	}
 
 	public async removeDataset(id: string): Promise<string> {
-		// TODO: Remove this once you implement the methods!
-		throw new Error(`InsightFacadeImpl::removeDataset() is unimplemented! - id=${id};`);
+		await this.datasetManager.initialize();
+		await this.datasetManager.validateID(id);
+
+		try {
+			await this.datasetManager.idExisted(id);
+			return Promise.reject(new NotFoundError());
+		} catch (_) {
+			await this.datasetManager.removeDatasetFromFacadeAndDisk(id);
+		}
+		return Promise.resolve(id);
 	}
 
 	public async listDatasets(): Promise<InsightDataset[]> {
-		// TODO: Remove this once you implement the methods!
-		throw new Error(`InsightFacadeImpl::listDatasets is unimplemented!`);
+		await this.datasetManager.initialize();
+		return Promise.resolve(this.datasetManager.getInsightDataset());
 	}
 }
