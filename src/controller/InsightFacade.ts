@@ -67,7 +67,8 @@ export default class InsightFacade implements IInsightFacade {
 		// const results = await queryExecutor.executeQuery(query);
 
 		// Less than or equal to 5000 results.
-		if ([].length > 1) {
+		const maxLength = 5000;
+		if ([].length > maxLength) {
 			throw new ResultTooLargeError("Query returned too many results");
 		}
 
