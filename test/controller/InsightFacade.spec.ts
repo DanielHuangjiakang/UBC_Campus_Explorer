@@ -598,6 +598,8 @@ describe("InsightFacade", function () {
 		}
 
 		before(async function () {
+			const oldFacade = new InsightFacade();
+			await oldFacade.addDataset("old", twoSubjects, InsightDatasetKind.Sections);
 			facade = new InsightFacade();
 
 			// Add the datasets to InsightFacade once.
@@ -629,6 +631,9 @@ describe("InsightFacade", function () {
 		it("[invalid/invalid_multiple_datasets.json] Query references multiple datasets ", checkQuery);
 		it("[invalid/invalid_second_mutant.json] second_mutant", checkQuery);
 
+		//
+		it("[valid/persistence.json] try to visit the dataset added by oldFacade, * select all dept", checkQuery);
+		//
 		//invalid
 		it("[invalid/aNDMustBeANon-EmptyArray.json] AND must be a non-empty array", checkQuery);
 		it("[invalid/andShouldOnlyHave1Key,Has0.json] and should only have 1 key, has 0 ", checkQuery);
