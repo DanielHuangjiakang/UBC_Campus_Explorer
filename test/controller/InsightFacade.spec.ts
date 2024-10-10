@@ -313,6 +313,26 @@ describe("InsightFacade", function () {
 				expect.fail("Should not have thrown above.");
 			}
 		});
+
+		it("Old facade added a dataset 1 , new one add 2 and 3 and return [1, 2, 3]", async function () {
+			const facade1 = new InsightFacade();
+			const facade2 = new InsightFacade();
+			try {
+				const messages1: string[] = await facade1.addDataset("1", validCourse, InsightDatasetKind.Sections);
+				expect(messages1).to.have.lengthOf(1);
+				expect(messages1[0]).to.equal("1");
+
+				await facade2.addDataset("2", validCourse, InsightDatasetKind.Sections);
+				const messages2: string[] = await facade2.addDataset("3", validCourse, InsightDatasetKind.Sections);
+				const three = 3;
+				expect(messages2).to.have.lengthOf(three);
+				expect(messages2[0]).to.equal("1");
+				expect(messages2[1]).to.equal("2");
+				expect(messages2[three - 1]).to.equal("3");
+			} catch (_) {
+				expect.fail("Should not have thrown above.");
+			}
+		});
 	});
 
 	describe("RemoveDataset", function () {
@@ -404,6 +424,30 @@ describe("InsightFacade", function () {
 
 				const message2: string = await facade2.removeDataset("UBC");
 				expect(message2).to.equal("UBC");
+				const list = await facade2.listDatasets();
+				expect(list).to.have.lengthOf(0);
+			} catch (_) {
+				expect.fail("Should not have thrown above.");
+			}
+		});
+
+		it("should successfully remove two datasets added by a different facade", async function () {
+			const facade1 = new InsightFacade();
+			const facade2 = new InsightFacade();
+			try {
+				await facade1.addDataset("1", validCourse, InsightDatasetKind.Sections);
+				const messages1 = await facade1.addDataset("2", validCourse, InsightDatasetKind.Sections);
+				const two = 2;
+				expect(messages1).to.have.lengthOf(two);
+				expect(messages1[0]).to.equal("1");
+				expect(messages1[1]).to.equal("2");
+
+				const remove1: string = await facade2.removeDataset("1");
+				expect(remove1).to.equal("1");
+				const remove2: string = await facade2.removeDataset("2");
+				expect(remove2).to.equal("2");
+				const list = await facade2.listDatasets();
+				expect(list).to.have.lengthOf(0);
 			} catch (_) {
 				expect.fail("Should not have thrown above.");
 			}
@@ -457,6 +501,50 @@ describe("InsightFacade", function () {
 			} catch (_) {
 				const result = await facade.listDatasets();
 				expect(result).to.have.lengthOf(0);
+			}
+		});
+
+		it("Old facade added a dataset 1, 2, new one can list dataset [{1, ,}, {2, ,}]", async function () {
+			try {
+				const facade1 = new InsightFacade();
+				await facade1.addDataset("1", validCourse, InsightDatasetKind.Sections);
+				await facade1.addDataset("2", validCourse, InsightDatasetKind.Sections);
+				const facade2 = new InsightFacade();
+
+				const list = await facade2.listDatasets();
+				const two = 2;
+				expect(list).to.have.lengthOf(two);
+			} catch (_) {
+				expect.fail("Should not have thrown above.");
+			}
+		});
+
+		it("Old facade added a dataset 1, new one add a dataset 2 and can list dataset [{1, ,}, {2, ,}]", async function () {
+			try {
+				const facade1 = new InsightFacade();
+				await facade1.addDataset("1", validCourse, InsightDatasetKind.Sections);
+				const facade2 = new InsightFacade();
+				await facade2.addDataset("2", validCourse, InsightDatasetKind.Sections);
+
+				const list = await facade2.listDatasets();
+				const two = 2;
+				expect(list).to.have.lengthOf(two);
+			} catch (_) {
+				expect.fail("Should not have thrown above.");
+			}
+		});
+
+		it("Old facade added a dataset 1, new one remove the dataset 1 and list no dataset", async function () {
+			try {
+				const facade1 = new InsightFacade();
+				await facade1.addDataset("1", validCourse, InsightDatasetKind.Sections);
+				const facade2 = new InsightFacade();
+				await facade2.removeDataset("1");
+
+				const list = await facade2.listDatasets();
+				expect(list).to.have.lengthOf(0);
+			} catch (_) {
+				expect.fail("Should not have thrown above.");
 			}
 		});
 	});
@@ -553,6 +641,8 @@ describe("InsightFacade", function () {
 		it("[invalid/oPTIONS_missing_COLUMNS.json] OPTIONS_missing_COLUMNS ", checkQuery);
 		it("[invalid/orderKeyNotInCols.json] order key not in cols ", checkQuery);
 		it("[invalid/oRShouldOnlyHave1Key,Has0.json] OR should only have 1 key, has 0 ", checkQuery);
+		//
+		it("[invalid/referenced_dataset_ubc_not_added.json] referenced_dataset_ubc_not_added ", checkQuery);
 
 		//valid
 		it("[valid/all10fileds.json] All10fileds", checkQuery);

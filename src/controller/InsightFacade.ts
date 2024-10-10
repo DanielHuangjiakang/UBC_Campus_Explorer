@@ -57,9 +57,9 @@ export default class InsightFacade implements IInsightFacade {
 			// Write the dataset to disk and update internal maps
 			await this.datasetManager.writeDatasetToZip(id, kind, rowNum, unzipped);
 			this.datasetManager.setDatasetMaps(id, kind, parsedSections);
-		} catch (err) {
+		} catch (_) {
 			// Log error for debugging and throw a general error
-			console.error(`Failed to add dataset: ${err}`);
+			//  console.error(`Failed to add dataset: ${err}`);
 			throw new InsightError("Failed to add dataset");
 		}
 
