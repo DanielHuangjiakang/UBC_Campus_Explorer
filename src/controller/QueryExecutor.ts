@@ -10,6 +10,7 @@ export default class QueryExecutor {
         this.datasets = datasetManager.getDatasets(); // Get datasets from DatasetManager
     }
 
+
     public async executeQuery(query: any): Promise<InsightResult[]> {
         // Extract and store the dataset ID from the query
         this.datasetId = this.getDatasetIdFromQuery(query);
