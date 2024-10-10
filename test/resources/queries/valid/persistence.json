@@ -1,0 +1,28 @@
+{
+	"title": "old * select all dept",
+	"input": {
+		"WHERE": {
+			"IS": {
+				"old_dept": "*"
+			}
+		},
+		"OPTIONS": {
+			"COLUMNS": [
+				"old_dept",
+				"old_avg"
+			],
+			"ORDER": "old_avg"
+		}
+	},
+	"errorExpected": false,
+	"expected": [
+		{
+			"old_dept": "anth",
+			"old_avg": 75.25
+		},
+		{
+			"old_dept": "math",
+			"old_avg": 76.25
+		}
+	]
+}
