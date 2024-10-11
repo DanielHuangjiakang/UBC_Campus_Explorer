@@ -2,33 +2,34 @@ import { InsightError, InsightResult } from "./IInsightFacade";
 import DatasetManager from "./DatasetManager"; // Use DatasetManager for handling datasets
 import Section from "./Section";
 
-export default class QueryExecutor {
-	private datasets: Map<string, Section[]>;
+export default class QueryRunner {
+	private datasetMap: Map<string, Section[]>;
 	private datasetId!: string; // Declare datasetId with definite assignment
 
 	constructor(datasetManager: DatasetManager) {
-		this.datasets = datasetManager.getDatasets(); // Get datasets from DatasetManager
+		this.datasetMap = datasetManager.getDatasets(); // Initialize datasets
 	}
 
-	public async executeQuery(query: any): Promise<InsightResult[]> {
-		// Extract and store the dataset ID from the query
-		this.datasetId = this.getDatasetIdFromQuery(query);
+	// Execute the query and return the results
+	public async execute(query: any): Promise<InsightResult[]> {
+		// Extract the dataset ID from the query
+		this.datasetId = this.extractDatasetId(query);
 
 		// Check if the dataset exists
-		if (!this.datasets.has(this.datasetId)) {
+		if (!this.datasetMap.has(this.datasetId)) {
 			throw new InsightError(`Dataset with id "${this.datasetId}" does not exist.`);
 		}
 
 		// Validate query keys
-		this.validateQueryKeys(query, this.datasetId);
+		this.validateQuery(query, this.datasetId);
 
-		const dataset = this.datasets.get(this.datasetId) as Section[];
-		const filteredData = this.applyFilter(dataset, query.WHERE);
+		const dataset = this.datasetMap.get(this.datasetId) as Section[];
+		const filteredData = this.applyFilters(dataset, query.WHERE);
 		return this.applyOptions(filteredData, query.OPTIONS);
 	}
 
-	private getDatasetIdFromQuery(query: any): string {
-		// Extract the dataset ID from the first column that includes an underscore
+	// Extract dataset ID from query COLUMNS
+	private extractDatasetId(query: any): string {
 		for (const col of query.OPTIONS.COLUMNS) {
 			if (col.includes("_")) {
 				return col.split("_")[0];
@@ -37,17 +38,18 @@ export default class QueryExecutor {
 		throw new InsightError("Could not extract dataset ID from COLUMNS.");
 	}
 
-	private applyFilter(data: Section[], where: any): Section[] {
-		// If WHERE is empty, return all data
+	// Apply the filter conditions specified in WHERE clause
+	private applyFilters(data: Section[], where: any): Section[] {
 		if (Object.keys(where).length === 0) {
 			return data;
 		}
 
-		const filterFunction = this.buildFilterFunction(where);
+		const filterFunction = this.createFilterFunction(where);
 		return data.filter(filterFunction);
 	}
 
-	private buildFilterFunction(where: any): (item: Section) => boolean {
+	// Create a filter function based on WHERE conditions
+	private createFilterFunction(where: any): (item: Section) => boolean {
 		if (where.AND) {
 			return this.handleAnd(where.AND);
 		}
@@ -66,38 +68,38 @@ export default class QueryExecutor {
 		throw new InsightError("Invalid WHERE condition.");
 	}
 
+	// Handle AND logic for filters
 	private handleAnd(andConditions: any[]): (item: Section) => boolean {
-		const subFilters: ((item: Section) => boolean)[] = andConditions.map((condition: any) =>
-			this.buildFilterFunction(condition)
-		);
+		const subFilters = andConditions.map((condition) => this.createFilterFunction(condition));
 		return (item: Section) => subFilters.every((filterFunc) => filterFunc(item));
 	}
 
+	// Handle OR logic for filters
 	private handleOr(orConditions: any[]): (item: Section) => boolean {
-		const subFilters: ((item: Section) => boolean)[] = orConditions.map((condition: any) =>
-			this.buildFilterFunction(condition)
-		);
+		const subFilters = orConditions.map((condition) => this.createFilterFunction(condition));
 		return (item: Section) => subFilters.some((filterFunc) => filterFunc(item));
 	}
 
+	// Handle NOT logic for filters
 	private handleNot(notCondition: any): (item: Section) => boolean {
-		const subFilter = this.buildFilterFunction(notCondition);
+		const subFilter = this.createFilterFunction(notCondition);
 		return (item: Section) => !subFilter(item);
 	}
 
+	// Handle comparison operators like GT, LT, EQ
 	private handleComparison(where: any): (item: Section) => boolean {
 		const operator = where.GT ? "GT" : where.LT ? "LT" : "EQ";
 		const comparison = where[operator];
 		const key = Object.keys(comparison)[0];
 		const value = comparison[key];
 
-		const id = key.split("_")[0]; // Only extract 'id'
+		const id = key.split("_")[0]; // Extract dataset ID part
 		if (id !== this.datasetId) {
 			throw new InsightError(`Key does not match dataset ID: ${key}`);
 		}
 
 		return (item: Section) => {
-			const itemValue = this.getItemValueByKey(item, key);
+			const itemValue = this.getValueByKey(item, key);
 
 			if (typeof itemValue !== "number" || typeof value !== "number") {
 				throw new InsightError("Comparison requires numeric values.");
@@ -117,34 +119,34 @@ export default class QueryExecutor {
 		};
 	}
 
+	// Handle the IS operator for string comparisons in the WHERE clause
 	private handleIs(isCondition: any): (item: Section) => boolean {
 		const key = Object.keys(isCondition)[0];
 		const value = isCondition[key];
 
+		// Extract dataset ID from the query key
 		const id = key.split("_")[0];
 		if (id !== this.datasetId) {
 			throw new InsightError(`Key does not match dataset ID: ${key}`);
 		}
 
+		// Ensure the value provided to IS a string
 		if (typeof value !== "string") {
 			throw new InsightError("IS operator requires a string value.");
 		}
 
-		// Validate wildcard pattern
+		// Check if the wildcard pattern is invalid, throw InsightError if true
 		if (this.hasInvalidWildcardPattern(value)) {
 			throw new InsightError("Invalid wildcard pattern in IS operator.");
 		}
 
-		// Escape special characters except '*'
-		const specialChars = /[.+?^${}()|[\]\\]/g; // Exclude '*'
-		const escapedValue = value.replace(specialChars, "\\$&");
-
-		// Replace '*' with '.*'
-		const regexPattern = `^${escapedValue.replace(/\*/g, ".*")}$`;
+		// Convert wildcard pattern into a regular expression for matching
+		const regexPattern = this.buildRegexPattern(value);
 		const regex = new RegExp(regexPattern);
 
+		// Return a function that tests the string value from the Section object
 		return (item: Section) => {
-			const itemValue = this.getItemValueByKey(item, key);
+			const itemValue = this.getValueByKey(item, key);
 
 			if (typeof itemValue !== "string") {
 				throw new InsightError("IS operator requires string fields.");
@@ -154,42 +156,30 @@ export default class QueryExecutor {
 		};
 	}
 
+	// Check if the wildcard pattern in the IS clause is invalid
 	private hasInvalidWildcardPattern(value: string): boolean {
-		// Valid patterns: '*abc', 'abc*', '*abc*', 'abc', '*'
-		// Invalid patterns: 'ab*cd', 'a*b*c', '*ab*cd*', etc.
 		const firstIndex = value.indexOf("*");
 		const lastIndex = value.lastIndexOf("*");
 
+		// If there are no wildcards, the pattern is valid
 		if (firstIndex === -1) {
-			// No wildcards, valid pattern
 			return false;
 		}
 
-		if (value.replace(/\*/g, "").length === 0) {
-			// Value is only '*', valid pattern
-			return false;
-		}
-
-		if (firstIndex !== 0 && lastIndex !== value.length - 1) {
-			// '*' is in the middle, invalid pattern
-			return true;
-		}
-
-		if (firstIndex !== lastIndex && (firstIndex !== 0 || lastIndex !== value.length - 1)) {
-			// Multiple '*' not at both ends, invalid pattern
-			return true;
-		}
-
-		return false;
+		// The pattern is only valid if the wildcard appears at the start or end
+		// Invalid patterns include: 'ab*cd' or 'a*b*c'
+		return firstIndex !== 0 && lastIndex !== value.length - 1;
 	}
 
-	/**
-	 * Helper function to map the string key to the corresponding Section getter.
-	 * @param item The Section object.
-	 * @param key The key used in the query (e.g., 'uuid', 'title', etc.).
-	 * @returns The value from the Section object.
-	 */
-	private getItemValueByKey(item: Section, key: string): string | number {
+	// Build regex pattern for handling wildcard in IS operator
+	private buildRegexPattern(value: string): string {
+		const specialChars = /[.+?^${}()|[\]\\]/g; // Exclude '*'
+		const escapedValue = value.replace(specialChars, "\\$&");
+		return `^${escapedValue.replace(/\*/g, ".*")}$`;
+	}
+
+	// Get value from Section object based on key
+	private getValueByKey(item: Section, key: string): string | number {
 		const [id, field] = key.split("_");
 		if (id !== this.datasetId) {
 			throw new InsightError(`Key does not match dataset ID: ${key}`);
@@ -206,7 +196,7 @@ export default class QueryExecutor {
 			case "dept":
 				return item.getDept();
 			case "year":
-				return this.adjustYear(item); // Pass the entire item
+				return this.checkYear(item);
 			case "avg":
 				return item.getAvg();
 			case "pass":
@@ -220,15 +210,16 @@ export default class QueryExecutor {
 		}
 	}
 
-	private adjustYear(item: Section): number {
-		// If instructor is empty, it's an 'overall' section; set year to 1900
+	// Adjust year based on the instructor field
+	private checkYear(item: Section): number {
 		if (item.getInstructor() === "") {
-			const result = 1900;
-			return result;
+			const num = 1900;
+			return num;
 		}
 		return item.getYear();
 	}
 
+	// Apply options like COLUMNS and ORDER to the filtered data
 	private applyOptions(data: Section[], options: any): InsightResult[] {
 		if (!options.COLUMNS || !Array.isArray(options.COLUMNS)) {
 			throw new InsightError("OPTIONS must contain COLUMNS array.");
@@ -238,19 +229,20 @@ export default class QueryExecutor {
 		let result = data.map((item) => {
 			const res: any = {};
 			for (const col of columns) {
-				res[col] = this.getItemValueByKey(item, col); // Use helper function here
+				res[col] = this.getValueByKey(item, col);
 			}
 			return res;
 		});
 
 		if (options.ORDER) {
-			result = this.applyOrder(result, options.ORDER);
+			result = this.applyOrdering(result, options.ORDER);
 		}
 
 		return result;
 	}
 
-	private applyOrder(data: InsightResult[], order: any): InsightResult[] {
+	// Apply ordering based on the ORDER field in query
+	private applyOrdering(data: InsightResult[], order: any): InsightResult[] {
 		if (typeof order === "string") {
 			const key = order;
 			return data.sort((a, b) => (a[key] > b[key] ? 1 : a[key] < b[key] ? -1 : 0));
@@ -274,23 +266,24 @@ export default class QueryExecutor {
 		}
 	}
 
-	// Refactored to reduce method length
-	private validateQueryKeys(query: any, datasetId: string): void {
+	// Validate the keys and fields in the query
+	private validateQuery(query: any, datasetId: string): void {
 		const validFields = ["uuid", "id", "title", "instructor", "dept", "year", "avg", "pass", "fail", "audit"];
 
-		const queryKeys = this.extractKeys(query);
+		const queryKeys = this.collectKeys(query);
 
 		for (const key of queryKeys) {
-			this.validateKey(key, validFields, datasetId);
+			this.checkKeyValidity(key, validFields, datasetId);
 		}
 	}
 
-	private extractKeys(obj: any): string[] {
+	// Recursively collect all keys from query
+	private collectKeys(obj: any): string[] {
 		let keys: string[] = [];
 		if (typeof obj === "object" && obj !== null) {
 			for (const key in obj) {
 				if (["AND", "OR", "NOT", "GT", "LT", "EQ", "IS"].includes(key)) {
-					keys = keys.concat(this.extractKeys(obj[key]));
+					keys = keys.concat(this.collectKeys(obj[key]));
 				} else if (key.includes("_")) {
 					keys.push(key);
 				}
@@ -299,7 +292,8 @@ export default class QueryExecutor {
 		return keys;
 	}
 
-	private validateKey(key: string, validFields: string[], datasetId: string): void {
+	// Check if the key is valid
+	private checkKeyValidity(key: string, validFields: string[], datasetId: string): void {
 		const [keyId, field] = key.split("_");
 		if (!validFields.includes(field)) {
 			throw new InsightError(`Invalid key in query: ${key}`);
