@@ -83,4 +83,41 @@ export default class Section {
 	public getAudit(): number {
 		return this.audit;
 	}
+
+	// originally from DatasetManager
+	public static validateAndExtract(data: any[]): Section[] {
+		const sections: Section[] = [];
+
+		data.forEach((singleSection) => {
+			const isValid: boolean =
+				typeof singleSection.id === "number" &&
+				typeof singleSection.Course === "string" &&
+				typeof singleSection.Title === "string" &&
+				typeof singleSection.Professor === "string" &&
+				typeof singleSection.Subject === "string" &&
+				typeof singleSection.Year === "string" &&
+				typeof singleSection.Avg === "number" &&
+				typeof singleSection.Pass === "number" &&
+				typeof singleSection.Fail === "number" &&
+				typeof singleSection.Audit === "number";
+
+			if (isValid) {
+				const section = new Section(
+					singleSection.id.toString(),
+					singleSection.Course,
+					singleSection.Title,
+					singleSection.Professor,
+					singleSection.Subject,
+					parseInt(singleSection.Year, 10),
+					singleSection.Avg,
+					singleSection.Pass,
+					singleSection.Fail,
+					singleSection.Audit
+				);
+				sections.push(section);
+			}
+		});
+
+		return sections;
+	}
 }

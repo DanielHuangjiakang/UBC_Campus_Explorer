@@ -30,37 +30,52 @@ export default class InsightFacade implements IInsightFacade {
 		await this.datasetManager.validateID(id);
 		await this.datasetManager.idExisted(id); // Check if the ID already exists
 		await this.datasetManager.validateKind(kind);
-
-		const zip = new JSZip();
 		try {
 			// Initialize dataset manager if not already initialized
 			if (!this.isInitialized) {
 				await this.datasetManager.initialize();
 				this.isInitialized = true; // Set initialized to true after successful initialization
 			}
+			const unzipped = await new JSZip().loadAsync(content, { base64: true });
+			let parsedEntries: any[];
 
-			const unzipped = await zip.loadAsync(content, { base64: true });
-			const folderName = "courses/";
-			const courseFolder = unzipped.folder(folderName);
-
-			if (courseFolder === null) {
-				throw new InsightError("No courses folder exists");
+			if (kind === InsightDatasetKind.Sections) {
+				// const folderName = "courses/";
+				// const courseFolder = unzipped.folder(folderName);
+				// if (courseFolder === null) {
+				// 	throw new InsightError("No courses folder exists");
+				// }
+				// // Parse sections from the course folder
+				// parsedEntries = await this.datasetManager.parseSectionsJson(courseFolder);
+				parsedEntries = await this.datasetManager.parseSections(unzipped);
+			} else {
+				// kind === InsightDatasetKind.Rooms
+				// const indexFile = Object.values(unzipped.files).find(file => file.name.endsWith('index.htm'));
+				// if (!indexFile) {
+				// 	throw new InsightError("No index.htm file exists");
+				// }
+				// // Extract the folder path correctly
+				// const folderPath = indexFile.name.substring(0, indexFile.name.lastIndexOf('/') + 1);
+				// // Get the folder JSZip object
+				// const folder = unzipped.folder(folderPath);
+				// if (!folder) {
+				// 	throw new InsightError(`Folder not found: ${folderPath}`);
+				// }
+				// // Parse the rooms HTML
+				// parsedEntries = await this.datasetManager.parseRoomsHTML(folder, indexFile);
+				parsedEntries = await this.datasetManager.parseRooms(unzipped);
 			}
-
-			// Parse sections from the course folder
-			const parsedSections = await this.datasetManager.parseJson(courseFolder);
-			const rowNum = parsedSections.length;
-			if (rowNum === 0) {
+			if (parsedEntries.length === 0) {
 				throw new InsightError("No valid sections found in dataset");
 			}
-
 			// Write the dataset to disk and update internal maps
-			await this.datasetManager.writeDatasetToZip(id, kind, rowNum, unzipped);
-			this.datasetManager.setDatasetMaps(id, kind, parsedSections);
+			await this.datasetManager.writeDatasetToZip(id, kind, parsedEntries.length, unzipped);
+			this.datasetManager.setDatasetMaps(id, kind, parsedEntries);
 		} catch (_) {
 			// Log error for debugging and throw a general error
 			//  console.error(`Failed to add dataset: ${err}`);
 			throw new InsightError("Failed to add dataset");
+			// throw err;
 		}
 
 		return this.datasetManager.getDatasetIDs(); // Return the list of dataset IDs

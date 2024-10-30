@@ -1,9 +1,12 @@
 import { InsightError, InsightResult } from "./IInsightFacade";
 import DatasetManager from "./DatasetManager"; // Use DatasetManager for handling datasets
 import Section from "./Section";
+// change1
+import Room from "./Room";
+type DatasetEntry = Section | Room;
 
 export default class QueryRunner {
-	private datasetMap: Map<string, Section[]>;
+	private datasetMap: Map<string, DatasetEntry[]>;
 	private datasetId!: string; // Declare datasetId with definite assignment
 
 	constructor(datasetManager: DatasetManager) {

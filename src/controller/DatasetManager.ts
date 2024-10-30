@@ -2,10 +2,14 @@ import JSZip from "jszip";
 import fs from "fs-extra";
 import path from "node:path";
 import Section from "./Section";
-import { InsightError, InsightDatasetKind, InsightDataset } from "./IInsightFacade"; // Adjust the imports as needed
+import Room from "./Room";
+import { InsightDataset, InsightDatasetKind, InsightError } from "./IInsightFacade"; // Adjust the imports as needed
+import * as parse5 from "parse5";
+
+type DatasetEntry = Section | Room;
 
 export default class DatasetManager {
-	private datasetsSections: Map<string, Section[]> = new Map<string, Section[]>();
+	private datasetsEntries: Map<string, DatasetEntry[]> = new Map<string, DatasetEntry[]>();
 	private datasetsKinds: Map<string, [InsightDatasetKind, number]> = new Map<string, [InsightDatasetKind, number]>();
 	private folderPath = path.join(__dirname, "../../data");
 
@@ -14,19 +18,19 @@ export default class DatasetManager {
 		await this.processStoredZipFiles(idsAndKinds);
 	}
 
-	public getDatasets(): Map<string, Section[]> {
-		return this.datasetsSections;
+	public getDatasets(): Map<string, DatasetEntry[]> {
+		return this.datasetsEntries;
 	}
 
-	// Setter for datasetsSections
-	public setDatasetMaps(id: string, kind: InsightDatasetKind, sections: Section[]): void {
-		this.datasetsSections.set(id, sections);
-		this.datasetsKinds.set(id, [kind, sections.length]);
+	// Setter for datasetsEntries
+	public setDatasetMaps(id: string, kind: InsightDatasetKind, entries: DatasetEntry[]): void {
+		this.datasetsEntries.set(id, entries);
+		this.datasetsKinds.set(id, [kind, entries.length]);
 	}
 
-	// Getter for datasetsSections IDS
+	// Getter for datasetsEntries IDS
 	public getDatasetIDs(): string[] {
-		return Array.from(this.datasetsSections.keys());
+		return Array.from(this.datasetsEntries.keys());
 	}
 
 	public getInsightDataset(): InsightDataset[] {
@@ -56,27 +60,55 @@ export default class DatasetManager {
 
 	public async processStoredZipFiles(idsAndKinds: [string, [InsightDatasetKind, number]][]): Promise<void> {
 		await fs.ensureDir(this.folderPath);
-		const promises: Promise<Section[]>[] = idsAndKinds.map(async (idAndKind) =>
-			(async (): Promise<Section[]> => {
+		const promises: Promise<DatasetEntry[]>[] = idsAndKinds.map(async (idAndKind) =>
+			(async (): Promise<DatasetEntry[]> => {
 				const zip = new JSZip();
 				const buffer = await fs.readFile(path.join(this.folderPath, `${idAndKind[0]}.zip`));
 				const content = buffer.toString("base64");
 				const unzipped = await zip.loadAsync(content, { base64: true });
-				const courseFolder = unzipped.folder("courses/");
-				if (courseFolder === null) {
-					throw new Error(`No courses folder found in ${idAndKind[0]}.zip`);
+				if (idAndKind[1][0] === InsightDatasetKind.Sections) {
+					const sections = await this.parseSections(unzipped);
+					return sections;
+				} else {
+					const rooms = await this.parseRooms(unzipped);
+					return rooms;
 				}
-				const sections = await this.parseJson(courseFolder);
-				return sections;
 			})()
 		);
-		const arrayOfSectionsArray: Section[][] = await Promise.all(promises);
+		const arrayOfSectionsArray: DatasetEntry[][] = await Promise.all(promises);
 		for (let i = 0; i < idsAndKinds.length; i++) {
-			if (!this.datasetsSections.has(idsAndKinds[i][0])) {
-				this.datasetsSections.set(idsAndKinds[i][0], arrayOfSectionsArray[i]);
+			if (!this.datasetsEntries.has(idsAndKinds[i][0])) {
+				// check if id exists
+				this.datasetsEntries.set(idsAndKinds[i][0], arrayOfSectionsArray[i]);
 				this.datasetsKinds.set(idsAndKinds[i][0], [idsAndKinds[i][1][0], idsAndKinds[i][1][1]]);
 			}
 		}
+	}
+
+	public async parseRooms(unzipped: JSZip): Promise<Room[]> {
+		const indexFile = Object.values(unzipped.files).find((file) => file.name.endsWith("index.htm"));
+		if (!indexFile) {
+			throw new InsightError("No index.htm file exists");
+		}
+		// Extract the folder path correctly
+		const folderPath = indexFile.name.substring(0, indexFile.name.lastIndexOf("/") + 1);
+		// Get the folder JSZip object
+		const folder = unzipped.folder(folderPath);
+		if (!folder) {
+			throw new InsightError(`Folder not found: ${folderPath}`);
+		}
+		// Parse the rooms HTML
+		const rooms = await this.parseRoomsHTML(folder, indexFile);
+		return rooms;
+	}
+
+	public async parseSections(unzipped: JSZip): Promise<Section[]> {
+		const courseFolder = unzipped.folder("courses/");
+		if (courseFolder === null) {
+			throw new Error(`No courses folder found in the zip file`);
+		}
+		const sections = await this.parseSectionsJson(courseFolder);
+		return sections;
 	}
 
 	public async validateID(id: string): Promise<void> {
@@ -86,13 +118,13 @@ export default class DatasetManager {
 	}
 
 	public async idExisted(id: string): Promise<void> {
-		if (this.datasetsSections.has(id)) {
+		if (this.datasetsEntries.has(id)) {
 			throw new InsightError("ID is used");
 		}
 	}
 
 	public async validateKind(kind: InsightDatasetKind): Promise<void> {
-		if (kind !== InsightDatasetKind.Sections) {
+		if (kind !== InsightDatasetKind.Sections && kind !== InsightDatasetKind.Rooms) {
 			throw new InsightError("Invalid Kind");
 		}
 	}
@@ -114,7 +146,7 @@ export default class DatasetManager {
 		}
 	}
 
-	public async parseJson(courseFolder: JSZip): Promise<Section[]> {
+	public async parseSectionsJson(courseFolder: JSZip): Promise<Section[]> {
 		const promises: Promise<Section[]>[] = [];
 		courseFolder.forEach((_, file: JSZip.JSZipObject) => {
 			if (!file.dir && !file.name.startsWith("courses/.") && file.name.startsWith("courses/")) {
@@ -126,7 +158,8 @@ export default class DatasetManager {
 							if (parsedData.result === undefined) {
 								throw new InsightError("Result is undefined");
 							}
-							return this.validateAndExtractSectionQueryableFields(parsedData.result);
+							// return this.validateAndExtractSectionQueryableFields(parsedData.result);
+							return Section.validateAndExtract(parsedData.result);
 						} catch (err) {
 							// console.error(`Error parsing file ${file.name}:`, err);
 							if (err) {
@@ -143,39 +176,6 @@ export default class DatasetManager {
 		return sectionsArray.flat();
 	}
 
-	private validateAndExtractSectionQueryableFields(data: any[]): Section[] {
-		const sections: Section[] = [];
-		data.forEach((singleSection) => {
-			const valid: boolean =
-				typeof singleSection.id === "number" &&
-				typeof singleSection.Course === "string" &&
-				typeof singleSection.Title === "string" &&
-				typeof singleSection.Professor === "string" &&
-				typeof singleSection.Subject === "string" &&
-				typeof singleSection.Year === "string" &&
-				typeof singleSection.Avg === "number" &&
-				typeof singleSection.Pass === "number" &&
-				typeof singleSection.Fail === "number" &&
-				typeof singleSection.Audit === "number";
-			if (valid) {
-				const section = new Section(
-					singleSection.id.toString(),
-					singleSection.Course,
-					singleSection.Title,
-					singleSection.Professor,
-					singleSection.Subject,
-					parseInt(singleSection.Year, 10),
-					singleSection.Avg,
-					singleSection.Pass,
-					singleSection.Fail,
-					singleSection.Audit
-				);
-				sections.push(section);
-			}
-		});
-		return sections;
-	}
-
 	public async removeDatasetFromFacadeAndDisk(id: string): Promise<void> {
 		await fs.ensureDir(this.folderPath);
 		const filePath = path.join(this.folderPath, `${id}.zip`);
@@ -186,7 +186,7 @@ export default class DatasetManager {
 		});
 		await this.updateIdToJsonFile(id, null, -1);
 		this.datasetsKinds.delete(id);
-		this.datasetsSections.delete(id);
+		this.datasetsEntries.delete(id);
 	}
 
 	private async updateIdToJsonFile(id: string, kind: InsightDatasetKind | null, rowNum: number): Promise<void> {
@@ -204,5 +204,153 @@ export default class DatasetManager {
 		} catch (_) {
 			throw new InsightError("Failed to updateIdToJsonFile");
 		}
+	}
+
+	public async parseRoomsHTML(unzipped: JSZip, indexFile: JSZip.JSZipObject | undefined): Promise<Room[]> {
+		if (indexFile === undefined) {
+			return Promise.resolve([]);
+		}
+		const indexContent = await indexFile.async("string");
+		const parsedIndex = parse5.parse(indexContent);
+
+		const buildingsTable = this.findValidTable(parsedIndex);
+		if (buildingsTable === null) {
+			throw new InsightError("No building table");
+		}
+
+		const promises: Promise<Room[]>[] = this.extractBuildingPromises(buildingsTable, unzipped);
+		// console.log("HI Rooms!!!")
+		// console.log(promises)
+
+		// Use Promise.all() to resolve all room extraction promises concurrently
+		const buildings = (await Promise.all(promises)).flat();
+
+		return buildings;
+	}
+
+	private findValidTable(document: any): any | null {
+		// Recursive function to traverse the HTML tree and find the table with <td> elements of specific classes
+		return this.traverseTable(document);
+	}
+
+	private traverseTable(node: any): any | null {
+		if (node.nodeName === "table") {
+			const tbody = node.childNodes.find((child: any) => child.nodeName === "tbody");
+			if (tbody && this.hasRequiredBuildingTdElements(tbody)) {
+				return node; // Found a valid table
+			}
+		}
+		if (node.childNodes) {
+			for (const child of node.childNodes) {
+				const result = this.traverseTable(child);
+				if (result) {
+					return result;
+				}
+			}
+		}
+		return null;
+	}
+
+	private hasRequiredBuildingTdElements(tbody: any): boolean {
+		const requiredClasses = new Set([
+			"views-field views-field-title",
+			"views-field views-field-field-building-address",
+		]);
+
+		const tdElements = tbody.childNodes
+			.filter((node: any) => node.nodeName === "tr")
+			.flatMap((tr: any) => tr.childNodes.filter((td: any) => td.nodeName === "td"));
+
+		// Collect the class values from the <td> elements
+		const tdClasses = tdElements.map((td: any) => td.attrs?.find((attr: any) => attr.name === "class")?.value || "");
+
+		// Check if the required classes are present
+		for (const requiredClass of requiredClasses) {
+			if (!tdClasses.includes(requiredClass)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	private extractBuildingPromises(buildingsTable: any, unzipped: JSZip): Promise<Room[]>[] {
+		const promises: Promise<Room[]>[] = [];
+		const tbody = buildingsTable.childNodes.find((child: any) => child.nodeName === "tbody");
+		if (tbody.childNodes) {
+			for (const child of tbody.childNodes) {
+				if (child.nodeName === "tr") {
+					promises.push(this.createBuildingPromise(child, unzipped));
+				}
+			}
+		}
+		return promises;
+	}
+
+	private async createBuildingPromise(tr: any, unzipped: JSZip): Promise<Room[]> {
+		let fileAddress: string | undefined;
+		let buildingFullName: string | undefined;
+		let buildingShortName: string | undefined;
+		let buildingAddress: string | undefined;
+		// Loop through <td> elements to extract relevant data
+		for (const childTd of tr.childNodes) {
+			if (childTd.nodeName === "td") {
+				const tdClass = childTd.attrs.find((attr: any) => attr.name === "class")?.value;
+
+				switch (tdClass) {
+					case "views-field views-field-nothing":
+						fileAddress = this.getLinkHref(childTd);
+						break;
+
+					case "views-field views-field-field-building-code":
+						buildingShortName = this.getTextContent(childTd);
+						break;
+
+					case "views-field views-field-title":
+						buildingFullName = this.getTextContent(childTd);
+						break;
+
+					case "views-field views-field-field-building-address":
+						buildingAddress = this.getTextContent(childTd);
+						break;
+				}
+			}
+		}
+		// Validate extracted data
+		if (!fileAddress || !buildingFullName || !buildingShortName || !buildingAddress) {
+			throw new InsightError("Invalid building data");
+		}
+		//
+		// unzipped.forEach((relativePath, file) => {
+		// 	console.log(`File: ${relativePath}`);
+		// });
+
+		// Remove "./" prefix from fileAddress
+		const cleanedPath = fileAddress.replace("./", "");
+
+		// Locate the building file in the unzipped JSZip object
+		const buildingFile = unzipped.file(cleanedPath);
+		if (!buildingFile) {
+			throw new InsightError(`Building file not found: ${cleanedPath}`);
+		}
+
+		// Read and parse the building file
+		const parsedBuilding = parse5.parse(await buildingFile.async("string"));
+
+		// Extract and return room information
+		return Promise.resolve(Room.extractRooms(parsedBuilding, buildingAddress, buildingShortName, buildingFullName));
+	}
+
+	// Helper to extract the href value from an <a> tag inside a <td>
+	private getLinkHref(td: any): string | undefined {
+		const anchor = td.childNodes.find((child: any) => child.nodeName === "a");
+		return anchor?.attrs.find((attr: any) => attr.name === "href")?.value;
+	}
+
+	// Helper to extract text content from a <td>
+	private getTextContent(td: any): string {
+		return td.childNodes
+			.filter((child: any) => child.nodeName === "#text")
+			.map((textNode: any) => textNode.value.trim())
+			.join(" ");
 	}
 }
