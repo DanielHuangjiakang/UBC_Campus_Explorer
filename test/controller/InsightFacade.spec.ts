@@ -40,6 +40,7 @@ describe("InsightFacade", function () {
 	let emptyFile: string;
 	let pic: string;
 	let folderPic: string;
+	let smallCampus: string;
 
 	before(async function () {
 		// This block runs once and loads the datasets.
@@ -57,6 +58,8 @@ describe("InsightFacade", function () {
 		emptyFile = await getContentFromArchives("empty_file.zip");
 		pic = await getContentFromArchives("pic.zip");
 		folderPic = await getContentFromArchives("folder_pic.zip");
+		//room Dataset
+		smallCampus = await getContentFromArchives("small_campus.zip");
 
 		// Just in case there is anything hanging around from a previous run of the test suite
 		await clearDisk();
@@ -140,7 +143,7 @@ describe("InsightFacade", function () {
 			}
 		});
 
-		it("should reject with an invalid kind Rooms", async function () {
+		it("should not add sections with a kind 'Rooms' ", async function () {
 			try {
 				await facade.addDataset("UBC", sections, InsightDatasetKind.Rooms);
 				expect.fail("Should have thrown above.");
@@ -333,6 +336,39 @@ describe("InsightFacade", function () {
 				expect.fail("Should not have thrown above.");
 			}
 		});
+
+		it("should add a small campus dataset", async function () {
+			try {
+				const messages: string[] = await facade.addDataset("smallCampus", smallCampus, InsightDatasetKind.Rooms);
+				expect(messages).to.have.lengthOf(1);
+				const roomsLength = 22;
+				const result = await facade.listDatasets();
+				expect(result).to.have.lengthOf(1);
+				expect(result[0].kind).to.equal(InsightDatasetKind.Rooms);
+				expect(result[0].numRows).to.equal(roomsLength);
+			} catch (_) {
+				expect.fail("Should not have thrown above");
+				// throw err;
+			}
+		});
+
+		it("should return room and section datasets when two facade used", async function () {
+			const facade1 = new InsightFacade();
+			const facade2 = new InsightFacade();
+			try {
+				const message1: string[] = await facade1.addDataset("ubcRooms", smallCampus, InsightDatasetKind.Rooms);
+				expect(message1).to.have.lengthOf(1);
+				expect(message1[0]).to.equal("ubcRooms");
+				const message2: string[] = await facade2.addDataset("ubcSections", numRows2, InsightDatasetKind.Sections);
+				const two = 2;
+				expect(message2).to.have.lengthOf(two);
+				expect(message2[0]).to.equal("ubcRooms");
+				expect(message2[1]).to.equal("ubcSections");
+			} catch (_) {
+				expect.fail("Should not have thrown above.");
+				// throw err;
+			}
+		});
 	});
 
 	describe("RemoveDataset", function () {
@@ -431,6 +467,23 @@ describe("InsightFacade", function () {
 			}
 		});
 
+		it("should successfully remove a Room dataset added by a different facade", async function () {
+			const facade1 = new InsightFacade();
+			const facade2 = new InsightFacade();
+			try {
+				const messages1: string[] = await facade1.addDataset("ubcRooms", smallCampus, InsightDatasetKind.Rooms);
+				expect(messages1).to.have.lengthOf(1);
+				expect(messages1[0]).to.equal("ubcRooms");
+
+				const message2: string = await facade2.removeDataset("ubcRooms");
+				expect(message2).to.equal("ubcRooms");
+				const list = await facade2.listDatasets();
+				expect(list).to.have.lengthOf(0);
+			} catch (_) {
+				expect.fail("Should not have thrown above.");
+			}
+		});
+
 		it("should successfully remove two datasets added by a different facade", async function () {
 			const facade1 = new InsightFacade();
 			const facade2 = new InsightFacade();
@@ -519,20 +572,23 @@ describe("InsightFacade", function () {
 			}
 		});
 
-		it("Old facade added a dataset 1, new one add a dataset 2 and can list dataset [{1, ,}, {2, ,}]", async function () {
-			try {
-				const facade1 = new InsightFacade();
-				await facade1.addDataset("1", validCourse, InsightDatasetKind.Sections);
-				const facade2 = new InsightFacade();
-				await facade2.addDataset("2", validCourse, InsightDatasetKind.Sections);
+		it(
+			"Old facade added a dataset 1, new one add a dataset 2 " + "and can list dataset [{1, ,}, {2, ,}]",
+			async function () {
+				try {
+					const facade1 = new InsightFacade();
+					await facade1.addDataset("1", validCourse, InsightDatasetKind.Sections);
+					const facade2 = new InsightFacade();
+					await facade2.addDataset("2", validCourse, InsightDatasetKind.Sections);
 
-				const list = await facade2.listDatasets();
-				const two = 2;
-				expect(list).to.have.lengthOf(two);
-			} catch (_) {
-				expect.fail("Should not have thrown above.");
+					const list = await facade2.listDatasets();
+					const two = 2;
+					expect(list).to.have.lengthOf(two);
+				} catch (_) {
+					expect.fail("Should not have thrown above.");
+				}
 			}
-		});
+		);
 
 		it("Old facade added a dataset 1, new one remove the dataset 1 and list no dataset", async function () {
 			try {
@@ -547,6 +603,39 @@ describe("InsightFacade", function () {
 				expect.fail("Should not have thrown above.");
 			}
 		});
+
+		it(
+			"should return a list with correct info after adding room, " + "section datasets with 2 facades",
+			async function () {
+				try {
+					let result = await facade.listDatasets();
+					expect(result).to.have.lengthOf(0);
+					await facade.addDataset("UBC", numRows2, InsightDatasetKind.Sections);
+					result = await facade.listDatasets();
+					expect(result).to.have.lengthOf(1);
+					expect(result[0].id).to.equal("UBC");
+					expect(result[0].kind).to.equal(InsightDatasetKind.Sections);
+					const two = 2;
+					expect(result[0].numRows).to.equal(two);
+
+					const facadeNew = new InsightFacade();
+					await facadeNew.addDataset("UBCRooms", smallCampus, InsightDatasetKind.Rooms);
+					result = await facadeNew.listDatasets();
+					expect(result).to.have.lengthOf(two);
+					expect(result[0].id).to.equal("UBC");
+					expect(result[0].kind).to.equal(InsightDatasetKind.Sections);
+					expect(result[0].numRows).to.equal(two);
+
+					expect(result[1].id).to.equal("UBCRooms");
+					expect(result[1].kind).to.equal(InsightDatasetKind.Rooms);
+					const numRooms = 22;
+					expect(result[1].numRows).to.equal(numRooms);
+				} catch (_) {
+					expect.fail("Should not have thrown above.");
+					// throw err;
+				}
+			}
+		);
 	});
 
 	describe("PerformQuery", function () {
