@@ -8,21 +8,21 @@ import {
 	NotFoundError,
 } from "./IInsightFacade";
 import DatasetManager from "./DatasetManager";
-import QueryValidator, { Query } from "./QueryValidator"; // Import Query interface
-import QueryExecutor from "./QueryExecutor";
+import QueryChecker, { Query } from "./QueryChecker"; // Import Query interface
+import QueryRunner from "./QueryRunner";
 import JSZip from "jszip";
 
 export default class InsightFacade implements IInsightFacade {
 	private datasetManager: DatasetManager;
-	private initialized: boolean; // Flag to track initialization
-	private queryValidator: QueryValidator;
-	private queryExecutor: QueryExecutor;
+	private isInitialized: boolean; // Flag to track if initialization has been completed
+	private queryChecker: QueryChecker;
+	private queryRunner: QueryRunner;
 
 	constructor() {
 		this.datasetManager = new DatasetManager();
-		this.initialized = false; // Ensure initialization flag is set to false initially
-		this.queryExecutor = new QueryExecutor(this.datasetManager);
-		this.queryValidator = new QueryValidator();
+		this.isInitialized = false; // Ensure the initialized flag is set to false initially
+		this.queryRunner = new QueryRunner(this.datasetManager);
+		this.queryChecker = new QueryChecker();
 	}
 
 	public async addDataset(id: string, content: string, kind: InsightDatasetKind): Promise<string[]> {
@@ -32,9 +32,9 @@ export default class InsightFacade implements IInsightFacade {
 		await this.datasetManager.validateKind(kind);
 		try {
 			// Initialize dataset manager if not already initialized
-			if (!this.initialized) {
+			if (!this.isInitialized) {
 				await this.datasetManager.initialize();
-				this.initialized = true; // Set initialized to true after successful initialization
+				this.isInitialized = true; // Set initialized to true after successful initialization
 			}
 			const unzipped = await new JSZip().loadAsync(content, { base64: true });
 			let parsedEntries: any[];
@@ -82,46 +82,46 @@ export default class InsightFacade implements IInsightFacade {
 	}
 
 	public async performQuery(query: unknown): Promise<InsightResult[]> {
-		// Initialize dataset manager if not already initialized
-		if (!this.initialized) {
+		// Initialize the dataset manager if it hasn't been initialized yet
+		if (!this.isInitialized) {
 			await this.datasetManager.initialize();
-			this.initialized = true;
+			this.isInitialized = true;
 		}
 
 		try {
-			// Validate the query structure
-			if (!this.queryValidator.checkValidEBNF(query)) {
+			// Validate the query structure using the query validator
+			if (!this.queryChecker.validateQueryFormat(query)) {
 				throw new InsightError("Invalid query format");
 			}
 
-			// At this point, we can assert that query is of type Query
-			const queryObj = query as Query;
+			// Assert that the query is of type Query at this point
+			const queryObject = query as Query;
 
 			// Ensure the query references exactly one dataset
-			if (!this.queryValidator.referencesSingleDataset(queryObj)) {
+			if (!this.queryChecker.checkSingleDataset(queryObject)) {
 				throw new InsightError("Query must reference exactly one dataset.");
 			}
 
-			// Check if the required dataset exists
-			const availableDatasets = this.datasetManager.getDatasets();
-			const datasetId = this.queryValidator.getDatasetIdFromQuery(queryObj);
-			if (!availableDatasets.has(datasetId)) {
+			// Retrieve available datasets and check if the required dataset exists
+			const datasetMap = this.datasetManager.getDatasets();
+			const datasetId = this.queryChecker.extractDatasetId(queryObject);
+			if (!datasetMap.has(datasetId)) {
 				throw new InsightError(`Dataset with id "${datasetId}" does not exist.`);
 			}
 
-			// Execute the query using QueryExecutor
-			const results = await this.queryExecutor.executeQuery(queryObj);
+			// Execute the query using the query runner
+			const queryResults = await this.queryRunner.execute(queryObject);
 
-			// Ensure that the result set is within the acceptable size
-			const maxLength = 5000;
-			if (results.length > maxLength) {
+			// Ensure that the result set is within the acceptable size limit
+			const maxResults = 5000;
+			if (queryResults.length > maxResults) {
 				throw new ResultTooLargeError();
 			}
 
-			return results; // Return the query results
-		} catch (err) {
-			if (err instanceof InsightError || err instanceof ResultTooLargeError) {
-				throw err;
+			return queryResults; // Return the query results
+		} catch (error) {
+			if (error instanceof InsightError || error instanceof ResultTooLargeError) {
+				throw error;
 			} else {
 				throw new InsightError("Failed to perform query");
 			}
@@ -130,9 +130,9 @@ export default class InsightFacade implements IInsightFacade {
 
 	public async removeDataset(id: string): Promise<string> {
 		// Initialize dataset manager if not already initialized
-		if (!this.initialized) {
+		if (!this.isInitialized) {
 			await this.datasetManager.initialize();
-			this.initialized = true;
+			this.isInitialized = true;
 		}
 
 		// Validate the dataset ID
@@ -152,9 +152,9 @@ export default class InsightFacade implements IInsightFacade {
 
 	public async listDatasets(): Promise<InsightDataset[]> {
 		// Initialize dataset manager if not already initialized
-		if (!this.initialized) {
+		if (!this.isInitialized) {
 			await this.datasetManager.initialize();
-			this.initialized = true;
+			this.isInitialized = true;
 		}
 
 		// Return the list of available datasets

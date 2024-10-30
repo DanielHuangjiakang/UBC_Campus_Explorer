@@ -8,32 +8,33 @@ export interface Query {
 	};
 }
 
-export default class QueryValidator {
-	public checkValidEBNF(query: unknown): boolean {
-		// Validate that query is an object and conforms to the Query interface
-		if (!this.isQueryObject(query)) {
+export default class QueryChecker {
+	// Validate the basic format of the query object
+	public validateQueryFormat(query: unknown): boolean {
+		if (!this.isValidQueryObject(query)) {
 			throw new InsightError("Invalid query format");
 		}
 
 		const queryObj = query as Query;
 
-		// Extract dataset ID from query
-		const datasetId = this.getDatasetIdFromQuery(queryObj);
+		// Extract dataset ID from the query
+		const datasetId = this.extractDatasetId(queryObj);
 
-		// Validate OPTIONS clause
-		if (!this.isValidOptionsClause(queryObj.OPTIONS, datasetId)) {
+		// Validate the OPTIONS clause
+		if (!this.checkOptionsClause(queryObj.OPTIONS, datasetId)) {
 			return false;
 		}
 
-		// Check if the format inside WHERE is valid
-		if (!this.isValidWhereClause(queryObj.WHERE, datasetId)) {
+		// Validate the WHERE clause format
+		if (!this.checkWhereClause(queryObj.WHERE, datasetId)) {
 			return false;
 		}
 
 		return true;
 	}
 
-	private isQueryObject(query: unknown): query is Query {
+	// Check if the input is a valid query object
+	private isValidQueryObject(query: unknown): query is Query {
 		return (
 			typeof query === "object" &&
 			query !== null &&
@@ -45,64 +46,60 @@ export default class QueryValidator {
 		);
 	}
 
-	private hasValidColumns(options: Query["OPTIONS"]): boolean {
-		if (!Array.isArray(options.COLUMNS) || options.COLUMNS.length === 0) {
-			throw new InsightError("OPTIONS must contain a non-empty COLUMNS array.");
-		}
-		return true;
-	}
-
-	private isValidWhereClause(WHERE: any, datasetId: string): boolean {
+	// Check if the WHERE clause is valid
+	private checkWhereClause(WHERE: any, datasetId: string): boolean {
 		// WHERE can be an empty object
 		if (Object.keys(WHERE).length === 0) {
 			return true;
 		}
 
-		// Check if WHERE clause contains a valid filter
-		if (!this.isValidFilter(WHERE, datasetId)) {
+		// Validate the filter in WHERE clause
+		if (!this.checkFilter(WHERE, datasetId)) {
 			return false;
 		}
 
 		return true;
 	}
 
-	private isValidFilter(filter: any, datasetId: string): boolean {
+	// Validate filter conditions
+	private checkFilter(filter: any, datasetId: string): boolean {
 		if (typeof filter !== "object" || filter === null) {
 			return false;
 		}
 
-		// Check for LOGICCOMPARISON: AND / OR
+		// Check for logic comparisons: AND / OR
 		if ("AND" in filter || "OR" in filter) {
 			const logic = filter.AND || filter.OR;
 			if (!Array.isArray(logic) || logic.length === 0) {
 				throw new InsightError("LOGIC must be a non-empty array");
 			}
-			// Recursively check each filter in the FILTER_LIST
-			return logic.every((f: any) => this.isValidFilter(f, datasetId));
+			// Recursively check each filter in the filter list
+			return logic.every((f: any) => this.checkFilter(f, datasetId));
 		}
 
-		// Check for NEGATION: NOT
+		// Check for negation: NOT
 		if ("NOT" in filter) {
 			if (Object.keys(filter).length !== 1) {
 				throw new InsightError("NOT must have exactly one key");
 			}
-			return this.isValidFilter(filter.NOT, datasetId);
+			return this.checkFilter(filter.NOT, datasetId);
 		}
 
 		// Check for MCOMPARISON: GT / LT / EQ
 		if ("GT" in filter || "LT" in filter || "EQ" in filter) {
-			return this.isValidMComparison(filter.GT || filter.LT || filter.EQ, datasetId);
+			return this.checkMComparison(filter.GT || filter.LT || filter.EQ, datasetId);
 		}
 
 		// Check for SCOMPARISON: IS
 		if ("IS" in filter) {
-			return this.isValidSComparison(filter.IS, datasetId);
+			return this.checkSComparison(filter.IS, datasetId);
 		}
 
 		return false;
 	}
 
-	private isValidMComparison(mcomp: any, datasetId: string): boolean {
+	// Validate MCOMPARISON (numeric comparison)
+	private checkMComparison(mcomp: any, datasetId: string): boolean {
 		if (typeof mcomp !== "object" || mcomp === null) {
 			throw new InsightError("MCOMPARISON must be a valid object");
 		}
@@ -135,7 +132,8 @@ export default class QueryValidator {
 		return true;
 	}
 
-	private isValidSComparison(scomp: any, datasetId: string): boolean {
+	// Validate SCOMPARISON (string comparison)
+	private checkSComparison(scomp: any, datasetId: string): boolean {
 		if (typeof scomp !== "object" || scomp === null) {
 			throw new InsightError("SCOMPARISON must be a valid object");
 		}
@@ -168,7 +166,8 @@ export default class QueryValidator {
 		return true;
 	}
 
-	private isValidOptionsClause(options: Query["OPTIONS"], datasetId: string): boolean {
+	// Validate OPTIONS clause
+	private checkOptionsClause(options: Query["OPTIONS"], datasetId: string): boolean {
 		if (typeof options !== "object" || options === null) {
 			throw new InsightError("OPTIONS must be a valid object");
 		}
@@ -176,9 +175,9 @@ export default class QueryValidator {
 		// Validate COLUMNS
 		this.validateColumns(options.COLUMNS, datasetId);
 
-		// If ORDER exists, check if it's valid
+		// Validate ORDER if present
 		if ("ORDER" in options) {
-			if (!this.isValidOrder(options.ORDER, options.COLUMNS)) {
+			if (!this.checkOrderClause(options.ORDER, options.COLUMNS)) {
 				return false;
 			}
 		}
@@ -186,6 +185,7 @@ export default class QueryValidator {
 		return true;
 	}
 
+	// Validate COLUMNS array
 	private validateColumns(columns: string[], datasetId: string): void {
 		if (!Array.isArray(columns) || columns.length === 0) {
 			throw new InsightError("OPTIONS must contain a non-empty COLUMNS array.");
@@ -206,7 +206,8 @@ export default class QueryValidator {
 		}
 	}
 
-	private isValidOrder(order: any, columns: string[]): boolean {
+	// Validate ORDER clause
+	private checkOrderClause(order: any, columns: string[]): boolean {
 		if (typeof order === "string") {
 			if (!columns.includes(order)) {
 				throw new InsightError("ORDER key must be in COLUMNS.");
@@ -229,7 +230,8 @@ export default class QueryValidator {
 		return true;
 	}
 
-	public referencesSingleDataset(query: unknown): boolean {
+	// Ensure the query references a single dataset
+	public checkSingleDataset(query: unknown): boolean {
 		const datasetIds = new Set<string>();
 
 		// Ensure OPTIONS and COLUMNS exist
@@ -262,7 +264,8 @@ export default class QueryValidator {
 		return datasetIds.size === 1;
 	}
 
-	public getDatasetIdFromQuery(query: Query): string {
+	// Extract dataset ID from COLUMNS
+	public extractDatasetId(query: Query): string {
 		if (!Array.isArray(query.OPTIONS?.COLUMNS) || query.OPTIONS.COLUMNS.length === 0) {
 			throw new InsightError("OPTIONS must contain a non-empty COLUMNS array.");
 		}
