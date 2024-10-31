@@ -1,0 +1,28 @@
+{
+	"title": "valid_transformation_Extra_keys",
+	"input": {
+		"WHERE": {},
+		"OPTIONS": {
+			"COLUMNS": [
+				"rooms_fullname",
+				"maxSeats"
+			],
+			"ORDER": "maxSeats"
+		},
+		"TRANSFORMATIONS": {
+			"GROUP": [
+				"rooms_fullname"
+			],
+			"APPLY": [
+				{
+					"maxSeats": {
+						"MAX": "rooms_seats"
+					}
+				}
+			],
+			"EXTRA": []
+		}
+	},
+	"errorExpected": true,
+	"expected": "InsightError"
+}
