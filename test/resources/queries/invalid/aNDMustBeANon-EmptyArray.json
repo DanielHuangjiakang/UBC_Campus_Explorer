@@ -1,0 +1,18 @@
+{
+	"title": "AND must be a non-empty array",
+	"input": {
+		"WHERE": {
+			"AND": []
+		},
+		"OPTIONS": {
+			"COLUMNS": [
+				"sections_avg",
+				"sections_id",
+				"sections_instructor"
+			],
+			"ORDER": "sections_avg"
+		}
+	},
+	"errorExpected": true,
+	"expected": "InsightError"
+}

@@ -1,0 +1,19 @@
+{
+	"title": "second_mutant",
+	"input": {
+		"WHERE": {
+			"IS": {
+				"pass_dept": "dept*year"
+			}
+		},
+		"OPTIONS": {
+			"COLUMNS": [
+				"pass_dept",
+				"pass_avg"
+			],
+			"ORDER": "pass_avg"
+		}
+	},
+	"errorExpected": true,
+	"expected": "InsightError"
+}

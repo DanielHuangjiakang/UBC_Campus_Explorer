@@ -1,0 +1,40 @@
+{
+	"title": "valid_SUM_Aggregation_two",
+	"input": {
+		"WHERE": {
+			"IS": {
+				"rooms_furniture": "Classroom-Fixed Tables/Fixed Chairs"
+			}
+		},
+		"OPTIONS": {
+			"COLUMNS": [
+				"rooms_type",
+				"totalSeats"
+			],
+			"ORDER": "totalSeats"
+		},
+		"TRANSFORMATIONS": {
+			"GROUP": [
+				"rooms_type"
+			],
+			"APPLY": [
+				{
+					"totalSeats": {
+						"SUM": "rooms_seats"
+					}
+				}
+			]
+		}
+	},
+	"errorExpected": false,
+	"expected": [
+		{
+			"rooms_type": "Case Style",
+			"totalSeats": 216
+		},
+		{
+			"rooms_type": "Tiered Large Group",
+			"totalSeats": 1356
+		}
+	]
+}
