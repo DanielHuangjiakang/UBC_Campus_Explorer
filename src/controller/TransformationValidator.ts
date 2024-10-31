@@ -20,6 +20,7 @@ export default class TransformationValidator {
 			}
 		}
 
+
 		this.validateGroupClause(transformations.GROUP, datasetId);
 		this.validateApplyClause(transformations.APPLY, datasetId);
 		return true;
