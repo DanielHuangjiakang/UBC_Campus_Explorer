@@ -1,0 +1,19 @@
+{
+	"title": "Query references a dataset not added ",
+	"input": {
+		"WHERE": {
+			"GT": {
+				"sections_avg": 97
+			}
+		},
+		"OPTIONS": {
+			"COLUMNS": [
+				"sec_dept",
+				"sec_avg"
+			],
+			"ORDER": "sec_avg"
+		}
+	},
+	"errorExpected": true,
+	"expected": "InsightError"
+}

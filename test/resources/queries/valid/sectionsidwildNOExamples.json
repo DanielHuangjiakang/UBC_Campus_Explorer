@@ -1,0 +1,19 @@
+{
+	"title": "sectionsidwildNOExamples",
+	"input": {
+		"WHERE": {
+			"IS": {
+				"sections_id": "*999*"
+			}
+		},
+		"OPTIONS": {
+			"COLUMNS": [
+				"sections_avg",
+				"sections_id"
+			],
+			"ORDER": "sections_avg"
+		}
+	},
+	"errorExpected": false,
+	"expected": []
+}

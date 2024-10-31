@@ -1,0 +1,19 @@
+{
+	"title": "sections_avgEQ100",
+	"input": {
+		"WHERE": {
+			"EQ": {
+				"sections_avg": 100
+			}
+		},
+		"OPTIONS": {
+			"COLUMNS": [
+				"sections_avg",
+				"sections_id"
+			],
+			"ORDER": "sections_avg"
+		}
+	},
+	"errorExpected": false,
+	"expected": []
+}

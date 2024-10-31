@@ -1,0 +1,19 @@
+{
+	"title": "Invalid value type in IS, should be string",
+	"input": {
+		"WHERE": {
+			"IS": {
+				"sections_id": 1
+			}
+		},
+		"OPTIONS": {
+			"COLUMNS": [
+				"sections_avg",
+				"sections_id"
+			],
+			"ORDER": "sections_avg"
+		}
+	},
+	"errorExpected": true,
+	"expected": "InsightError"
+}

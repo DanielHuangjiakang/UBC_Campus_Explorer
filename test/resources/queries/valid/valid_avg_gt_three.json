@@ -1,0 +1,132 @@
+{
+	"title": "valid_avg_gt_three",
+	"input": {
+		"WHERE": {
+			"GT": {
+				"sections_avg": 96
+			}
+		},
+		"OPTIONS": {
+			"COLUMNS": [
+				"sections_dept",
+				"overallAvg"
+			],
+			"ORDER": "overallAvg"
+		},
+		"TRANSFORMATIONS": {
+			"GROUP": [
+				"sections_dept"
+			],
+			"APPLY": [
+				{
+					"overallAvg": {
+						"AVG": "sections_avg"
+					}
+				}
+			]
+		}
+	},
+	"errorExpected": false,
+	"expected": [
+		{
+			"sections_dept": "kin",
+			"overallAvg": 96.06
+		},
+		{
+			"sections_dept": "libr",
+			"overallAvg": 96.1
+		},
+		{
+			"sections_dept": "adhe",
+			"overallAvg": 96.11
+		},
+		{
+			"sections_dept": "sowk",
+			"overallAvg": 96.13
+		},
+		{
+			"sections_dept": "mtrl",
+			"overallAvg": 96.25
+		},
+		{
+			"sections_dept": "civl",
+			"overallAvg": 96.27
+		},
+		{
+			"sections_dept": "frst",
+			"overallAvg": 96.36
+		},
+		{
+			"sections_dept": "fipr",
+			"overallAvg": 96.4
+		},
+		{
+			"sections_dept": "edst",
+			"overallAvg": 96.46
+		},
+		{
+			"sections_dept": "etec",
+			"overallAvg": 96.47
+		},
+		{
+			"sections_dept": "plan",
+			"overallAvg": 96.47
+		},
+		{
+			"sections_dept": "midw",
+			"overallAvg": 96.5
+		},
+		{
+			"sections_dept": "musc",
+			"overallAvg": 96.5
+		},
+		{
+			"sections_dept": "mine",
+			"overallAvg": 96.59
+		},
+		{
+			"sections_dept": "audi",
+			"overallAvg": 96.9
+		},
+		{
+			"sections_dept": "arst",
+			"overallAvg": 96.94
+		},
+		{
+			"sections_dept": "psyc",
+			"overallAvg": 97
+		},
+		{
+			"sections_dept": "math",
+			"overallAvg": 97.24
+		},
+		{
+			"sections_dept": "cnps",
+			"overallAvg": 97.32
+		},
+		{
+			"sections_dept": "epse",
+			"overallAvg": 97.38
+		},
+		{
+			"sections_dept": "educ",
+			"overallAvg": 97.5
+		},
+		{
+			"sections_dept": "crwr",
+			"overallAvg": 97.67
+		},
+		{
+			"sections_dept": "spph",
+			"overallAvg": 97.7
+		},
+		{
+			"sections_dept": "nurs",
+			"overallAvg": 97.78
+		},
+		{
+			"sections_dept": "eece",
+			"overallAvg": 98.75
+		}
+	]
+}
