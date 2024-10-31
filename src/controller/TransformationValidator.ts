@@ -20,7 +20,6 @@ export default class TransformationValidator {
 			}
 		}
 
-
 		this.validateGroupClause(transformations.GROUP, datasetId);
 		this.validateApplyClause(transformations.APPLY, datasetId);
 		return true;
@@ -109,7 +108,6 @@ export default class TransformationValidator {
 		if (operationKeys.length !== 1) {
 			throw new InsightError("Each APPLY operation must contain exactly one operation.");
 		}
-
 
 		const operation = operationKeys[0];
 		const targetField = operationObject[operation];

@@ -395,7 +395,6 @@ export default class SectionQueryRunner {
 				}
 				return 0;
 			});
-
 		} else {
 			throw new InsightError("Invalid ORDER format.");
 		}
