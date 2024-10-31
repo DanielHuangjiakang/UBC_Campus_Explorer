@@ -18,10 +18,8 @@ export default class SectionQueryRunner {
 
 	// Execute the query and return the results
 	public async execute(query: any): Promise<InsightResult[]> {
-		// Extract the dataset ID from the query
 		this.datasetId = this.extractDatasetId(query);
 
-		// Check if the dataset exists
 		if (!this.datasetMap.has(this.datasetId)) {
 			throw new InsightError(`Dataset with id "${this.datasetId}" does not exist.`);
 		}
@@ -29,7 +27,17 @@ export default class SectionQueryRunner {
 		const dataset = this.datasetMap.get(this.datasetId) as Section[];
 		const filteredData = this.applyFilters(dataset, query.WHERE);
 
-		// Apply transformations if present
+		// Validate columns against GROUP and APPLY if TRANSFORMATIONS is present
+		if (query.TRANSFORMATIONS) {
+			const groupKeys = new Set(query.TRANSFORMATIONS.GROUP);
+			const applyKeys = new Set(query.TRANSFORMATIONS.APPLY.map((applyRule: any) => Object.keys(applyRule)[0]));
+			for (const col of query.OPTIONS.COLUMNS) {
+				if (!groupKeys.has(col) && !applyKeys.has(col)) {
+					throw new InsightError(`Key ${col} in COLUMNS must be in GROUP or APPLY when TRANSFORMATIONS.`);
+				}
+			}
+		}
+
 		const transformedData: InsightResult[] = query.TRANSFORMATIONS
 			? this.applyTransformations(filteredData, query.TRANSFORMATIONS)
 			: (filteredData as unknown as InsightResult[]);
@@ -166,17 +174,29 @@ export default class SectionQueryRunner {
 	}
 
 	// Check if the wildcard pattern in the IS clause is invalid
-	private hasInvalidWildcardPattern(value: string): boolean {
-		const firstIndex = value.indexOf("*");
-		const lastIndex = value.lastIndexOf("*");
+	// private hasInvalidWildcardPattern(value: string): boolean {
+	// 	const firstIndex = value.indexOf("*");
+	// 	const lastIndex = value.lastIndexOf("*");
+	//
+	// 	// If there are no wildcards, the pattern is valid
+	// 	if (firstIndex === -1) {
+	// 		return false;
+	// 	}
+	//
+	// 	// The pattern is only valid if the wildcard appears at the start or end
+	// 	// Invalid patterns include: 'ab*cd' or 'a*b*c'
+	// 	return firstIndex !== 0 && lastIndex !== value.length - 1;
+	// }
 
-		// If there are no wildcards, the pattern is valid
-		if (firstIndex === -1) {
+	private hasInvalidWildcardPattern(value: string): boolean {
+		// Skip validation if there’s no wildcard character.
+		if (!value.includes("*")) {
 			return false;
 		}
 
+		const firstIndex = value.indexOf("*");
+		const lastIndex = value.lastIndexOf("*");
 		// The pattern is only valid if the wildcard appears at the start or end
-		// Invalid patterns include: 'ab*cd' or 'a*b*c'
 		return firstIndex !== 0 && lastIndex !== value.length - 1;
 	}
 
@@ -289,6 +309,14 @@ export default class SectionQueryRunner {
 
 	// Perform aggregation operations
 	private performAggregation(type: string, group: Section[], field: string): number {
+		const isNumeric = group.every((item) => {
+			const value = this.getValueByKey(item, field);
+			return typeof value === "number" && !isNaN(value);
+		});
+
+		if (!isNumeric) {
+			throw new InsightError(`${type} requires a numeric field`);
+		}
 		switch (type) {
 			case "MAX":
 				return Math.max(...group.map((item) => this.getValueByKey(item, field) as number));
@@ -309,13 +337,11 @@ export default class SectionQueryRunner {
 			}
 
 			case "SUM": {
-				// Sum the values using Decimal for precision
+				// Use Decimal for precision, and round the final result
 				const total = group.reduce(
 					(acc, item) => acc.add(new Decimal(this.getValueByKey(item, field) as number)),
 					new Decimal(0)
 				);
-
-				// Round the sum to two decimal places and cast it to a number
 				return Number(total.toFixed(DECIMAL_PRECISION));
 			}
 			case "COUNT":

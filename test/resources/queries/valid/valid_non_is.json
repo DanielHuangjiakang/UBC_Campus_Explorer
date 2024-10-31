@@ -1,0 +1,17 @@
+{
+	"title": "valid_non_is",
+	"input": {
+		"WHERE": {
+			"IS": {
+				"rooms_type": "Classroom"
+			}
+		},
+		"OPTIONS": {
+			"COLUMNS": [
+				"rooms_type"
+			]
+		}
+	},
+	"errorExpected": false,
+	"expected": []
+}

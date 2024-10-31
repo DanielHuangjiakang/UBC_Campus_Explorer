@@ -1,0 +1,186 @@
+{
+	"title": "valid_RoomQueries_Edge_Case_Test",
+	"input": {
+		"WHERE": {
+			"IS": {
+				"rooms_furniture": "Classroom-Fixed Tablets"
+			}
+		},
+		"OPTIONS": {
+			"COLUMNS": [
+				"rooms_name",
+				"rooms_furniture",
+				"rooms_seats"
+			],
+			"ORDER": "rooms_name"
+		}
+	},
+	"errorExpected": false,
+	"expected": [
+		{
+			"rooms_name": "AERL_120",
+			"rooms_furniture": "Classroom-Fixed Tablets",
+			"rooms_seats": 144
+		},
+		{
+			"rooms_name": "BIOL_2000",
+			"rooms_furniture": "Classroom-Fixed Tablets",
+			"rooms_seats": 228
+		},
+		{
+			"rooms_name": "BUCH_A101",
+			"rooms_furniture": "Classroom-Fixed Tablets",
+			"rooms_seats": 275
+		},
+		{
+			"rooms_name": "BUCH_A102",
+			"rooms_furniture": "Classroom-Fixed Tablets",
+			"rooms_seats": 150
+		},
+		{
+			"rooms_name": "BUCH_A103",
+			"rooms_furniture": "Classroom-Fixed Tablets",
+			"rooms_seats": 131
+		},
+		{
+			"rooms_name": "BUCH_A104",
+			"rooms_furniture": "Classroom-Fixed Tablets",
+			"rooms_seats": 150
+		},
+		{
+			"rooms_name": "BUCH_A201",
+			"rooms_furniture": "Classroom-Fixed Tablets",
+			"rooms_seats": 181
+		},
+		{
+			"rooms_name": "CHEM_B150",
+			"rooms_furniture": "Classroom-Fixed Tablets",
+			"rooms_seats": 265
+		},
+		{
+			"rooms_name": "CHEM_B250",
+			"rooms_furniture": "Classroom-Fixed Tablets",
+			"rooms_seats": 240
+		},
+		{
+			"rooms_name": "CHEM_C124",
+			"rooms_furniture": "Classroom-Fixed Tablets",
+			"rooms_seats": 90
+		},
+		{
+			"rooms_name": "CHEM_C126",
+			"rooms_furniture": "Classroom-Fixed Tablets",
+			"rooms_seats": 90
+		},
+		{
+			"rooms_name": "CHEM_D200",
+			"rooms_furniture": "Classroom-Fixed Tablets",
+			"rooms_seats": 114
+		},
+		{
+			"rooms_name": "CHEM_D300",
+			"rooms_furniture": "Classroom-Fixed Tablets",
+			"rooms_seats": 114
+		},
+		{
+			"rooms_name": "CIRS_1250",
+			"rooms_furniture": "Classroom-Fixed Tablets",
+			"rooms_seats": 426
+		},
+		{
+			"rooms_name": "ESB_1013",
+			"rooms_furniture": "Classroom-Fixed Tablets",
+			"rooms_seats": 350
+		},
+		{
+			"rooms_name": "FNH_60",
+			"rooms_furniture": "Classroom-Fixed Tablets",
+			"rooms_seats": 99
+		},
+		{
+			"rooms_name": "FSC_1005",
+			"rooms_furniture": "Classroom-Fixed Tablets",
+			"rooms_seats": 250
+		},
+		{
+			"rooms_name": "FSC_1221",
+			"rooms_furniture": "Classroom-Fixed Tablets",
+			"rooms_seats": 99
+		},
+		{
+			"rooms_name": "GEOG_100",
+			"rooms_furniture": "Classroom-Fixed Tablets",
+			"rooms_seats": 225
+		},
+		{
+			"rooms_name": "HENN_200",
+			"rooms_furniture": "Classroom-Fixed Tablets",
+			"rooms_seats": 257
+		},
+		{
+			"rooms_name": "HENN_201",
+			"rooms_furniture": "Classroom-Fixed Tablets",
+			"rooms_seats": 155
+		},
+		{
+			"rooms_name": "HENN_202",
+			"rooms_furniture": "Classroom-Fixed Tablets",
+			"rooms_seats": 150
+		},
+		{
+			"rooms_name": "LASR_104",
+			"rooms_furniture": "Classroom-Fixed Tablets",
+			"rooms_seats": 94
+		},
+		{
+			"rooms_name": "LASR_105",
+			"rooms_furniture": "Classroom-Fixed Tablets",
+			"rooms_seats": 60
+		},
+		{
+			"rooms_name": "MATH_100",
+			"rooms_furniture": "Classroom-Fixed Tablets",
+			"rooms_seats": 224
+		},
+		{
+			"rooms_name": "MATX_1100",
+			"rooms_furniture": "Classroom-Fixed Tablets",
+			"rooms_seats": 106
+		},
+		{
+			"rooms_name": "MCML_158",
+			"rooms_furniture": "Classroom-Fixed Tablets",
+			"rooms_seats": 74
+		},
+		{
+			"rooms_name": "MCML_166",
+			"rooms_furniture": "Classroom-Fixed Tablets",
+			"rooms_seats": 200
+		},
+		{
+			"rooms_name": "SCRF_100",
+			"rooms_furniture": "Classroom-Fixed Tablets",
+			"rooms_seats": 280
+		},
+		{
+			"rooms_name": "WESB_100",
+			"rooms_furniture": "Classroom-Fixed Tablets",
+			"rooms_seats": 325
+		},
+		{
+			"rooms_name": "WESB_201",
+			"rooms_furniture": "Classroom-Fixed Tablets",
+			"rooms_seats": 102
+		},
+		{
+			"rooms_name": "WOOD_2",
+			"rooms_furniture": "Classroom-Fixed Tablets",
+			"rooms_seats": 503
+		},
+		{
+			"rooms_name": "WOOD_6",
+			"rooms_furniture": "Classroom-Fixed Tablets",
+			"rooms_seats": 181
+		}
+	]
+}
