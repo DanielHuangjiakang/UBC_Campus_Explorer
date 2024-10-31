@@ -11,6 +11,7 @@ export default class RoomQueryRunner {
     }
 
     public async execute(query: any): Promise<InsightResult[]> {
+        console.log("Rooms")
         this.datasetId = this.extractDatasetId(query);
 
         if (!this.datasetMap.has(this.datasetId)) {

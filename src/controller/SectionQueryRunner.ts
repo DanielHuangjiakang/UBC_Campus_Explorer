@@ -16,6 +16,7 @@ export default class SectionQueryRunner {
 	// Execute the query and return the results
 	public async execute(query: any): Promise<InsightResult[]> {
 		// Extract the dataset ID from the query
+		console.log("Sections")
 		this.datasetId = this.extractDatasetId(query);
 
 		// Check if the dataset exists

@@ -109,34 +109,7 @@ export default class InsightFacade implements IInsightFacade {
 				throw new InsightError("Query must reference exactly one dataset.");
 			}
 
-			// Retrieve available datasets and check if the required dataset exists
-			const datasetMap = this.datasetManager.getDatasets();
-			const datasetId = this.queryChecker.extractDatasetId(queryObject);
-			if (!datasetMap.has(datasetId)) {
-				throw new InsightError(`Dataset with id "${datasetId}" does not exist.`);
-			}
-
-			const datasetKind = this.datasetManager.getKind(datasetId);
-
-			// Ensure the dataset is of the correct kind
-			if (datasetKind !== InsightDatasetKind.Sections && datasetKind !== InsightDatasetKind.Rooms) {
-				throw new InsightError(`Invalid dataset kind for dataset id ${datasetId}`);
-			}
-
-			// Select the appropriate query runner based on the dataset kind
-			const queryRunner = datasetKind === InsightDatasetKind.Sections ?
-				this.sectionQueryRunner : this.roomQueryRunner;
-
-			// Execute the query using the selected query runner
-			const queryResults = await queryRunner.execute(queryObject);
-
-			// Ensure that the result set is within the acceptable size limit
-			const maxResults = 5000;
-			if (queryResults.length > maxResults) {
-				throw new ResultTooLargeError();
-			}
-
-			return queryResults; // Return the query results
+			return this.queryRunner(queryObject);
 		} catch (error) {
 			if (error instanceof InsightError || error instanceof ResultTooLargeError) {
 				throw error;
@@ -144,6 +117,37 @@ export default class InsightFacade implements IInsightFacade {
 				throw new InsightError("Failed to perform query");
 			}
 		}
+	}
+
+	public async queryRunner(queryObject: Query): Promise<InsightResult[]>	 {
+		// Retrieve available datasets and check if the required dataset exists
+		const datasetMap = this.datasetManager.getDatasets();
+		const datasetId = this.queryChecker.extractDatasetId(queryObject);
+		if (!datasetMap.has(datasetId)) {
+			throw new InsightError(`Dataset with id "${datasetId}" does not exist.`);
+		}
+
+		const datasetKind = this.datasetManager.getKind(datasetId);
+
+		// Ensure the dataset is of the correct kind
+		if (datasetKind !== InsightDatasetKind.Sections && datasetKind !== InsightDatasetKind.Rooms) {
+			throw new InsightError(`Invalid dataset kind for dataset id ${datasetId}`);
+		}
+
+		// Select the appropriate query runner based on the dataset kind
+		const queryRunner = datasetKind === InsightDatasetKind.Sections ?
+			this.sectionQueryRunner : this.roomQueryRunner;
+
+		// Execute the query using the selected query runner
+		const queryResults = await queryRunner.execute(queryObject);
+
+		// Ensure that the result set is within the acceptable size limit
+		const maxResults = 5000;
+		if (queryResults.length > maxResults) {
+			throw new ResultTooLargeError();
+		}
+
+		return queryResults;
 	}
 
 	public async removeDataset(id: string): Promise<string> {
