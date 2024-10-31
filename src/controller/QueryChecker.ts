@@ -6,11 +6,22 @@ export interface Query {
 		COLUMNS: string[];
 		ORDER?: any;
 	};
+	TRANSFORMATIONS?: {
+		GROUP: string[];
+		APPLY: Record<string, Record<string, string>>[];
+	};
 }
+
+// Define valid dataset fields
+const validKeys = new Set([
+	'avg', 'pass', 'fail', 'audit', 'year', 'lat', 'lon', 'seats', 'dept', 'id',
+	'instructor', 'title', 'uuid', 'fullname', 'shortname', 'number', 'name', 'address', 'type', 'furniture', 'href'
+]);
 
 export default class QueryChecker {
 	// Validate the basic format of the query object
 	public validateQueryFormat(query: unknown): boolean {
+		// Check if the input is a valid query object
 		if (!this.isValidQueryObject(query)) {
 			throw new InsightError("Invalid query format");
 		}
@@ -20,8 +31,14 @@ export default class QueryChecker {
 		// Extract dataset ID from the query
 		const datasetId = this.extractDatasetId(queryObj);
 
+		// Validate the Transformation clause
+		if (queryObj.TRANSFORMATIONS &&
+			!this.checkTransClause(queryObj.TRANSFORMATIONS, datasetId)) {
+			return false;
+		}
+
 		// Validate the OPTIONS clause
-		if (!this.checkOptionsClause(queryObj.OPTIONS, datasetId)) {
+		if (!this.checkOptionsClause(queryObj.OPTIONS, datasetId, queryObj.TRANSFORMATIONS)) {
 			return false;
 		}
 
@@ -44,6 +61,174 @@ export default class QueryChecker {
 			(query as any).OPTIONS !== null &&
 			Array.isArray((query as any).OPTIONS?.COLUMNS)
 		);
+	}
+
+	// Extract dataset ID from COLUMNS
+	public extractDatasetId(query: Query): string {
+		if (!Array.isArray(query.OPTIONS?.COLUMNS) || query.OPTIONS.COLUMNS.length === 0) {
+			throw new InsightError("OPTIONS must contain a non-empty COLUMNS array.");
+		}
+
+		for (const col of query.OPTIONS.COLUMNS) {
+			if (col.includes("_")) {
+				return col.split("_")[0];
+			}
+		}
+
+		throw new InsightError("Could not extract dataset ID from COLUMNS.");
+	}
+
+	// Validate the Transformation clause
+	private checkTransClause(transformations: Query["TRANSFORMATIONS"], datasetId: string): boolean {
+		if (!transformations?.GROUP || !transformations?.APPLY) {
+			throw new InsightError("TRANSFORMATIONS must contain GROUP and APPLY.");
+		}
+		this.validateGroupClause(transformations.GROUP, datasetId);
+		this.validateApplyClause(transformations.APPLY, datasetId);
+		return true;
+	}
+
+	// Validate the Transformation Group clause
+	private validateGroupClause(group: string[], datasetId: string): void {
+		if (!Array.isArray(group) || group.length === 0) {
+			throw new InsightError("GROUP must be a non-empty array.");
+		}
+		for (const field of group) {
+			if (typeof field !== "string" || !field.includes("_")) {
+				throw new InsightError("Each GROUP entry must be a string in the format 'dataset_field'.");
+			}
+			const [keyId] = field.split("_");
+			if (keyId !== datasetId) {
+				throw new InsightError(`GROUP field ${field} does not match dataset ID: ${datasetId}.`);
+			}
+		}
+	}
+
+	// Validate the Transformation Apply clause
+	private validateApplyClause(apply: Record<string, Record<string, string>>[], datasetId: string): void {
+		if (!Array.isArray(apply)) {
+			throw new InsightError("APPLY must be an array.");
+		}
+		for (const applyRule of apply) {
+			this.validateApplyRule(applyRule, datasetId);
+		}
+	}
+
+	// Validate the Transformation Apply clause Rule
+	private validateApplyRule(applyRule: Record<string, Record<string, string>>, datasetId: string): void {
+		const keys = Object.keys(applyRule);
+		if (keys.length !== 1) {
+			throw new InsightError("Each APPLY rule must have exactly one key.");
+		}
+
+		const applyKey = keys[0];
+		const operationObject = applyRule[applyKey];
+
+		if (typeof applyKey !== "string") {
+			throw new InsightError("APPLY key must be a string.");
+		}
+		if (typeof operationObject !== "object" || operationObject === null) {
+			throw new InsightError("Each APPLY rule must map to an operation object.");
+		}
+
+		const operationKeys = Object.keys(operationObject);
+		if (operationKeys.length !== 1) {
+			throw new InsightError("Each APPLY operation must contain exactly one operation.");
+		}
+
+		const operation = operationKeys[0];
+		const targetField = operationObject[operation];
+
+		if (!["MAX", "MIN", "AVG", "COUNT", "SUM"].includes(operation)) {
+			throw new InsightError(`Invalid APPLY operation: ${operation}.
+			Allowed operations are MAX, MIN, AVG, COUNT, SUM.`);
+		}
+		if (typeof targetField !== "string" || !targetField.includes("_")) {
+			throw new InsightError("APPLY operation target must be a string in the format 'dataset_field'.");
+		}
+
+		const [targetDatasetId] = targetField.split("_");
+		if (targetDatasetId !== datasetId) {
+			throw new InsightError(`APPLY target field ${targetField} does not match dataset ID: ${datasetId}.`);
+		}
+	}
+
+	// Validate OPTIONS clause
+	private checkOptionsClause(options: Query["OPTIONS"], datasetId: string, transformations?: Query["TRANSFORMATIONS"]): boolean {
+		if (typeof options !== "object" || options === null) {
+			throw new InsightError("OPTIONS must be a valid object");
+		}
+
+		// Collect custom field names defined in TRANSFORMATIONS.APPLY
+		if (transformations?.APPLY) {
+			for (const applyRule of transformations.APPLY) {
+				const applyKey = Object.keys(applyRule)[0];
+				validKeys.add(applyKey);
+			}
+		}
+
+		// Validate COLUMNS array with the expanded validKeys set
+		this.validateColumns(options.COLUMNS, datasetId);
+
+		// Validate ORDER if present
+		if ("ORDER" in options) {
+			if (!this.checkOrderClause(options.ORDER, options.COLUMNS)) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	// Validate COLUMNS array
+	private validateColumns(columns: string[], datasetId: string): void {
+		if (!Array.isArray(columns) || columns.length === 0) {
+			throw new InsightError("OPTIONS must contain a non-empty COLUMNS array.");
+		}
+
+		for (const key of columns) {
+			// Check if key is a custom apply key or a valid dataset field
+			if (validKeys.has(key)) {
+				continue;
+			}
+
+			// If it's not a custom key, ensure it follows the "dataset_field" format
+			if (!key.includes("_")) {
+				throw new InsightError(`Invalid key in COLUMNS: ${key}`);
+			}
+
+			const [keyId, field] = key.split("_");
+			if (keyId !== datasetId) {
+				throw new InsightError(`Key does not match dataset ID: ${key}`);
+			}
+			if (!validKeys.has(field)) {
+				throw new InsightError(`Invalid field in COLUMNS: ${field}`);
+			}
+		}
+	}
+
+	// Validate ORDER clause
+	private checkOrderClause(order: any, columns: string[]): boolean {
+		if (typeof order === "string") {
+			if (!columns.includes(order)) {
+				throw new InsightError("ORDER key must be in COLUMNS.");
+			}
+		} else if (typeof order === "object") {
+			if (!order.keys || !Array.isArray(order.keys) || order.keys.length === 0) {
+				throw new InsightError("ORDER keys must be a non-empty array.");
+			}
+			for (const key of order.keys) {
+				if (!columns.includes(key)) {
+					throw new InsightError(`ORDER key ${key} must be in COLUMNS.`);
+				}
+			}
+			if (order.dir && !["UP", "DOWN"].includes(order.dir)) {
+				throw new InsightError("ORDER dir must be 'UP' or 'DOWN'.");
+			}
+		} else {
+			throw new InsightError("Invalid ORDER format.");
+		}
+		return true;
 	}
 
 	// Check if the WHERE clause is valid
@@ -104,7 +289,6 @@ export default class QueryChecker {
 			throw new InsightError("MCOMPARISON must be a valid object");
 		}
 
-		const validMKeys = ["avg", "pass", "fail", "audit", "year"];
 		const keys = Object.keys(mcomp);
 		if (keys.length !== 1) {
 			throw new InsightError("MCOMPARISON must have exactly one key");
@@ -120,7 +304,7 @@ export default class QueryChecker {
 		if (keyId !== datasetId) {
 			throw new InsightError(`Key does not match dataset ID: ${key}`);
 		}
-		if (!validMKeys.includes(field)) {
+		if (!validKeys.has(field)) {
 			return false;
 		}
 
@@ -138,7 +322,6 @@ export default class QueryChecker {
 			throw new InsightError("SCOMPARISON must be a valid object");
 		}
 
-		const validSKeys = ["dept", "id", "instructor", "title", "uuid"];
 		const keys = Object.keys(scomp);
 		if (keys.length !== 1) {
 			throw new InsightError("SCOMPARISON must have exactly one key");
@@ -154,7 +337,7 @@ export default class QueryChecker {
 		if (keyId !== datasetId) {
 			throw new InsightError(`Key does not match dataset ID: ${key}`);
 		}
-		if (!validSKeys.includes(field)) {
+		if (!validKeys.has(field)) {
 			return false;
 		}
 
@@ -164,118 +347,5 @@ export default class QueryChecker {
 		}
 
 		return true;
-	}
-
-	// Validate OPTIONS clause
-	private checkOptionsClause(options: Query["OPTIONS"], datasetId: string): boolean {
-		if (typeof options !== "object" || options === null) {
-			throw new InsightError("OPTIONS must be a valid object");
-		}
-
-		// Validate COLUMNS
-		this.validateColumns(options.COLUMNS, datasetId);
-
-		// Validate ORDER if present
-		if ("ORDER" in options) {
-			if (!this.checkOrderClause(options.ORDER, options.COLUMNS)) {
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	// Validate COLUMNS array
-	private validateColumns(columns: string[], datasetId: string): void {
-		if (!Array.isArray(columns) || columns.length === 0) {
-			throw new InsightError("OPTIONS must contain a non-empty COLUMNS array.");
-		}
-
-		const validKeys = ["avg", "pass", "fail", "audit", "year", "dept", "id", "instructor", "title", "uuid"];
-		for (const key of columns) {
-			if (!key.includes("_")) {
-				throw new InsightError(`Invalid key in COLUMNS: ${key}`);
-			}
-			const [keyId, field] = key.split("_");
-			if (keyId !== datasetId) {
-				throw new InsightError(`Key does not match dataset ID: ${key}`);
-			}
-			if (!validKeys.includes(field)) {
-				throw new InsightError(`Invalid field in COLUMNS: ${field}`);
-			}
-		}
-	}
-
-	// Validate ORDER clause
-	private checkOrderClause(order: any, columns: string[]): boolean {
-		if (typeof order === "string") {
-			if (!columns.includes(order)) {
-				throw new InsightError("ORDER key must be in COLUMNS.");
-			}
-		} else if (typeof order === "object") {
-			if (!order.keys || !Array.isArray(order.keys) || order.keys.length === 0) {
-				throw new InsightError("ORDER keys must be a non-empty array.");
-			}
-			for (const key of order.keys) {
-				if (!columns.includes(key)) {
-					throw new InsightError(`ORDER key ${key} must be in COLUMNS.`);
-				}
-			}
-			if (order.dir && !["UP", "DOWN"].includes(order.dir)) {
-				throw new InsightError("ORDER dir must be 'UP' or 'DOWN'.");
-			}
-		} else {
-			throw new InsightError("Invalid ORDER format.");
-		}
-		return true;
-	}
-
-	// Ensure the query references a single dataset
-	public checkSingleDataset(query: unknown): boolean {
-		const datasetIds = new Set<string>();
-
-		// Ensure OPTIONS and COLUMNS exist
-		if (
-			!("OPTIONS" in (query as any)) ||
-			!Array.isArray((query as any).OPTIONS?.COLUMNS) ||
-			(query as any).OPTIONS.COLUMNS.length === 0
-		) {
-			throw new InsightError("OPTIONS must contain a non-empty COLUMNS array.");
-		}
-
-		// Recursive function to traverse through the query object
-		const traverseObject = (obj: any): void => {
-			if (typeof obj === "object" && obj !== null) {
-				for (const key in obj) {
-					if (Object.prototype.hasOwnProperty.call(obj, key)) {
-						if (typeof obj[key] === "object" && obj[key] !== null) {
-							traverseObject(obj[key]);
-						} else if (typeof key === "string" && key.includes("_")) {
-							const datasetId = key.split("_")[0];
-							datasetIds.add(datasetId);
-						}
-					}
-				}
-			}
-		};
-
-		traverseObject(query);
-
-		return datasetIds.size === 1;
-	}
-
-	// Extract dataset ID from COLUMNS
-	public extractDatasetId(query: Query): string {
-		if (!Array.isArray(query.OPTIONS?.COLUMNS) || query.OPTIONS.COLUMNS.length === 0) {
-			throw new InsightError("OPTIONS must contain a non-empty COLUMNS array.");
-		}
-
-		for (const col of query.OPTIONS.COLUMNS) {
-			if (col.includes("_")) {
-				return col.split("_")[0];
-			}
-		}
-
-		throw new InsightError("Could not extract dataset ID from COLUMNS.");
 	}
 }

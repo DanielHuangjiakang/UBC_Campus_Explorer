@@ -13,10 +13,6 @@ export default class DatasetManager {
 	private datasetsKinds: Map<string, [InsightDatasetKind, number]> = new Map<string, [InsightDatasetKind, number]>();
 	private folderPath = path.join(__dirname, "../../data");
 
-	// public printEntries(): void {
-	// 	console.log(this.datasetsEntries);
-	// }// to do
-
 	public async initialize(): Promise<void> {
 		const idsAndKinds = await this.readIdsFromFile();
 		await this.processStoredZipFiles(idsAndKinds);
@@ -24,6 +20,14 @@ export default class DatasetManager {
 
 	public getDatasets(): Map<string, DatasetEntry[]> {
 		return this.datasetsEntries;
+	}
+
+	public getKind(id: string): InsightDatasetKind | undefined {
+		const kindAndRowNum = this.datasetsKinds.get(id);
+		if (kindAndRowNum) {
+			return kindAndRowNum[0];
+		}
+		return undefined;
 	}
 
 	// Setter for datasetsEntries

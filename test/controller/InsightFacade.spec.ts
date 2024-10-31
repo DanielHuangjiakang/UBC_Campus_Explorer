@@ -695,6 +695,7 @@ describe("InsightFacade", function () {
 			// Will *fail* if there is a problem reading ANY dataset.
 			const loadDatasetPromises: Promise<string[]>[] = [
 				facade.addDataset("sections", sections, InsightDatasetKind.Sections),
+				facade.addDataset("rooms", campus, InsightDatasetKind.Rooms),
 				facade.addDataset("UBC", validCourse, InsightDatasetKind.Sections),
 				facade.addDataset("pass", twoSubjects, InsightDatasetKind.Sections),
 			];
@@ -758,5 +759,7 @@ describe("InsightFacade", function () {
 		it("[valid/sectionsidwild99wild.json] sectionsidwild99wild", checkQuery);
 		it("[valid/sectionsidwildNOExamples.json] sectionsidwildNOExamples", checkQuery);
 		it("[valid/validValueTypeInIS,ShouldBeString.json] valid value type in IS, should be string", checkQuery);
+
+		it("[valid/valid_base_two_test.json] valid base two test", checkQuery);
 	});
 });

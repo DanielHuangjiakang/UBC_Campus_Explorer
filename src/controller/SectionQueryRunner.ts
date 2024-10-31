@@ -5,7 +5,7 @@ import Section from "./Section";
 import Room from "./Room";
 type DatasetEntry = Section | Room;
 
-export default class QueryRunner {
+export default class SectionQueryRunner {
 	private datasetMap: Map<string, DatasetEntry[]>;
 	private datasetId!: string; // Declare datasetId with definite assignment
 
