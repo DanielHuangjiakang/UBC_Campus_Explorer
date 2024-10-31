@@ -279,22 +279,14 @@ export default class SectionQueryRunner {
 		const results: InsightResult[] = [];
 
 		groupedData.forEach((group) => {
-			const result: any = {};
-
-			// Include group keys (like sections_title) in each result
-			groupKeys.forEach((key) => {
-				result[key] = this.getValueByKey(group[0], key);
-			});
-
+			const result = Object.fromEntries(groupKeys.map((key) => [key, this.getValueByKey(group[0], key)]));
 			for (const rule of applyRules) {
 				const applyKey = Object.keys(rule)[0];
 				const applyToken = rule[applyKey];
 				const aggregationField = Object.values(applyToken)[0] as string;
 				const aggregationType = Object.keys(applyToken)[0] as string;
-
 				result[applyKey] = this.performAggregation(aggregationType, group, aggregationField);
 			}
-
 			results.push(result);
 		});
 
@@ -350,12 +342,10 @@ export default class SectionQueryRunner {
 		if (!options.COLUMNS || !Array.isArray(options.COLUMNS)) {
 			throw new InsightError("OPTIONS must contain COLUMNS array.");
 		}
-
 		const columns = options.COLUMNS;
 		let result = data.map((item) => {
 			const res: any = {};
 			for (const col of columns) {
-				// Check if item is a Section or InsightResult before accessing values
 				res[col] = this.getValueByKey(item, col);
 			}
 			return res;
