@@ -84,10 +84,10 @@ export default class InsightFacade implements IInsightFacade {
 
 	public async performQuery(query: unknown): Promise<InsightResult[]> {
 		// Initialize the dataset manager if it hasn't been initialized yet
-		// if (!this.isInitialized) {
-		// 	await this.datasetManager.initialize();
-		// 	this.isInitialized = true;
-		// }
+		if (!this.isInitialized) {
+			await this.datasetManager.initialize();
+			this.isInitialized = true;
+		}
 
 		try {
 			// Validate the query structure using the query validator
