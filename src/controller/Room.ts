@@ -130,18 +130,12 @@ export default class Room {
 		const geolocation = await this.getGeolocation(buildingAddress);
 		if (!geolocation) {
 			return null;
+		} else if (!geolocation.lat || !geolocation.lon) {
+			return null;
 		}
 
 		// If any required room details are missing, return null
-		if (
-			!roomDetails.roomNumber ||
-			!roomDetails.capacity ||
-			!roomDetails.furniture ||
-			!roomDetails.type ||
-			!roomDetails.href ||
-			!geolocation.lat ||
-			!geolocation.lon
-		) {
+		if (roomDetails === null) {
 			return null;
 		}
 
@@ -160,37 +154,26 @@ export default class Room {
 		);
 	}
 
-	// Helper function to extract room details from a <tr>
-	private static extractRoomDetails(tr: any): {
-		roomNumber?: string;
-		capacity?: number;
-		furniture?: string;
-		type?: string;
-		href?: string;
-	} {
+	private static extractRoomDetails(
+		tr: any
+	): { roomNumber: string; capacity: number; furniture: string; type: string; href: string } | null {
 		const details: Record<string, any> = {};
-
 		for (const childTd of tr.childNodes) {
 			if (childTd.nodeName === "td") {
 				const tdClass = childTd.attrs.find((attr: any) => attr.name === "class")?.value;
-
 				switch (tdClass) {
 					case "views-field views-field-field-room-number":
 						details.roomNumber = this.getLinkText(childTd);
 						break;
-
 					case "views-field views-field-field-room-capacity":
 						details.capacity = parseInt(this.getTextContent(childTd), 10);
 						break;
-
 					case "views-field views-field-field-room-furniture":
 						details.furniture = this.getTextContent(childTd);
 						break;
-
 					case "views-field views-field-field-room-type":
 						details.type = this.getTextContent(childTd);
 						break;
-
 					case "views-field views-field-nothing":
 						details.href = this.getLinkHref(childTd);
 						break;
@@ -198,7 +181,13 @@ export default class Room {
 			}
 		}
 
-		return details;
+		return typeof details.roomNumber === "undefined" ||
+			typeof details.capacity === "undefined" ||
+			typeof details.furniture === "undefined" ||
+			typeof details.type === "undefined" ||
+			typeof details.href === "undefined"
+			? null
+			: (details as { roomNumber: string; capacity: number; furniture: string; type: string; href: string });
 	}
 
 	// Helper function to fetch geolocation
