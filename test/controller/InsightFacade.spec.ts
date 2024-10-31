@@ -761,5 +761,10 @@ describe("InsightFacade", function () {
 		it("[valid/validValueTypeInIS,ShouldBeString.json] valid value type in IS, should be string", checkQuery);
 
 		it("[valid/valid_base_two_test.json] valid base two test", checkQuery);
+		it("[valid/valid_base_one_test.json] valid base one test", checkQuery);
+
+		it("[invalid/query_more_than_one_dataset.json] query more than one dataset", checkQuery);
+		it("[invalid/invalid_key_type_AVG.json] invalid key type AVG", checkQuery);
+
 	});
 });
