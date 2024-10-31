@@ -211,7 +211,8 @@ export default class RoomQueryRunner {
 		return groupedData;
 	}
 
-	private applyAggregations(groupedData: Map<string, Room[]>, applyRules: any[], groupKeys: string[]): InsightResult[] {
+	private applyAggregations(groupedData: Map<string, Room[]>,
+							  applyRules: any[], groupKeys: string[]): InsightResult[] {
 		const results: InsightResult[] = [];
 
 		groupedData.forEach((group) => {
@@ -261,7 +262,8 @@ export default class RoomQueryRunner {
 					throw new InsightError("SUM aggregation requires a numeric field");
 				}
 				return parseFloat(
-					group.reduce((acc, item) => acc + (this.getValueByKey(item, field) as number), 0).toFixed(DECIMAL_PRECISION)
+					group.reduce((acc, item) =>
+						acc + (this.getValueByKey(item, field) as number), 0).toFixed(DECIMAL_PRECISION)
 				);
 			case "COUNT":
 				return new Set(group.map((item) => this.getValueByKey(item, field))).size;
