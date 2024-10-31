@@ -790,9 +790,22 @@ describe("InsightFacade", function () {
 		it("[valid/valid_SUM_Average_Grades.json] valid_SUM_Average_Grades", checkQuery);
 		it("[valid/valid_Total_Passed_Students.json] valid_Total_Passed_Students", checkQuery);
 		it("[valid/valid_Total_Failed_Students_Department.json] valid_Total_Failed_Students_Department", checkQuery);
+		it("[valid/valid_transformation_group_Apply.json] valid_transformation_group_Apply", checkQuery);
+		it("[valid/valid_transformation_group_Apply.json] valid_transformation_group_Apply", checkQuery);
+
+		it("[invalid/invalid_transformation_Extra_keys.json] invalid_transformation_Extra_keys", checkQuery);
+		it("[invalid/invalid_transformation_missing_GROUP.json] invalid_transformation_missing_GROUP", checkQuery);
 		it("[invalid/query_more_than_one_dataset.json] query more than one dataset", checkQuery);
 		it("[invalid/invalid_key_type_AVG.json] invalid key type AVG", checkQuery);
 		it("[invalid/invalid_Max_Aggregation_Test.json] invalid_Max_Aggregation_Test", checkQuery);
 		it("[invalid/invalid_Excess_keys_in_query.json] invalid_Excess_keys_in_query", checkQuery);
+		it(
+			"[invalid/invalid_transformation_more_than_one_dataset.json] invalid_transformation_more_than_one_dataset",
+			checkQuery
+		);
+		it(
+			"[invalid/invalid_transformation_Cannot_have_underscore.json] invalid_transformation_Cannot_have_underscore",
+			checkQuery
+		);
 	});
 });

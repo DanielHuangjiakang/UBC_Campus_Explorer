@@ -92,6 +92,11 @@ export default class TransformationValidator {
 		const applyKey = keys[0];
 		const operationObject = applyRule[applyKey];
 
+		// Check for underscores in applyKey
+		if (applyKey.includes("_")) {
+			throw new InsightError("APPLY key cannot contain underscores.");
+		}
+
 		if (typeof applyKey !== "string") {
 			throw new InsightError("APPLY key must be a string.");
 		}
