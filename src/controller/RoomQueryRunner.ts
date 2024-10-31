@@ -18,6 +18,7 @@ export default class RoomQueryRunner {
 	}
 
 	// Execute the query and return the results
+	// Execute the query and return the results
 	public async execute(query: any): Promise<InsightResult[]> {
 		this.datasetId = this.extractDatasetId(query);
 
@@ -25,12 +26,25 @@ export default class RoomQueryRunner {
 			throw new InsightError(`Dataset with id "${this.datasetId}" does not exist.`);
 		}
 
+		// Step 1: Apply filters to get the filtered data
 		const dataset = this.datasetMap.get(this.datasetId) as Room[];
 		const filteredData = this.applyFilters(dataset, query.WHERE);
 
+		// Step 2: Perform transformations only on the filtered data
 		const transformedData: InsightResult[] = query.TRANSFORMATIONS
-			? this.applyTransformations(filteredData, query.TRANSFORMATIONS)
+			? this.applyTransformations(filteredData, query.TRANSFORMATIONS) // Pass filteredData here
 			: (filteredData as unknown as InsightResult[]);
+
+		// Validate columns against GROUP and APPLY if TRANSFORMATIONS exist
+		if (query.TRANSFORMATIONS) {
+			const groupKeys = new Set(query.TRANSFORMATIONS.GROUP);
+			const applyKeys = new Set(query.TRANSFORMATIONS.APPLY.map((applyRule: any) => Object.keys(applyRule)[0]));
+			for (const col of query.OPTIONS.COLUMNS) {
+				if (!groupKeys.has(col) && !applyKeys.has(col)) {
+					throw new InsightError(`Key ${col} in COLUMNS must be in GROUP or APPLY when TRANSFORMATIONS`);
+				}
+			}
+		}
 
 		return this.applyOptions(transformedData, query.OPTIONS);
 	}
@@ -117,20 +131,19 @@ export default class RoomQueryRunner {
 	private handleIs(isCondition: any): (item: Room) => boolean {
 		const key = Object.keys(isCondition)[0];
 		const value = isCondition[key];
-
 		const id = key.split("_")[0];
+
+		// Validate dataset ID consistency
 		if (id !== this.datasetId) {
 			throw new InsightError(`Key does not match dataset ID: ${key}`);
 		}
 
+		// Ensure IS operator value is a string
 		if (typeof value !== "string") {
 			throw new InsightError("IS operator requires a string value.");
 		}
 
-		if (this.hasInvalidWildcardPattern(value)) {
-			throw new InsightError("Invalid wildcard pattern in IS operator.");
-		}
-
+		// Build regex to handle wildcard patterns correctly
 		const regexPattern = this.buildRegexPattern(value);
 		const regex = new RegExp(regexPattern);
 
@@ -141,32 +154,32 @@ export default class RoomQueryRunner {
 				throw new InsightError("IS operator requires string fields.");
 			}
 
+			// Apply the regex to test for wildcard matching
 			return regex.test(itemValue);
 		};
 	}
 
-	private hasInvalidWildcardPattern(value: string): boolean {
-		const firstIndex = value.indexOf("*");
-		const lastIndex = value.lastIndexOf("*");
-		return firstIndex !== 0 && lastIndex !== value.length - 1;
-	}
-
 	private buildRegexPattern(value: string): string {
 		const specialChars = /[.+?^${}()|[\]\\]/g;
-		const escapedValue = value.replace(specialChars, "\\$&");
-		return `^${escapedValue.replace(/\*/g, ".*")}$`;
+		const escapedValue = value.replace(specialChars, "\\$&"); // Escape special characters except for *
+		return `^${escapedValue.replace(/\*/g, ".*")}$`; // Replace * with .*
 	}
 
 	private getValueByKey(item: Room | InsightResult, key: string): any {
+		// If item is already an InsightResult, return the value directly
 		if (!(item instanceof Room)) {
 			return item[key];
 		}
 
+		// Split the key to get the dataset identifier and field
 		const [id, field] = key.split("_");
+
+		// Verify the dataset ID matches
 		if (id !== this.datasetId) {
 			throw new InsightError(`Key does not match dataset ID: ${key}`);
 		}
 
+		// Access fields based on the field name
 		switch (field) {
 			case "fullname":
 				return String(item.getFullname());
@@ -183,32 +196,38 @@ export default class RoomQueryRunner {
 			case "furniture":
 				return String(item.getFurniture());
 			case "seats":
-				return item.getSeats();
+				return item.getSeats() !== undefined ? item.getSeats() : undefined;
 			case "lat":
 				return item.getLat();
 			case "lon":
 				return item.getLon();
 			default:
-				throw new InsightError(`Invalid column: ${key}`);
+				// Handle any unexpected field by throwing an error or returning undefined
+				throw new InsightError(`Invalid or unexpected column: ${key}`);
 		}
 	}
 
 	private applyTransformations(data: Room[], transformations: any): InsightResult[] {
 		const groupKeys = transformations.GROUP;
+
+		// Ensure groupBy is called only on the filtered data passed as 'data'
 		this.groupedData = this.groupBy(data, groupKeys);
+
 		return this.applyAggregations(transformations.APPLY, groupKeys);
 	}
 
 	private groupBy(data: Room[], groupKeys: string[]): Map<string, Room[]> {
+		const groupedData = new Map<string, Room[]>(); // Temporary map for grouping
+
 		data.forEach((item) => {
 			const groupKey = groupKeys.map((key) => this.getValueByKey(item, key)).join("_");
-			if (!this.groupedData.has(groupKey)) {
-				this.groupedData.set(groupKey, []);
+			if (!groupedData.has(groupKey)) {
+				groupedData.set(groupKey, []);
 			}
-			this.groupedData.get(groupKey)!.push(item);
+			groupedData.get(groupKey)!.push(item);
 		});
 
-		return this.groupedData;
+		return groupedData; // Return the local grouped data map
 	}
 
 	private applyAggregations(applyRules: any[], groupKeys: string[]): InsightResult[] {
@@ -217,10 +236,12 @@ export default class RoomQueryRunner {
 		this.groupedData.forEach((group) => {
 			const result: any = {};
 
+			// Set group key values in the result
 			groupKeys.forEach((key) => {
 				result[key] = this.getValueByKey(group[0], key);
 			});
 
+			// Apply each rule in APPLY to calculate the aggregation
 			for (const rule of applyRules) {
 				const applyKey = Object.keys(rule)[0];
 				const applyToken = rule[applyKey];
@@ -236,9 +257,16 @@ export default class RoomQueryRunner {
 		return results;
 	}
 
+	// Perform aggregation operations
 	private performAggregation(type: string, group: Room[], field: string): number {
-		// Check if the field is numeric for AVG and SUM operations
-		const isNumeric = group.every((item) => typeof this.getValueByKey(item, field) === "number");
+		const isNumeric = group.every((item) => {
+			const value = this.getValueByKey(item, field);
+			return typeof value === "number" && !isNaN(value);
+		});
+
+		if (!isNumeric && type !== "COUNT") {
+			throw new InsightError(`${type} requires a numeric field`);
+		}
 
 		switch (type) {
 			case "MAX":
@@ -246,9 +274,6 @@ export default class RoomQueryRunner {
 			case "MIN":
 				return Math.min(...group.map((item) => this.getValueByKey(item, field) as number));
 			case "AVG": {
-				if (!isNumeric) {
-					throw new InsightError("AVG aggregation requires a numeric field");
-				}
 				const total = group.reduce(
 					(acc, item) => acc.add(new Decimal(this.getValueByKey(item, field) as number)),
 					new Decimal(0)
@@ -257,12 +282,11 @@ export default class RoomQueryRunner {
 				return Number(avg.toFixed(DECIMAL_PRECISION));
 			}
 			case "SUM": {
-				const sum = group.reduce((acc, item) => {
-					const value = this.getValueByKey(item, field) as number;
-					return acc + value;
-				}, 0);
-
-				return parseFloat(sum.toFixed(DECIMAL_PRECISION));
+				const total = group.reduce(
+					(acc, item) => acc.add(new Decimal(this.getValueByKey(item, field) as number)),
+					new Decimal(0)
+				);
+				return Number(total.toFixed(DECIMAL_PRECISION));
 			}
 			case "COUNT":
 				return new Set(group.map((item) => this.getValueByKey(item, field))).size;
@@ -276,19 +300,18 @@ export default class RoomQueryRunner {
 			throw new InsightError("OPTIONS must contain COLUMNS array.");
 		}
 
-		const columns = options.COLUMNS;
-		let result = data.map((item) => {
+		const columns: string[] = options.COLUMNS;
+		const result = data.map((item) => {
 			const res: any = {};
-			for (const col of columns) {
+			columns.forEach((col: string) => {
 				res[col] = this.getValueByKey(item, col);
-			}
+			});
 			return res;
 		});
 
 		if (options.ORDER) {
-			result = this.applyOrdering(result, options.ORDER);
+			return this.applyOrdering(result, options.ORDER);
 		}
-
 		return result;
 	}
 

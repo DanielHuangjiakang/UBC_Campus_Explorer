@@ -777,8 +777,16 @@ describe("InsightFacade", function () {
 		it("[valid/valid_Rooms_geolocation.json] valid_Rooms_geolocation", checkQuery);
 		it("[valid/valid_sections_facl.json] valid_sections_facl", checkQuery);
 		it("[valid/valid_sections_aanb.json] valid_sections_aanb", checkQuery);
+		it("[valid/valid_RoomQueries_Edge_Case_Test.json] valid_RoomQueries_Edge_Case_Test", checkQuery);
+		it("[valid/valid_Sum_Aggregation_Test.json] valid_Sum_Aggregation_Test", checkQuery);
+		it("[valid/valid_Combination_of_Multiple_Aggregations.json] valid_Combination_Aggregations", checkQuery);
+		it("[valid/valid_non_is.json] valid_non_is", checkQuery);
+		it("[valid/valid_Grouping_Sum.json] valid_Grouping_Sum", checkQuery);
+		it("[valid/valid_Average_Grouping.json] valid_Average_Grouping", checkQuery);
+		it("[valid/valid_Count.json] valid_Count", checkQuery);
 
 		it("[invalid/query_more_than_one_dataset.json] query more than one dataset", checkQuery);
 		it("[invalid/invalid_key_type_AVG.json] invalid key type AVG", checkQuery);
+		it("[invalid/invalid_Max_Aggregation_Test.json] invalid_Max_Aggregation_Test", checkQuery);
 	});
 });
