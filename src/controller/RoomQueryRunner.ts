@@ -201,6 +201,8 @@ export default class RoomQueryRunner {
 				return item.getLat();
 			case "lon":
 				return item.getLon();
+			case "href": // Added handling for rooms_href
+				return String(item.getHref());
 			default:
 				// Handle any unexpected field by throwing an error or returning undefined
 				throw new InsightError(`Invalid or unexpected column: ${key}`);
@@ -317,11 +319,18 @@ export default class RoomQueryRunner {
 
 	private applyOrdering(data: InsightResult[], order: any): InsightResult[] {
 		if (typeof order === "string") {
+			// Single string ORDER
 			const key = order;
 			return data.sort((a, b) => (a[key] > b[key] ? 1 : a[key] < b[key] ? -1 : 0));
-		} else if (typeof order === "object" && order.keys && Array.isArray(order.keys)) {
+		} else if (typeof order === "object") {
+			// Multi-key ORDER
+			if (!order.keys || !Array.isArray(order.keys) || order.keys.length === 0) {
+				// Throw error if `keys` is missing or not an array or empty
+				throw new InsightError("ORDER must contain a non-empty 'keys' array.");
+			}
+
 			const keys = order.keys;
-			const dir = order.dir === "DOWN" ? -1 : 1;
+			const dir = order.dir === "DOWN" ? -1 : 1; // Default to "UP" if `dir` is undefined
 
 			return data.sort((a, b) => {
 				for (const key of keys) {
