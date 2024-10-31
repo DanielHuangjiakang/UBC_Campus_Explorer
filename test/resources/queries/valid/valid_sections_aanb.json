@@ -1,0 +1,41 @@
+{
+	"title": "valid_sections_aanb",
+	"input": {
+		"WHERE": {
+			"IS": {
+				"sections_dept": "aanb"
+			}
+		},
+		"OPTIONS": {
+			"COLUMNS": [
+				"sections_dept",
+				"sections_avg",
+				"sections_title"
+			],
+			"ORDER": "sections_title"
+		}
+	},
+	"errorExpected": false,
+	"expected": [
+		{
+			"sections_dept": "aanb",
+			"sections_avg": 87.83,
+			"sections_title": "anml welf rsrch"
+		},
+		{
+			"sections_dept": "aanb",
+			"sections_avg": 87.83,
+			"sections_title": "anml welf rsrch"
+		},
+		{
+			"sections_dept": "aanb",
+			"sections_avg": 94.44,
+			"sections_title": "rsrch methdlgy"
+		},
+		{
+			"sections_dept": "aanb",
+			"sections_avg": 94.44,
+			"sections_title": "rsrch methdlgy"
+		}
+	]
+}

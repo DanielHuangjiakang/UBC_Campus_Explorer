@@ -1,0 +1,306 @@
+{
+	"title": "valid_Rooms_Seats",
+	"input": {
+		"WHERE": {
+			"GT": {
+				"rooms_seats": 100
+			}
+		},
+		"OPTIONS": {
+			"COLUMNS": [
+				"rooms_shortname",
+				"rooms_number",
+				"rooms_seats"
+			],
+			"ORDER": "rooms_seats"
+		}
+	},
+	"errorExpected": false,
+	"expected": [
+		{
+			"rooms_shortname": "WESB",
+			"rooms_number": "201",
+			"rooms_seats": 102
+		},
+		{
+			"rooms_shortname": "MATX",
+			"rooms_number": "1100",
+			"rooms_seats": 106
+		},
+		{
+			"rooms_shortname": "BUCH",
+			"rooms_number": "A202",
+			"rooms_seats": 108
+		},
+		{
+			"rooms_shortname": "BUCH",
+			"rooms_number": "A203",
+			"rooms_seats": 108
+		},
+		{
+			"rooms_shortname": "IBLC",
+			"rooms_number": "261",
+			"rooms_seats": 112
+		},
+		{
+			"rooms_shortname": "CHEM",
+			"rooms_number": "D200",
+			"rooms_seats": 114
+		},
+		{
+			"rooms_shortname": "CHEM",
+			"rooms_number": "D300",
+			"rooms_seats": 114
+		},
+		{
+			"rooms_shortname": "DMP",
+			"rooms_number": "110",
+			"rooms_seats": 120
+		},
+		{
+			"rooms_shortname": "WOOD",
+			"rooms_number": "1",
+			"rooms_seats": 120
+		},
+		{
+			"rooms_shortname": "WOOD",
+			"rooms_number": "4",
+			"rooms_seats": 120
+		},
+		{
+			"rooms_shortname": "WOOD",
+			"rooms_number": "5",
+			"rooms_seats": 120
+		},
+		{
+			"rooms_shortname": "MCLD",
+			"rooms_number": "202",
+			"rooms_seats": 123
+		},
+		{
+			"rooms_shortname": "LSC",
+			"rooms_number": "1003",
+			"rooms_seats": 125
+		},
+		{
+			"rooms_shortname": "BUCH",
+			"rooms_number": "A103",
+			"rooms_seats": 131
+		},
+		{
+			"rooms_shortname": "MCLD",
+			"rooms_number": "228",
+			"rooms_seats": 136
+		},
+		{
+			"rooms_shortname": "AERL",
+			"rooms_number": "120",
+			"rooms_seats": 144
+		},
+		{
+			"rooms_shortname": "BUCH",
+			"rooms_number": "A102",
+			"rooms_seats": 150
+		},
+		{
+			"rooms_shortname": "BUCH",
+			"rooms_number": "A104",
+			"rooms_seats": 150
+		},
+		{
+			"rooms_shortname": "ESB",
+			"rooms_number": "1012",
+			"rooms_seats": 150
+		},
+		{
+			"rooms_shortname": "HENN",
+			"rooms_number": "202",
+			"rooms_seats": 150
+		},
+		{
+			"rooms_shortname": "IBLC",
+			"rooms_number": "182",
+			"rooms_seats": 154
+		},
+		{
+			"rooms_shortname": "HENN",
+			"rooms_number": "201",
+			"rooms_seats": 155
+		},
+		{
+			"rooms_shortname": "FRDM",
+			"rooms_number": "153",
+			"rooms_seats": 160
+		},
+		{
+			"rooms_shortname": "DMP",
+			"rooms_number": "310",
+			"rooms_seats": 160
+		},
+		{
+			"rooms_shortname": "PHRM",
+			"rooms_number": "1201",
+			"rooms_seats": 167
+		},
+		{
+			"rooms_shortname": "BUCH",
+			"rooms_number": "A201",
+			"rooms_seats": 181
+		},
+		{
+			"rooms_shortname": "WOOD",
+			"rooms_number": "6",
+			"rooms_seats": 181
+		},
+		{
+			"rooms_shortname": "LSK",
+			"rooms_number": "201",
+			"rooms_seats": 183
+		},
+		{
+			"rooms_shortname": "SWNG",
+			"rooms_number": "121",
+			"rooms_seats": 187
+		},
+		{
+			"rooms_shortname": "SWNG",
+			"rooms_number": "122",
+			"rooms_seats": 188
+		},
+		{
+			"rooms_shortname": "SWNG",
+			"rooms_number": "221",
+			"rooms_seats": 190
+		},
+		{
+			"rooms_shortname": "SWNG",
+			"rooms_number": "222",
+			"rooms_seats": 190
+		},
+		{
+			"rooms_shortname": "CHBE",
+			"rooms_number": "101",
+			"rooms_seats": 200
+		},
+		{
+			"rooms_shortname": "MCML",
+			"rooms_number": "166",
+			"rooms_seats": 200
+		},
+		{
+			"rooms_shortname": "LSK",
+			"rooms_number": "200",
+			"rooms_seats": 205
+		},
+		{
+			"rooms_shortname": "MATH",
+			"rooms_number": "100",
+			"rooms_seats": 224
+		},
+		{
+			"rooms_shortname": "GEOG",
+			"rooms_number": "100",
+			"rooms_seats": 225
+		},
+		{
+			"rooms_shortname": "BIOL",
+			"rooms_number": "2000",
+			"rooms_seats": 228
+		},
+		{
+			"rooms_shortname": "PHRM",
+			"rooms_number": "1101",
+			"rooms_seats": 236
+		},
+		{
+			"rooms_shortname": "CHEM",
+			"rooms_number": "B250",
+			"rooms_seats": 240
+		},
+		{
+			"rooms_shortname": "FSC",
+			"rooms_number": "1005",
+			"rooms_seats": 250
+		},
+		{
+			"rooms_shortname": "HENN",
+			"rooms_number": "200",
+			"rooms_seats": 257
+		},
+		{
+			"rooms_shortname": "ANGU",
+			"rooms_number": "098",
+			"rooms_seats": 260
+		},
+		{
+			"rooms_shortname": "CHEM",
+			"rooms_number": "B150",
+			"rooms_seats": 265
+		},
+		{
+			"rooms_shortname": "BUCH",
+			"rooms_number": "A101",
+			"rooms_seats": 275
+		},
+		{
+			"rooms_shortname": "SCRF",
+			"rooms_number": "100",
+			"rooms_seats": 280
+		},
+		{
+			"rooms_shortname": "SRC",
+			"rooms_number": "220A",
+			"rooms_seats": 299
+		},
+		{
+			"rooms_shortname": "SRC",
+			"rooms_number": "220B",
+			"rooms_seats": 299
+		},
+		{
+			"rooms_shortname": "SRC",
+			"rooms_number": "220C",
+			"rooms_seats": 299
+		},
+		{
+			"rooms_shortname": "WESB",
+			"rooms_number": "100",
+			"rooms_seats": 325
+		},
+		{
+			"rooms_shortname": "ESB",
+			"rooms_number": "1013",
+			"rooms_seats": 350
+		},
+		{
+			"rooms_shortname": "LSC",
+			"rooms_number": "1001",
+			"rooms_seats": 350
+		},
+		{
+			"rooms_shortname": "LSC",
+			"rooms_number": "1002",
+			"rooms_seats": 350
+		},
+		{
+			"rooms_shortname": "HEBB",
+			"rooms_number": "100",
+			"rooms_seats": 375
+		},
+		{
+			"rooms_shortname": "CIRS",
+			"rooms_number": "1250",
+			"rooms_seats": 426
+		},
+		{
+			"rooms_shortname": "OSBO",
+			"rooms_number": "A",
+			"rooms_seats": 442
+		},
+		{
+			"rooms_shortname": "WOOD",
+			"rooms_number": "2",
+			"rooms_seats": 503
+		}
+	]
+}
