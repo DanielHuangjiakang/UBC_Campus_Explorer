@@ -1,11 +1,14 @@
 import { InsightError, InsightResult } from "./IInsightFacade";
 import DatasetManager from "./DatasetManager"; // Use DatasetManager for handling datasets
 import Section from "./Section";
-// change1
 import Room from "./Room";
+import Decimal from "decimal.js";
 type DatasetEntry = Section | Room;
 
-export default class QueryRunner {
+// Define a constant for the decimal precision
+const DECIMAL_PRECISION = 2;
+
+export default class SectionQueryRunner {
 	private datasetMap: Map<string, DatasetEntry[]>;
 	private datasetId!: string; // Declare datasetId with definite assignment
 
@@ -23,12 +26,15 @@ export default class QueryRunner {
 			throw new InsightError(`Dataset with id "${this.datasetId}" does not exist.`);
 		}
 
-		// Validate query keys
-		this.validateQuery(query, this.datasetId);
-
 		const dataset = this.datasetMap.get(this.datasetId) as Section[];
 		const filteredData = this.applyFilters(dataset, query.WHERE);
-		return this.applyOptions(filteredData, query.OPTIONS);
+
+		// Apply transformations if present
+		const transformedData: InsightResult[] = query.TRANSFORMATIONS
+			? this.applyTransformations(filteredData, query.TRANSFORMATIONS)
+			: (filteredData as unknown as InsightResult[]);
+
+		return this.applyOptions(transformedData, query.OPTIONS);
 	}
 
 	// Extract dataset ID from query COLUMNS
@@ -181,23 +187,29 @@ export default class QueryRunner {
 		return `^${escapedValue.replace(/\*/g, ".*")}$`;
 	}
 
-	// Get value from Section object based on key
-	private getValueByKey(item: Section, key: string): string | number {
+	// Get value from Section or InsightResult based on key
+	private getValueByKey(item: Section | InsightResult, key: string): any {
+		// If item is already an InsightResult, return the value directly
+		if (!(item instanceof Section)) {
+			return item[key];
+		}
+
+		// Otherwise, it's a Section and we access its fields
 		const [id, field] = key.split("_");
 		if (id !== this.datasetId) {
 			throw new InsightError(`Key does not match dataset ID: ${key}`);
 		}
 		switch (field) {
 			case "uuid":
-				return item.getUuid();
+				return String(item.getUuid());
 			case "id":
-				return item.getId();
+				return String(item.getId());
 			case "title":
-				return item.getTitle();
+				return String(item.getTitle());
 			case "instructor":
-				return item.getInstructor();
+				return String(item.getInstructor());
 			case "dept":
-				return item.getDept();
+				return String(item.getDept());
 			case "year":
 				return this.checkYear(item);
 			case "avg":
@@ -222,8 +234,99 @@ export default class QueryRunner {
 		return item.getYear();
 	}
 
-	// Apply options like COLUMNS and ORDER to the filtered data
-	private applyOptions(data: Section[], options: any): InsightResult[] {
+	// Apply transformations for GROUP and APPLY
+	private applyTransformations(data: Section[], transformations: any): InsightResult[] {
+		const groupKeys = transformations.GROUP;
+		const groupedData = this.groupBy(data, groupKeys);
+		return this.applyAggregations(groupedData, transformations.APPLY, groupKeys);
+	}
+
+	// Group data by specified keys
+	private groupBy(data: Section[], groupKeys: string[]): Map<string, Section[]> {
+		const groupedData = new Map<string, Section[]>();
+
+		data.forEach((item) => {
+			const groupKey = groupKeys.map((key) => this.getValueByKey(item, key)).join("_");
+			if (!groupedData.has(groupKey)) {
+				groupedData.set(groupKey, []);
+			}
+			groupedData.get(groupKey)!.push(item);
+		});
+
+		return groupedData;
+	}
+
+	// Apply aggregation rules to each group
+	private applyAggregations(
+		groupedData: Map<string, Section[]>,
+		applyRules: any[],
+		groupKeys: string[]
+	): InsightResult[] {
+		const results: InsightResult[] = [];
+
+		groupedData.forEach((group) => {
+			const result: any = {};
+
+			// Include group keys (like sections_title) in each result
+			groupKeys.forEach((key) => {
+				result[key] = this.getValueByKey(group[0], key);
+			});
+
+			for (const rule of applyRules) {
+				const applyKey = Object.keys(rule)[0];
+				const applyToken = rule[applyKey];
+				const aggregationField = Object.values(applyToken)[0] as string;
+				const aggregationType = Object.keys(applyToken)[0] as string;
+
+				result[applyKey] = this.performAggregation(aggregationType, group, aggregationField);
+			}
+
+			results.push(result);
+		});
+
+		return results;
+	}
+
+	// Perform aggregation operations
+	private performAggregation(type: string, group: Section[], field: string): number {
+		switch (type) {
+			case "MAX":
+				return Math.max(...group.map((item) => this.getValueByKey(item, field) as number));
+			case "MIN":
+				return Math.min(...group.map((item) => this.getValueByKey(item, field) as number));
+			case "AVG": {
+				// Ensure each value is converted to a Decimal and add them up
+				const total = group.reduce(
+					(acc, item) => acc.add(new Decimal(this.getValueByKey(item, field) as number)),
+					new Decimal(0)
+				);
+
+				// Calculate the average by dividing total by the number of items (numRows)
+				const avg = total.toNumber() / group.length;
+
+				// Round the result to two decimal places and cast it to a number
+				return Number(avg.toFixed(DECIMAL_PRECISION));
+			}
+
+			case "SUM": {
+				// Sum the values using Decimal for precision
+				const total = group.reduce(
+					(acc, item) => acc.add(new Decimal(this.getValueByKey(item, field) as number)),
+					new Decimal(0)
+				);
+
+				// Round the sum to two decimal places and cast it to a number
+				return Number(total.toFixed(DECIMAL_PRECISION));
+			}
+			case "COUNT":
+				return new Set(group.map((item) => this.getValueByKey(item, field))).size;
+			default:
+				throw new InsightError("Invalid aggregation type");
+		}
+	}
+
+	// Apply options like COLUMNS and ORDER to the filtered or transformed data
+	private applyOptions(data: Section[] | InsightResult[], options: any): InsightResult[] {
 		if (!options.COLUMNS || !Array.isArray(options.COLUMNS)) {
 			throw new InsightError("OPTIONS must contain COLUMNS array.");
 		}
@@ -232,6 +335,7 @@ export default class QueryRunner {
 		let result = data.map((item) => {
 			const res: any = {};
 			for (const col of columns) {
+				// Check if item is a Section or InsightResult before accessing values
 				res[col] = this.getValueByKey(item, col);
 			}
 			return res;
@@ -266,43 +370,6 @@ export default class QueryRunner {
 			});
 		} else {
 			throw new InsightError("Invalid ORDER format.");
-		}
-	}
-
-	// Validate the keys and fields in the query
-	private validateQuery(query: any, datasetId: string): void {
-		const validFields = ["uuid", "id", "title", "instructor", "dept", "year", "avg", "pass", "fail", "audit"];
-
-		const queryKeys = this.collectKeys(query);
-
-		for (const key of queryKeys) {
-			this.checkKeyValidity(key, validFields, datasetId);
-		}
-	}
-
-	// Recursively collect all keys from query
-	private collectKeys(obj: any): string[] {
-		let keys: string[] = [];
-		if (typeof obj === "object" && obj !== null) {
-			for (const key in obj) {
-				if (["AND", "OR", "NOT", "GT", "LT", "EQ", "IS"].includes(key)) {
-					keys = keys.concat(this.collectKeys(obj[key]));
-				} else if (key.includes("_")) {
-					keys.push(key);
-				}
-			}
-		}
-		return keys;
-	}
-
-	// Check if the key is valid
-	private checkKeyValidity(key: string, validFields: string[], datasetId: string): void {
-		const [keyId, field] = key.split("_");
-		if (!validFields.includes(field)) {
-			throw new InsightError(`Invalid key in query: ${key}`);
-		}
-		if (keyId !== datasetId) {
-			throw new InsightError(`Key does not match dataset ID: ${key}`);
 		}
 	}
 }

@@ -9,20 +9,26 @@ import {
 } from "./IInsightFacade";
 import DatasetManager from "./DatasetManager";
 import QueryChecker, { Query } from "./QueryChecker"; // Import Query interface
-import QueryRunner from "./QueryRunner";
+import SectionQueryRunner from "./SectionQueryRunner";
 import JSZip from "jszip";
+import QuerySingleIdChecker from "./QuerySingleIdChecker";
+import RoomQueryRunner from "./RoomQueryRunner";
 
 export default class InsightFacade implements IInsightFacade {
 	private datasetManager: DatasetManager;
 	private isInitialized: boolean; // Flag to track if initialization has been completed
 	private queryChecker: QueryChecker;
-	private queryRunner: QueryRunner;
+	private sectionQueryRunner: SectionQueryRunner;
+	private querySingleIdChecker: QuerySingleIdChecker;
+	private roomQueryRunner: RoomQueryRunner;
 
 	constructor() {
 		this.datasetManager = new DatasetManager();
 		this.isInitialized = false; // Ensure the initialized flag is set to false initially
-		this.queryRunner = new QueryRunner(this.datasetManager);
+		this.sectionQueryRunner = new SectionQueryRunner(this.datasetManager);
+		this.roomQueryRunner = new RoomQueryRunner(this.datasetManager);
 		this.queryChecker = new QueryChecker();
+		this.querySingleIdChecker = new QuerySingleIdChecker();
 	}
 
 	public async addDataset(id: string, content: string, kind: InsightDatasetKind): Promise<string[]> {
@@ -99,27 +105,11 @@ export default class InsightFacade implements IInsightFacade {
 			const queryObject = query as Query;
 
 			// Ensure the query references exactly one dataset
-			if (!this.queryChecker.checkSingleDataset(queryObject)) {
+			if (!this.querySingleIdChecker.checkSingleDataset(queryObject)) {
 				throw new InsightError("Query must reference exactly one dataset.");
 			}
 
-			// Retrieve available datasets and check if the required dataset exists
-			const datasetMap = this.datasetManager.getDatasets();
-			const datasetId = this.queryChecker.extractDatasetId(queryObject);
-			if (!datasetMap.has(datasetId)) {
-				throw new InsightError(`Dataset with id "${datasetId}" does not exist.`);
-			}
-
-			// Execute the query using the query runner
-			const queryResults = await this.queryRunner.execute(queryObject);
-
-			// Ensure that the result set is within the acceptable size limit
-			const maxResults = 5000;
-			if (queryResults.length > maxResults) {
-				throw new ResultTooLargeError();
-			}
-
-			return queryResults; // Return the query results
+			return this.queryRunner(queryObject);
 		} catch (error) {
 			if (error instanceof InsightError || error instanceof ResultTooLargeError) {
 				throw error;
@@ -127,6 +117,45 @@ export default class InsightFacade implements IInsightFacade {
 				throw new InsightError("Failed to perform query");
 			}
 		}
+	}
+
+	public async queryRunner(queryObject: Query): Promise<InsightResult[]> {
+		// Retrieve available datasets and check if the required dataset exists
+		const datasetMap = this.datasetManager.getDatasets();
+		const datasetId = this.queryChecker.extractDatasetId(queryObject);
+		if (!datasetMap.has(datasetId)) {
+			throw new InsightError(`Dataset with id "${datasetId}" does not exist.`);
+		}
+
+		const datasetKind = this.datasetManager.getKind(datasetId);
+
+		// Ensure the dataset is of the correct kind
+		if (datasetKind !== InsightDatasetKind.Sections && datasetKind !== InsightDatasetKind.Rooms) {
+			throw new InsightError(`Invalid dataset kind for dataset id ${datasetId}`);
+		}
+
+		// Select the appropriate query runner based on the dataset kind
+		// Determine if the dataset kind is 'Sections'
+		const isSectionsKind = datasetKind === InsightDatasetKind.Sections;
+
+		// Assign the correct query runner based on the dataset kind
+		let queryRunner;
+		if (isSectionsKind) {
+			queryRunner = this.sectionQueryRunner;
+		} else {
+			queryRunner = this.roomQueryRunner;
+		}
+
+		// Execute the query using the selected query runner
+		const queryResults = await queryRunner.execute(queryObject);
+
+		// Ensure that the result set is within the acceptable size limit
+		const maxResults = 5000;
+		if (queryResults.length > maxResults) {
+			throw new ResultTooLargeError();
+		}
+
+		return queryResults;
 	}
 
 	public async removeDataset(id: string): Promise<string> {
