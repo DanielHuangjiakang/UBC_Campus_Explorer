@@ -47,12 +47,21 @@ export default class SectionQueryRunner {
 
 	// Extract dataset ID from query COLUMNS
 	private extractDatasetId(query: any): string {
-		for (const col of query.OPTIONS.COLUMNS) {
+		// Check COLUMNS for dataset ID
+		for (const col of query.OPTIONS?.COLUMNS || []) {
 			if (col.includes("_")) {
 				return col.split("_")[0];
 			}
 		}
-		throw new InsightError("Could not extract dataset ID from COLUMNS.");
+
+		// If COLUMNS don't contain dataset ID, check GROUP keys in TRANSFORMATIONS
+		for (const groupKey of query.TRANSFORMATIONS?.GROUP || []) {
+			if (groupKey.includes("_")) {
+				return groupKey.split("_")[0];
+			}
+		}
+
+		throw new InsightError("Could not extract dataset ID from COLUMNS or TRANSFORMATIONS GROUP.");
 	}
 
 	// Apply the filter conditions specified in WHERE clause
@@ -172,21 +181,6 @@ export default class SectionQueryRunner {
 			return regex.test(itemValue);
 		};
 	}
-
-	// Check if the wildcard pattern in the IS clause is invalid
-	// private hasInvalidWildcardPattern(value: string): boolean {
-	// 	const firstIndex = value.indexOf("*");
-	// 	const lastIndex = value.lastIndexOf("*");
-	//
-	// 	// If there are no wildcards, the pattern is valid
-	// 	if (firstIndex === -1) {
-	// 		return false;
-	// 	}
-	//
-	// 	// The pattern is only valid if the wildcard appears at the start or end
-	// 	// Invalid patterns include: 'ab*cd' or 'a*b*c'
-	// 	return firstIndex !== 0 && lastIndex !== value.length - 1;
-	// }
 
 	private hasInvalidWildcardPattern(value: string): boolean {
 		// Skip validation if there’s no wildcard character.
@@ -377,11 +371,18 @@ export default class SectionQueryRunner {
 	// Apply ordering based on the ORDER field in query
 	private applyOrdering(data: InsightResult[], order: any): InsightResult[] {
 		if (typeof order === "string") {
+			// Single string ORDER
 			const key = order;
 			return data.sort((a, b) => (a[key] > b[key] ? 1 : a[key] < b[key] ? -1 : 0));
-		} else if (typeof order === "object" && order.keys && Array.isArray(order.keys)) {
+		} else if (typeof order === "object") {
+			// Multi-key ORDER
+			if (!order.keys || !Array.isArray(order.keys) || order.keys.length === 0) {
+				// Throw error if `keys` is missing or not an array or empty
+				throw new InsightError("ORDER must contain a non-empty 'keys' array.");
+			}
+
 			const keys = order.keys;
-			const dir = order.dir === "DOWN" ? -1 : 1;
+			const dir = order.dir === "DOWN" ? -1 : 1; // Default to "UP" if `dir` is undefined
 
 			return data.sort((a, b) => {
 				for (const key of keys) {

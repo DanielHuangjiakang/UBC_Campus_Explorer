@@ -154,7 +154,6 @@ export default class InsightFacade implements IInsightFacade {
 		if (queryResults.length > maxResults) {
 			throw new ResultTooLargeError();
 		}
-
 		return queryResults;
 	}
 
