@@ -341,11 +341,11 @@ describe("InsightFacade", function () {
 			try {
 				const messages: string[] = await facade.addDataset("campus", campus, InsightDatasetKind.Rooms);
 				expect(messages).to.have.lengthOf(1);
-				// const roomsLength = 22;
+				const roomsLength = 364;
 				const result = await facade.listDatasets();
 				expect(result).to.have.lengthOf(1);
 				expect(result[0].kind).to.equal(InsightDatasetKind.Rooms);
-				// expect(result[0].numRows).to.equal(roomsLength);
+				expect(result[0].numRows).to.equal(roomsLength);
 			} catch (_) {
 				expect.fail("Should not have thrown above");
 				// throw err;
@@ -628,8 +628,8 @@ describe("InsightFacade", function () {
 
 					expect(result[1].id).to.equal("UBCRooms");
 					expect(result[1].kind).to.equal(InsightDatasetKind.Rooms);
-					// const numRooms = 22;
-					// expect(result[1].numRows).to.equal(numRooms);
+					const numRooms = 364;
+					expect(result[1].numRows).to.equal(numRooms);
 				} catch (_) {
 					expect.fail("Should not have thrown above.");
 					// throw err;

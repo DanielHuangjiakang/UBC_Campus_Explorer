@@ -13,6 +13,10 @@ export default class DatasetManager {
 	private datasetsKinds: Map<string, [InsightDatasetKind, number]> = new Map<string, [InsightDatasetKind, number]>();
 	private folderPath = path.join(__dirname, "../../data");
 
+	// public printEntries(): void {
+	// 	console.log(this.datasetsEntries);
+	// }// to do
+
 	public async initialize(): Promise<void> {
 		const idsAndKinds = await this.readIdsFromFile();
 		await this.processStoredZipFiles(idsAndKinds);
@@ -219,8 +223,6 @@ export default class DatasetManager {
 		}
 
 		const promises: Promise<Room[]>[] = this.extractBuildingPromises(buildingsTable, unzipped);
-		// console.log("HI Rooms!!!")
-		// console.log(promises)
 
 		// Use Promise.all() to resolve all room extraction promises concurrently
 		const buildings = (await Promise.all(promises)).flat();
@@ -286,6 +288,78 @@ export default class DatasetManager {
 		return promises;
 	}
 
+	// private extractBuildingPromises(buildingsTable: any, unzipped: JSZip): Promise<Room[]>[] {
+	// 	const promises: Promise<Room[]>[] = [];
+	// 	let num = 0;
+	// 	let invalidCount = 0; // Counter for invalid buildings
+	// 	const tbody = buildingsTable.childNodes.find((child: any) => child.nodeName === "tbody");
+	// 	if (tbody.childNodes) {
+	// 		for (const child of tbody.childNodes) {
+	// 			if (child.nodeName === "tr") {
+	// 				try {
+	// 					// Add each promise but handle errors for invalid buildings
+	// 					promises.push(this.createBuildingPromise(child, unzipped));
+	// 					num++;
+	// 				} catch (_) {
+	// 					console.log("Invalid building detected:", num);
+	// 					invalidCount++;
+	// 				}
+	// 			}
+	// 		}
+	// 	}
+	// 	console.log("Total buildings:", num);
+	// 	console.log("Invalid buildings skipped:", invalidCount);
+	// 	return promises;
+	// }
+	//
+	// private async createBuildingPromise(tr: any, unzipped: JSZip): Promise<Room[]> {
+	// 	let fileAddress: string | undefined;
+	// 	let buildingFullName: string | undefined;
+	// 	let buildingShortName: string | undefined;
+	// 	let buildingAddress: string | undefined;
+	//
+	// 	for (const childTd of tr.childNodes) {
+	// 		if (childTd.nodeName === "td") {
+	// 			const tdClass = childTd.attrs.find((attr: any) => attr.name === "class")?.value;
+	//
+	// 			switch (tdClass) {
+	// 				case "views-field views-field-nothing":
+	// 					fileAddress = this.getLinkHref(childTd);
+	// 					break;
+	// 				case "views-field views-field-field-building-code":
+	// 					buildingShortName = this.getTextContent(childTd);
+	// 					break;
+	// 				case "views-field views-field-title":
+	// 					buildingFullName = this.getTextContent(childTd);
+	// 					break;
+	// 				case "views-field views-field-field-building-address":
+	// 					buildingAddress = this.getTextContent(childTd);
+	// 					break;
+	// 			}
+	// 		}
+	// 	}
+	//
+	// 	if (!fileAddress || !buildingFullName || !buildingShortName || !buildingAddress) {
+	// 		if (!fileAddress) {console.log("Missing fileAddress for building:", buildingShortName, buildingFullName);}
+	// 		if (!buildingFullName) {console.log("Missing buildingFullName for building:", buildingShortName, fileAddress);}
+	// 		if (!buildingShortName) {console.log("Missing buildingShortName for building:", fileAddress, buildingFullName);}
+	// 		if (!buildingAddress) {console.log("Missing buildingAddress for building:", buildingShortName, buildingFullName);}
+	// 		throw new InsightError("Invalid building data");
+	// 	}
+	//
+	// 	const cleanedPath = fileAddress.replace("./", "");
+	// 	const buildingFile = unzipped.file(cleanedPath);
+	// 	if (!buildingFile) {
+	// 		console.log(`Building file not found for path: ${cleanedPath}`);
+	// 		throw new InsightError(`Building file not found: ${cleanedPath}`);
+	// 	}
+	//
+	// 	const parsedBuilding = parse5.parse(await buildingFile.async("string"));
+	// 	console.log("Successfully processed building:", buildingFullName);
+	//
+	// 	return Promise.resolve(Room.extractRooms(parsedBuilding, buildingAddress, buildingShortName, buildingFullName));
+	// }
+
 	private async createBuildingPromise(tr: any, unzipped: JSZip): Promise<Room[]> {
 		let fileAddress: string | undefined;
 		let buildingFullName: string | undefined;
@@ -319,10 +393,6 @@ export default class DatasetManager {
 		if (!fileAddress || !buildingFullName || !buildingShortName || !buildingAddress) {
 			throw new InsightError("Invalid building data");
 		}
-		//
-		// unzipped.forEach((relativePath, file) => {
-		// 	console.log(`File: ${relativePath}`);
-		// });
 
 		// Remove "./" prefix from fileAddress
 		const cleanedPath = fileAddress.replace("./", "");
@@ -346,11 +416,17 @@ export default class DatasetManager {
 		return anchor?.attrs.find((attr: any) => attr.name === "href")?.value;
 	}
 
-	// Helper to extract text content from a <td>
-	private getTextContent(td: any): string {
-		return td.childNodes
-			.filter((child: any) => child.nodeName === "#text")
-			.map((textNode: any) => textNode.value.trim())
-			.join(" ");
+	private getTextContent(node: any): string {
+		if (!node) {
+			return "";
+		}
+		if (node.nodeName === "#text") {
+			return node.value.trim(); // Extract text directly
+		}
+		// If the node has child nodes, recursively extract their text content
+		return node.childNodes
+			?.map((child: any) => this.getTextContent(child))
+			.join(" ")
+			.trim();
 	}
 }
