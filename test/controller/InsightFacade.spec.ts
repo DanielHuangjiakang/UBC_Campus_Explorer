@@ -673,7 +673,7 @@ describe("InsightFacade", function () {
 				}
 
 				// If no error is expected, ensure the results match the expected output
-				expect(result).to.have.deep.members(expected); // compare results ignore the order
+				expect(result).to.deep.members(expected); // compare results ignore the order
 			} catch (err) {
 				// If an error was expected, check if the error is of the correct type
 				if (errorExpected) {
@@ -762,6 +762,15 @@ describe("InsightFacade", function () {
 
 		it("[valid/valid_base_two_test.json] valid base two test", checkQuery);
 		it("[valid/valid_base_one_test.json] valid base one test", checkQuery);
+		it("[valid/valid_simple_filter.json] valid simple filter", checkQuery);
+		it("[valid/valid_overal_avg.json]valid overal avg", checkQuery);
+		it("[valid/valid_max.json]valid max", checkQuery);
+		it("[valid/valid_pass.json]valid pass", checkQuery);
+		it("[valid/valid_course_id.json] valid_course id", checkQuery);
+		it("[valid/valid_course_id_min.json] valid_course_id_min", checkQuery);
+		it("[valid/valid_avg_cs.json] valid_avg_cs", checkQuery);
+		it("[valid/valid_avg_gt.json] valid_avg_gt", checkQuery);
+
 
 		it("[invalid/query_more_than_one_dataset.json] query more than one dataset", checkQuery);
 		it("[invalid/invalid_key_type_AVG.json] invalid key type AVG", checkQuery);

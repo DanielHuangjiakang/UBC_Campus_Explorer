@@ -147,6 +147,8 @@ export default class InsightFacade implements IInsightFacade {
 			throw new ResultTooLargeError();
 		}
 
+		console.log(queryResults);
+		console.log(queryResults.length);
 		return queryResults;
 	}
 

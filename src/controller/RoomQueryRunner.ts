@@ -1,7 +1,10 @@
 import { InsightError, InsightResult } from "./IInsightFacade";
 import DatasetManager from "./DatasetManager";
 import Room from "./Room";
+import Decimal from "decimal.js";
 
+// Define constant for decimal precision
+const DECIMAL_PLACES = 2;
 export default class RoomQueryRunner {
     private datasetMap: Map<string, Room[]>;
     private datasetId!: string;
@@ -235,7 +238,16 @@ export default class RoomQueryRunner {
         switch (operation) {
             case "MAX": return Math.max(...numericValues);
             case "MIN": return Math.min(...numericValues);
-            case "AVG": return parseFloat((numericValues.reduce((a, b) => a + b, 0) / numericValues.length).toFixed(1));
+            case "AVG": {
+                // Use Decimal for precise arithmetic
+                let total = new Decimal(0);
+                numericValues.forEach(value => {
+                    total = total.add(new Decimal(value));
+                });
+                // Calculate average and round to two decimal places
+                const avg = total.toNumber() / numericValues.length;
+                return Number(avg.toFixed(DECIMAL_PLACES)); // Cast result to number type
+            }
             case "SUM": return parseFloat(numericValues.reduce((a, b) => a + b, 0).toFixed(1));
             case "COUNT": return new Set(numericValues).size;
             default: throw new InsightError(`Invalid APPLY operation: ${operation}`);
