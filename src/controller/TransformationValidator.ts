@@ -110,6 +110,7 @@ export default class TransformationValidator {
 			throw new InsightError("Each APPLY operation must contain exactly one operation.");
 		}
 
+
 		const operation = operationKeys[0];
 		const targetField = operationObject[operation];
 
