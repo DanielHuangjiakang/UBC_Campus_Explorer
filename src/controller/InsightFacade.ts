@@ -135,8 +135,16 @@ export default class InsightFacade implements IInsightFacade {
 		}
 
 		// Select the appropriate query runner based on the dataset kind
-		const queryRunner = datasetKind === InsightDatasetKind.Sections ?
-			this.sectionQueryRunner : this.roomQueryRunner;
+		// Determine if the dataset kind is 'Sections'
+		const isSectionsKind = datasetKind === InsightDatasetKind.Sections;
+
+		// Assign the correct query runner based on the dataset kind
+		let queryRunner;
+		if (isSectionsKind) {
+			queryRunner = this.sectionQueryRunner;
+		} else {
+			queryRunner = this.roomQueryRunner;
+		}
 
 		// Execute the query using the selected query runner
 		const queryResults = await queryRunner.execute(queryObject);

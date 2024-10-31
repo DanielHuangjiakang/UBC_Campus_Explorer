@@ -10,9 +10,11 @@ const DECIMAL_PRECISION = 2;
 export default class RoomQueryRunner {
 	private datasetMap: Map<string, DatasetEntry[]>;
 	private datasetId!: string;
+	private groupedData: Map<string, Room[]>;
 
 	constructor(datasetManager: DatasetManager) {
 		this.datasetMap = datasetManager.getDatasets() as Map<string, Room[]>;
+		this.groupedData = new Map<string, Room[]>();
 	}
 
 	// Execute the query and return the results
@@ -193,29 +195,26 @@ export default class RoomQueryRunner {
 
 	private applyTransformations(data: Room[], transformations: any): InsightResult[] {
 		const groupKeys = transformations.GROUP;
-		const groupedData = this.groupBy(data, groupKeys);
-		return this.applyAggregations(groupedData, transformations.APPLY, groupKeys);
+		this.groupedData = this.groupBy(data, groupKeys);
+		return this.applyAggregations(transformations.APPLY, groupKeys);
 	}
 
 	private groupBy(data: Room[], groupKeys: string[]): Map<string, Room[]> {
-		const groupedData = new Map<string, Room[]>();
-
 		data.forEach((item) => {
 			const groupKey = groupKeys.map((key) => this.getValueByKey(item, key)).join("_");
-			if (!groupedData.has(groupKey)) {
-				groupedData.set(groupKey, []);
+			if (!this.groupedData.has(groupKey)) {
+				this.groupedData.set(groupKey, []);
 			}
-			groupedData.get(groupKey)!.push(item);
+			this.groupedData.get(groupKey)!.push(item);
 		});
 
-		return groupedData;
+		return this.groupedData;
 	}
 
-	private applyAggregations(groupedData: Map<string, Room[]>,
-							  applyRules: any[], groupKeys: string[]): InsightResult[] {
+	private applyAggregations(applyRules: any[], groupKeys: string[]): InsightResult[] {
 		const results: InsightResult[] = [];
 
-		groupedData.forEach((group) => {
+		this.groupedData.forEach((group) => {
 			const result: any = {};
 
 			groupKeys.forEach((key) => {
@@ -257,14 +256,14 @@ export default class RoomQueryRunner {
 				const avg = total.toNumber() / group.length;
 				return Number(avg.toFixed(DECIMAL_PRECISION));
 			}
-			case "SUM":
-				if (!isNumeric) {
-					throw new InsightError("SUM aggregation requires a numeric field");
-				}
-				return parseFloat(
-					group.reduce((acc, item) =>
-						acc + (this.getValueByKey(item, field) as number), 0).toFixed(DECIMAL_PRECISION)
-				);
+			case "SUM": {
+				const sum = group.reduce((acc, item) => {
+					const value = this.getValueByKey(item, field) as number;
+					return acc + value;
+				}, 0);
+
+				return parseFloat(sum.toFixed(DECIMAL_PRECISION));
+			}
 			case "COUNT":
 				return new Set(group.map((item) => this.getValueByKey(item, field))).size;
 			default:
