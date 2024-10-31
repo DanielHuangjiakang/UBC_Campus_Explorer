@@ -13,6 +13,10 @@ export default class DatasetManager {
 	private datasetsKinds: Map<string, [InsightDatasetKind, number]> = new Map<string, [InsightDatasetKind, number]>();
 	private folderPath = path.join(__dirname, "../../data");
 
+	// public printEntries(): void {
+	// 	console.log(this.datasetsEntries);
+	// }// to do
+
 	public async initialize(): Promise<void> {
 		const idsAndKinds = await this.readIdsFromFile();
 		await this.processStoredZipFiles(idsAndKinds);
@@ -347,10 +351,24 @@ export default class DatasetManager {
 	}
 
 	// Helper to extract text content from a <td>
-	private getTextContent(td: any): string {
-		return td.childNodes
-			.filter((child: any) => child.nodeName === "#text")
-			.map((textNode: any) => textNode.value.trim())
-			.join(" ");
+	// private getTextContent(td: any): string {
+	// 	return td.childNodes
+	// 		.filter((child: any) => child.nodeName === "#text")
+	// 		.map((textNode: any) => textNode.value.trim())
+	// 		.join(" ");
+	// }
+
+	private getTextContent(node: any): string {
+		if (!node) {
+			return "";
+		}
+		if (node.nodeName === "#text") {
+			return node.value.trim(); // Extract text directly
+		}
+		// If the node has child nodes, recursively extract their text content
+		return node.childNodes
+			?.map((child: any) => this.getTextContent(child))
+			.join(" ")
+			.trim();
 	}
 }

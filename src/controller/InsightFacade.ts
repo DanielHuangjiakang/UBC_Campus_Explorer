@@ -71,6 +71,7 @@ export default class InsightFacade implements IInsightFacade {
 			// Write the dataset to disk and update internal maps
 			await this.datasetManager.writeDatasetToZip(id, kind, parsedEntries.length, unzipped);
 			this.datasetManager.setDatasetMaps(id, kind, parsedEntries);
+			// this.datasetManager.printEntries();//to do
 		} catch (_) {
 			// Log error for debugging and throw a general error
 			//  console.error(`Failed to add dataset: ${err}`);
@@ -83,10 +84,10 @@ export default class InsightFacade implements IInsightFacade {
 
 	public async performQuery(query: unknown): Promise<InsightResult[]> {
 		// Initialize the dataset manager if it hasn't been initialized yet
-		if (!this.isInitialized) {
-			await this.datasetManager.initialize();
-			this.isInitialized = true;
-		}
+		// if (!this.isInitialized) {
+		// 	await this.datasetManager.initialize();
+		// 	this.isInitialized = true;
+		// }
 
 		try {
 			// Validate the query structure using the query validator
@@ -158,6 +159,7 @@ export default class InsightFacade implements IInsightFacade {
 		}
 
 		// Return the list of available datasets
+		// console.log(this.datasetManager.getInsightDataset());
 		return this.datasetManager.getInsightDataset();
 	}
 }
