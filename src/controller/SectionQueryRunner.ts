@@ -298,9 +298,10 @@ export default class SectionQueryRunner {
 			return typeof value === "number" && !isNaN(value);
 		});
 
-		if (!isNumeric) {
+		if (!isNumeric && type !== "COUNT") {
 			throw new InsightError(`${type} requires a numeric field`);
 		}
+
 		switch (type) {
 			case "MAX":
 				return Math.max(...group.map((item) => this.getValueByKey(item, field) as number));
