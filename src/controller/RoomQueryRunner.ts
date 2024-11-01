@@ -58,14 +58,19 @@ export default class RoomQueryRunner {
 		throw new InsightError("Could not extract dataset ID from COLUMNS.");
 	}
 
-	private applyFilters(data: Room[], where: any): Room[] {
+	private applyFilters<T extends Room>(data: T[], where: any): T[] {
 		if (Object.keys(where).length === 0) {
 			return data;
 		}
+
 		const filterFunction = this.createFilterFunction(where);
-		return data.filter(filterFunction);
+
+		const filteredData = data.filter(filterFunction);
+
+		return filteredData;
 	}
 
+	// Create a filter function based on WHERE conditions
 	private createFilterFunction(where: any): (item: Room) => boolean {
 		if (where.AND) {
 			return this.handleAnd(where.AND);
@@ -85,84 +90,75 @@ export default class RoomQueryRunner {
 		throw new InsightError("Invalid WHERE condition.");
 	}
 
+	// Handle AND logic for filters
 	private handleAnd(andConditions: any[]): (item: Room) => boolean {
 		const subFilters = andConditions.map((condition) => this.createFilterFunction(condition));
-		return (item: Room) => subFilters.every((filterFunc) => filterFunc(item));
+		return (item) => subFilters.every((filterFunc) => filterFunc(item));
 	}
 
+	// Handle OR logic for filters
 	private handleOr(orConditions: any[]): (item: Room) => boolean {
 		const subFilters = orConditions.map((condition) => this.createFilterFunction(condition));
-		return (item: Room) => subFilters.some((filterFunc) => filterFunc(item));
+		return (item) => subFilters.some((filterFunc) => filterFunc(item));
 	}
 
+	// Handle NOT logic for filters
 	private handleNot(notCondition: any): (item: Room) => boolean {
 		const subFilter = this.createFilterFunction(notCondition);
-		return (item: Room) => !subFilter(item);
+		return (item) => !subFilter(item);
 	}
 
+	// Handle comparison operators like GT, LT, EQ
 	private handleComparison(where: any): (item: Room) => boolean {
 		const operator = where.GT ? "GT" : where.LT ? "LT" : "EQ";
 		const comparison = where[operator];
 		const key = Object.keys(comparison)[0];
 		const value = comparison[key];
 
-		const id = key.split("_")[0];
-		if (id !== this.datasetId) {
-			throw new InsightError(`Key does not match dataset ID: ${key}`);
-		}
-
-		return (item: Room) => {
+		return (item) => {
 			const itemValue = this.getValueByKey(item, key);
 
 			if (typeof itemValue !== "number" || typeof value !== "number") {
 				throw new InsightError("Comparison requires numeric values.");
 			}
 
-			if (operator === "GT") {
-				return itemValue > value;
+			switch (operator) {
+				case "GT":
+					return itemValue > value;
+				case "LT":
+					return itemValue < value;
+				case "EQ":
+					return itemValue === value;
+				default:
+					return false;
 			}
-			if (operator === "LT") {
-				return itemValue < value;
-			}
-			return itemValue === value;
 		};
 	}
 
+	// Handle the IS operator for string comparisons in the WHERE clause
 	private handleIs(isCondition: any): (item: Room) => boolean {
 		const key = Object.keys(isCondition)[0];
 		const value = isCondition[key];
-		const id = key.split("_")[0];
-
-		// Validate dataset ID consistency
-		if (id !== this.datasetId) {
-			throw new InsightError(`Key does not match dataset ID: ${key}`);
-		}
-
-		// Ensure IS operator value is a string
 		if (typeof value !== "string") {
 			throw new InsightError("IS operator requires a string value.");
 		}
-
-		// Build regex to handle wildcard patterns correctly
 		const regexPattern = this.buildRegexPattern(value);
 		const regex = new RegExp(regexPattern);
 
-		return (item: Room) => {
+		return (item) => {
 			const itemValue = this.getValueByKey(item, key);
-
 			if (typeof itemValue !== "string") {
 				throw new InsightError("IS operator requires string fields.");
 			}
-
-			// Apply the regex to test for wildcard matching
 			return regex.test(itemValue);
 		};
 	}
 
+	// Helper to build regex pattern for IS operator
 	private buildRegexPattern(value: string): string {
 		const specialChars = /[.+?^${}()|[\]\\]/g;
-		const escapedValue = value.replace(specialChars, "\\$&"); // Escape special characters except for *
-		return `^${escapedValue.replace(/\*/g, ".*")}$`; // Replace * with .*
+		const escapedValue = value.replace(specialChars, "\\$&");
+		return `^${escapedValue.replace(/\*/g, ".*")}$`;
 	}
 
 	private getValueByKey(item: Room | InsightResult, key: string): any {
@@ -284,10 +280,7 @@ export default class RoomQueryRunner {
 				return Number(avg.toFixed(DECIMAL_PRECISION));
 			}
 			case "SUM": {
-				const total = group.reduce(
-					(acc, item) => acc.add(new Decimal(this.getValueByKey(item, field) as number)),
-					new Decimal(0)
-				);
+				const total = group.reduce((acc, item) => (acc + this.getValueByKey(item, field)) as number, 0);
 				return Number(total.toFixed(DECIMAL_PRECISION));
 			}
 			case "COUNT":

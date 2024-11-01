@@ -71,7 +71,11 @@ export default class SectionQueryRunner {
 		}
 
 		const filterFunction = this.createFilterFunction(where);
-		return data.filter(filterFunction);
+		const filteredData = data.filter((item) => {
+			return filterFunction(item);
+		});
+
+		return filteredData;
 	}
 
 	// Create a filter function based on WHERE conditions
@@ -156,14 +160,14 @@ export default class SectionQueryRunner {
 			throw new InsightError(`Key does not match dataset ID: ${key}`);
 		}
 
-		// Ensure the value provided to IS a string
+		// Ensure the value provided to is a string
 		if (typeof value !== "string") {
 			throw new InsightError("IS operator requires a string value.");
 		}
 
-		// Check if the wildcard pattern is invalid, throw InsightError if true
+		// Validate the wildcard pattern
 		if (this.hasInvalidWildcardPattern(value)) {
-			throw new InsightError("Invalid wildcard pattern in IS operator.");
+			throw new InsightError("Asterisks (*) can only be the first or last characters of input strings");
 		}
 
 		// Convert wildcard pattern into a regular expression for matching
@@ -173,11 +177,9 @@ export default class SectionQueryRunner {
 		// Return a function that tests the string value from the Section object
 		return (item: Section) => {
 			const itemValue = this.getValueByKey(item, key);
-
 			if (typeof itemValue !== "string") {
 				throw new InsightError("IS operator requires string fields.");
 			}
-
 			return regex.test(itemValue);
 		};
 	}
@@ -190,8 +192,13 @@ export default class SectionQueryRunner {
 
 		const firstIndex = value.indexOf("*");
 		const lastIndex = value.lastIndexOf("*");
-		// The pattern is only valid if the wildcard appears at the start or end
-		return firstIndex !== 0 && lastIndex !== value.length - 1;
+
+		const isExactMatch = firstIndex === -1;
+		const isEndsWith = firstIndex === 0 && lastIndex === 0;
+		const isStartsWith = firstIndex === value.length - 1;
+		const isContains = firstIndex === 0 && lastIndex === value.length - 1;
+
+		return !(isExactMatch || isEndsWith || isStartsWith || isContains);
 	}
 
 	// Build regex pattern for handling wildcard in IS operator
@@ -225,7 +232,7 @@ export default class SectionQueryRunner {
 			case "dept":
 				return String(item.getDept());
 			case "year":
-				return this.checkYear(item);
+				return item.getYear();
 			case "avg":
 				return item.getAvg();
 			case "pass":
@@ -237,15 +244,6 @@ export default class SectionQueryRunner {
 			default:
 				throw new InsightError(`Invalid column: ${key}`);
 		}
-	}
-
-	// Adjust year based on the instructor field
-	private checkYear(item: Section): number {
-		if (item.getInstructor() === "") {
-			const num = 1900;
-			return num;
-		}
-		return item.getYear();
 	}
 
 	// Apply transformations for GROUP and APPLY
@@ -309,25 +307,15 @@ export default class SectionQueryRunner {
 			case "MIN":
 				return Math.min(...group.map((item) => this.getValueByKey(item, field) as number));
 			case "AVG": {
-				// Ensure each value is converted to a Decimal and add them up
 				const total = group.reduce(
 					(acc, item) => acc.add(new Decimal(this.getValueByKey(item, field) as number)),
 					new Decimal(0)
 				);
-
-				// Calculate the average by dividing total by the number of items (numRows)
 				const avg = total.toNumber() / group.length;
-
-				// Round the result to two decimal places and cast it to a number
 				return Number(avg.toFixed(DECIMAL_PRECISION));
 			}
-
 			case "SUM": {
-				// Use Decimal for precision, and round the final result
-				const total = group.reduce(
-					(acc, item) => acc.add(new Decimal(this.getValueByKey(item, field) as number)),
-					new Decimal(0)
-				);
+				const total = group.reduce((acc, item) => (acc + this.getValueByKey(item, field)) as number, 0);
 				return Number(total.toFixed(DECIMAL_PRECISION));
 			}
 			case "COUNT":
@@ -354,7 +342,6 @@ export default class SectionQueryRunner {
 		if (options.ORDER) {
 			result = this.applyOrdering(result, options.ORDER);
 		}
-
 		return result;
 	}
 

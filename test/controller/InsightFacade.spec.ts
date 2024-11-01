@@ -792,6 +792,9 @@ describe("InsightFacade", function () {
 		it("[valid/valid_Total_Failed_Students_Department.json] valid_Total_Failed_Students_Department", checkQuery);
 		it("[valid/valid_transformation_group_Apply.json] valid_transformation_group_Apply", checkQuery);
 		it("[valid/valid_transformation_group_Apply.json] valid_transformation_group_Apply", checkQuery);
+		it("[valid/valid_sum_section.json] valid_sum_section", checkQuery);
+		it("[valid/valid_sum_section_two.json] valid_sum_section_two", checkQuery);
+		it("[valid/valid_sum_without_year.json] valid_sum_section_two", checkQuery);
 
 		it("[invalid/invalid_transformation_Extra_keys.json] invalid_transformation_Extra_keys", checkQuery);
 		it("[invalid/invalid_transformation_missing_GROUP.json] invalid_transformation_missing_GROUP", checkQuery);

@@ -107,6 +107,9 @@ export default class QueryValidator {
 		if (transformations?.APPLY) {
 			for (const applyRule of transformations.APPLY) {
 				const applyKey = Object.keys(applyRule)[0];
+				if (applyKey === "" || applyKey.includes("_")) {
+					throw new InsightError("Apply key cannot be an empty string or _");
+				}
 				validKeys.add(applyKey);
 			}
 		}
@@ -145,10 +148,12 @@ export default class QueryValidator {
 
 	private checkOrderClause(order: any, columns: string[]): boolean {
 		if (typeof order === "string") {
+			// Single string ORDER must be in COLUMNS
 			if (!columns.includes(order)) {
 				throw new InsightError("ORDER key must be in COLUMNS.");
 			}
 		} else if (typeof order === "object") {
+			// Multi-key ORDER validation
 			const allowedOrderKeys = ["keys", "dir"];
 			for (const key in order) {
 				if (!allowedOrderKeys.includes(key)) {
@@ -246,7 +251,7 @@ export default class QueryValidator {
 
 		const key = keys[0];
 		if (!key.includes("_")) {
-			return false;
+			throw new InsightError("Invalid key format in SCOMPARISON");
 		}
 
 		const [keyId, field] = key.split("_");
@@ -254,12 +259,30 @@ export default class QueryValidator {
 			throw new InsightError(`Key does not match dataset ID: ${key}`);
 		}
 		if (!validKeys.has(field)) {
-			return false;
+			throw new InsightError(`Invalid field in SCOMPARISON: ${field}`);
 		}
 
 		const value = scomp[key];
 		if (typeof value !== "string") {
 			throw new InsightError("IS operator requires string values");
+		}
+
+		// Enhanced validation for wildcard patterns
+		if (value.includes("*")) {
+			const firstIndex = value.indexOf("*");
+			const lastIndex = value.lastIndexOf("*");
+
+			// Check for invalid patterns like input*string
+			if (firstIndex !== 0 && lastIndex !== value.length - 1) {
+				throw new InsightError("Asterisks (*) can only be the first or last characters of input strings");
+			}
+
+			// Check for disallowed patterns with multiple asterisks not at the edges
+			const isValidPattern = firstIndex === lastIndex || (firstIndex === 0 && lastIndex === value.length - 1);
+
+			if (!isValidPattern) {
+				throw new InsightError("Invalid wildcard pattern in IS operator");
+			}
 		}
 
 		return true;
