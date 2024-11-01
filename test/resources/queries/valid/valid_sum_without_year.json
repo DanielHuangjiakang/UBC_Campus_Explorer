@@ -1,0 +1,784 @@
+{
+	"title": "No Title Specified",
+	"input": {
+		"WHERE": {},
+		"OPTIONS": {
+			"COLUMNS": [
+				"sections_dept",
+				"totalPasses"
+			],
+			"ORDER": "totalPasses"
+		},
+		"TRANSFORMATIONS": {
+			"GROUP": [
+				"sections_dept"
+			],
+			"APPLY": [
+				{
+					"totalPasses": {
+						"SUM": "sections_pass"
+					}
+				}
+			]
+		}
+	},
+	"errorExpected": false,
+	"expected": [
+		{
+			"sections_dept": "test",
+			"totalPasses": 3
+		},
+		{
+			"sections_dept": "iar",
+			"totalPasses": 14
+		},
+		{
+			"sections_dept": "gbpr",
+			"totalPasses": 26
+		},
+		{
+			"sections_dept": "lais",
+			"totalPasses": 26
+		},
+		{
+			"sections_dept": "aanb",
+			"totalPasses": 30
+		},
+		{
+			"sections_dept": "ursy",
+			"totalPasses": 42
+		},
+		{
+			"sections_dept": "iwme",
+			"totalPasses": 46
+		},
+		{
+			"sections_dept": "fhis",
+			"totalPasses": 48
+		},
+		{
+			"sections_dept": "cnto",
+			"totalPasses": 65
+		},
+		{
+			"sections_dept": "chil",
+			"totalPasses": 72
+		},
+		{
+			"sections_dept": "sts",
+			"totalPasses": 72
+		},
+		{
+			"sections_dept": "info",
+			"totalPasses": 80
+		},
+		{
+			"sections_dept": "clch",
+			"totalPasses": 158
+		},
+		{
+			"sections_dept": "hunu",
+			"totalPasses": 162
+		},
+		{
+			"sections_dept": "sans",
+			"totalPasses": 164
+		},
+		{
+			"sections_dept": "rgla",
+			"totalPasses": 198
+		},
+		{
+			"sections_dept": "hebr",
+			"totalPasses": 200
+		},
+		{
+			"sections_dept": "mrne",
+			"totalPasses": 218
+		},
+		{
+			"sections_dept": "biof",
+			"totalPasses": 219
+		},
+		{
+			"sections_dept": "udes",
+			"totalPasses": 236
+		},
+		{
+			"sections_dept": "ufor",
+			"totalPasses": 238
+		},
+		{
+			"sections_dept": "zool",
+			"totalPasses": 239
+		},
+		{
+			"sections_dept": "fish",
+			"totalPasses": 280
+		},
+		{
+			"sections_dept": "fnel",
+			"totalPasses": 288
+		},
+		{
+			"sections_dept": "onco",
+			"totalPasses": 288
+		},
+		{
+			"sections_dept": "grek",
+			"totalPasses": 292
+		},
+		{
+			"sections_dept": "hinu",
+			"totalPasses": 294
+		},
+		{
+			"sections_dept": "rmst",
+			"totalPasses": 312
+		},
+		{
+			"sections_dept": "dani",
+			"totalPasses": 320
+		},
+		{
+			"sections_dept": "gsat",
+			"totalPasses": 332
+		},
+		{
+			"sections_dept": "ccst",
+			"totalPasses": 338
+		},
+		{
+			"sections_dept": "arbc",
+			"totalPasses": 350
+		},
+		{
+			"sections_dept": "surg",
+			"totalPasses": 364
+		},
+		{
+			"sections_dept": "bota",
+			"totalPasses": 376
+		},
+		{
+			"sections_dept": "obst",
+			"totalPasses": 386
+		},
+		{
+			"sections_dept": "gpp",
+			"totalPasses": 406
+		},
+		{
+			"sections_dept": "pols",
+			"totalPasses": 440
+		},
+		{
+			"sections_dept": "pers",
+			"totalPasses": 455
+		},
+		{
+			"sections_dept": "soil",
+			"totalPasses": 476
+		},
+		{
+			"sections_dept": "appp",
+			"totalPasses": 492
+		},
+		{
+			"sections_dept": "fnis",
+			"totalPasses": 506
+		},
+		{
+			"sections_dept": "name",
+			"totalPasses": 566
+		},
+		{
+			"sections_dept": "baul",
+			"totalPasses": 574
+		},
+		{
+			"sections_dept": "swed",
+			"totalPasses": 674
+		},
+		{
+			"sections_dept": "port",
+			"totalPasses": 760
+		},
+		{
+			"sections_dept": "mdvl",
+			"totalPasses": 766
+		},
+		{
+			"sections_dept": "bala",
+			"totalPasses": 768
+		},
+		{
+			"sections_dept": "cics",
+			"totalPasses": 780
+		},
+		{
+			"sections_dept": "vant",
+			"totalPasses": 784
+		},
+		{
+			"sections_dept": "last",
+			"totalPasses": 858
+		},
+		{
+			"sections_dept": "cnrs",
+			"totalPasses": 883
+		},
+		{
+			"sections_dept": "coec",
+			"totalPasses": 976
+		},
+		{
+			"sections_dept": "laso",
+			"totalPasses": 1032
+		},
+		{
+			"sections_dept": "ceen",
+			"totalPasses": 1046
+		},
+		{
+			"sections_dept": "jrnl",
+			"totalPasses": 1082
+		},
+		{
+			"sections_dept": "nrsc",
+			"totalPasses": 1094
+		},
+		{
+			"sections_dept": "asic",
+			"totalPasses": 1142
+		},
+		{
+			"sections_dept": "latn",
+			"totalPasses": 1192
+		},
+		{
+			"sections_dept": "cell",
+			"totalPasses": 1258
+		},
+		{
+			"sections_dept": "urst",
+			"totalPasses": 1296
+		},
+		{
+			"sections_dept": "hgse",
+			"totalPasses": 1338
+		},
+		{
+			"sections_dept": "punj",
+			"totalPasses": 1444
+		},
+		{
+			"sections_dept": "anat",
+			"totalPasses": 1478
+		},
+		{
+			"sections_dept": "scan",
+			"totalPasses": 1618
+		},
+		{
+			"sections_dept": "fopr",
+			"totalPasses": 1674
+		},
+		{
+			"sections_dept": "itst",
+			"totalPasses": 1680
+		},
+		{
+			"sections_dept": "bmeg",
+			"totalPasses": 1712
+		},
+		{
+			"sections_dept": "rmes",
+			"totalPasses": 1714
+		},
+		{
+			"sections_dept": "medi",
+			"totalPasses": 1717
+		},
+		{
+			"sections_dept": "arcl",
+			"totalPasses": 1824
+		},
+		{
+			"sections_dept": "korn",
+			"totalPasses": 1940
+		},
+		{
+			"sections_dept": "isci",
+			"totalPasses": 2004
+		},
+		{
+			"sections_dept": "atsc",
+			"totalPasses": 2008
+		},
+		{
+			"sections_dept": "enph",
+			"totalPasses": 2124
+		},
+		{
+			"sections_dept": "phrm",
+			"totalPasses": 2158
+		},
+		{
+			"sections_dept": "babs",
+			"totalPasses": 2170
+		},
+		{
+			"sections_dept": "igen",
+			"totalPasses": 2230
+		},
+		{
+			"sections_dept": "midw",
+			"totalPasses": 2427
+		},
+		{
+			"sections_dept": "food",
+			"totalPasses": 2622
+		},
+		{
+			"sections_dept": "plan",
+			"totalPasses": 2685
+		},
+		{
+			"sections_dept": "bapa",
+			"totalPasses": 2842
+		},
+		{
+			"sections_dept": "baen",
+			"totalPasses": 2960
+		},
+		{
+			"sections_dept": "libe",
+			"totalPasses": 3076
+		},
+		{
+			"sections_dept": "astu",
+			"totalPasses": 3092
+		},
+		{
+			"sections_dept": "nest",
+			"totalPasses": 3116
+		},
+		{
+			"sections_dept": "envr",
+			"totalPasses": 3146
+		},
+		{
+			"sections_dept": "russ",
+			"totalPasses": 3280
+		},
+		{
+			"sections_dept": "eced",
+			"totalPasses": 3448
+		},
+		{
+			"sections_dept": "medg",
+			"totalPasses": 3487
+		},
+		{
+			"sections_dept": "bait",
+			"totalPasses": 3492
+		},
+		{
+			"sections_dept": "bams",
+			"totalPasses": 3495
+		},
+		{
+			"sections_dept": "relg",
+			"totalPasses": 3570
+		},
+		{
+			"sections_dept": "cpen",
+			"totalPasses": 3698
+		},
+		{
+			"sections_dept": "rhsc",
+			"totalPasses": 3796
+		},
+		{
+			"sections_dept": "basc",
+			"totalPasses": 4310
+		},
+		{
+			"sections_dept": "arst",
+			"totalPasses": 4523
+		},
+		{
+			"sections_dept": "educ",
+			"totalPasses": 4624
+		},
+		{
+			"sections_dept": "fipr",
+			"totalPasses": 4654
+		},
+		{
+			"sections_dept": "pcth",
+			"totalPasses": 4820
+		},
+		{
+			"sections_dept": "cens",
+			"totalPasses": 4894
+		},
+		{
+			"sections_dept": "ends",
+			"totalPasses": 5080
+		},
+		{
+			"sections_dept": "edcp",
+			"totalPasses": 5230
+		},
+		{
+			"sections_dept": "larc",
+			"totalPasses": 5421
+		},
+		{
+			"sections_dept": "dent",
+			"totalPasses": 5670
+		},
+		{
+			"sections_dept": "eece",
+			"totalPasses": 5688
+		},
+		{
+			"sections_dept": "scie",
+			"totalPasses": 5698
+		},
+		{
+			"sections_dept": "cohr",
+			"totalPasses": 5774
+		},
+		{
+			"sections_dept": "edst",
+			"totalPasses": 5809
+		},
+		{
+			"sections_dept": "cogs",
+			"totalPasses": 6720
+		},
+		{
+			"sections_dept": "grsj",
+			"totalPasses": 6928
+		},
+		{
+			"sections_dept": "baac",
+			"totalPasses": 6975
+		},
+		{
+			"sections_dept": "wrds",
+			"totalPasses": 7154
+		},
+		{
+			"sections_dept": "basm",
+			"totalPasses": 7282
+		},
+		{
+			"sections_dept": "dhyg",
+			"totalPasses": 7342
+		},
+		{
+			"sections_dept": "rsot",
+			"totalPasses": 7730
+		},
+		{
+			"sections_dept": "elec",
+			"totalPasses": 8136
+		},
+		{
+			"sections_dept": "adhe",
+			"totalPasses": 8242
+		},
+		{
+			"sections_dept": "bahr",
+			"totalPasses": 8405
+		},
+		{
+			"sections_dept": "bama",
+			"totalPasses": 8679
+		},
+		{
+			"sections_dept": "fre",
+			"totalPasses": 8819
+		},
+		{
+			"sections_dept": "ital",
+			"totalPasses": 8948
+		},
+		{
+			"sections_dept": "path",
+			"totalPasses": 9003
+		},
+		{
+			"sections_dept": "ba",
+			"totalPasses": 9118
+		},
+		{
+			"sections_dept": "phth",
+			"totalPasses": 9526
+		},
+		{
+			"sections_dept": "spha",
+			"totalPasses": 9745
+		},
+		{
+			"sections_dept": "wood",
+			"totalPasses": 9968
+		},
+		{
+			"sections_dept": "libr",
+			"totalPasses": 10279
+		},
+		{
+			"sections_dept": "thtr",
+			"totalPasses": 10432
+		},
+		{
+			"sections_dept": "fist",
+			"totalPasses": 10470
+		},
+		{
+			"sections_dept": "etec",
+			"totalPasses": 11108
+		},
+		{
+			"sections_dept": "audi",
+			"totalPasses": 11190
+		},
+		{
+			"sections_dept": "caps",
+			"totalPasses": 11652
+		},
+		{
+			"sections_dept": "anth",
+			"totalPasses": 11826
+		},
+		{
+			"sections_dept": "apbi",
+			"totalPasses": 12398
+		},
+		{
+			"sections_dept": "bafi",
+			"totalPasses": 12709
+		},
+		{
+			"sections_dept": "sowk",
+			"totalPasses": 12711
+		},
+		{
+			"sections_dept": "spph",
+			"totalPasses": 12812
+		},
+		{
+			"sections_dept": "lled",
+			"totalPasses": 14266
+		},
+		{
+			"sections_dept": "astr",
+			"totalPasses": 14406
+		},
+		{
+			"sections_dept": "cons",
+			"totalPasses": 14986
+		},
+		{
+			"sections_dept": "lfs",
+			"totalPasses": 16084
+		},
+		{
+			"sections_dept": "arch",
+			"totalPasses": 16376
+		},
+		{
+			"sections_dept": "arth",
+			"totalPasses": 18999
+		},
+		{
+			"sections_dept": "mine",
+			"totalPasses": 19432
+		},
+		{
+			"sections_dept": "soci",
+			"totalPasses": 19804
+		},
+		{
+			"sections_dept": "mtrl",
+			"totalPasses": 21558
+		},
+		{
+			"sections_dept": "cnps",
+			"totalPasses": 23058
+		},
+		{
+			"sections_dept": "visa",
+			"totalPasses": 23881
+		},
+		{
+			"sections_dept": "musc",
+			"totalPasses": 24097
+		},
+		{
+			"sections_dept": "japn",
+			"totalPasses": 24404
+		},
+		{
+			"sections_dept": "epse",
+			"totalPasses": 24928
+		},
+		{
+			"sections_dept": "crwr",
+			"totalPasses": 24981
+		},
+		{
+			"sections_dept": "clst",
+			"totalPasses": 25709
+		},
+		{
+			"sections_dept": "bioc",
+			"totalPasses": 25740
+		},
+		{
+			"sections_dept": "fmst",
+			"totalPasses": 27059
+		},
+		{
+			"sections_dept": "span",
+			"totalPasses": 27085
+		},
+		{
+			"sections_dept": "geob",
+			"totalPasses": 27092
+		},
+		{
+			"sections_dept": "nurs",
+			"totalPasses": 29588
+		},
+		{
+			"sections_dept": "ling",
+			"totalPasses": 31568
+		},
+		{
+			"sections_dept": "phil",
+			"totalPasses": 31804
+		},
+		{
+			"sections_dept": "germ",
+			"totalPasses": 32804
+		},
+		{
+			"sections_dept": "law",
+			"totalPasses": 33891
+		},
+		{
+			"sections_dept": "chin",
+			"totalPasses": 34563
+		},
+		{
+			"sections_dept": "stat",
+			"totalPasses": 35761
+		},
+		{
+			"sections_dept": "asia",
+			"totalPasses": 36930
+		},
+		{
+			"sections_dept": "frst",
+			"totalPasses": 38104
+		},
+		{
+			"sections_dept": "fren",
+			"totalPasses": 40317
+		},
+		{
+			"sections_dept": "micb",
+			"totalPasses": 42098
+		},
+		{
+			"sections_dept": "chbe",
+			"totalPasses": 42309
+		},
+		{
+			"sections_dept": "kin",
+			"totalPasses": 43855
+		},
+		{
+			"sections_dept": "hist",
+			"totalPasses": 49135
+		},
+		{
+			"sections_dept": "geog",
+			"totalPasses": 53089
+		},
+		{
+			"sections_dept": "apsc",
+			"totalPasses": 57100
+		},
+		{
+			"sections_dept": "poli",
+			"totalPasses": 61159
+		},
+		{
+			"sections_dept": "mech",
+			"totalPasses": 62388
+		},
+		{
+			"sections_dept": "fnh",
+			"totalPasses": 63383
+		},
+		{
+			"sections_dept": "civl",
+			"totalPasses": 85072
+		},
+		{
+			"sections_dept": "cpsc",
+			"totalPasses": 86761
+		},
+		{
+			"sections_dept": "phar",
+			"totalPasses": 87612
+		},
+		{
+			"sections_dept": "phys",
+			"totalPasses": 98312
+		},
+		{
+			"sections_dept": "busi",
+			"totalPasses": 109782
+		},
+		{
+			"sections_dept": "eosc",
+			"totalPasses": 133395
+		},
+		{
+			"sections_dept": "engl",
+			"totalPasses": 134288
+		},
+		{
+			"sections_dept": "chem",
+			"totalPasses": 153332
+		},
+		{
+			"sections_dept": "psyc",
+			"totalPasses": 188615
+		},
+		{
+			"sections_dept": "econ",
+			"totalPasses": 219390
+		},
+		{
+			"sections_dept": "math",
+			"totalPasses": 248864
+		},
+		{
+			"sections_dept": "biol",
+			"totalPasses": 251276
+		},
+		{
+			"sections_dept": "comm",
+			"totalPasses": 283059
+		}
+	]
+}
