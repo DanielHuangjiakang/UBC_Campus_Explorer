@@ -714,6 +714,7 @@ describe("InsightFacade", function () {
 		// Examples demonstrating how to test performQuery using the JSON Test Queries.
 		// The relative path to the query file must be given in square brackets.
 		it("[valid/simple.json] SELECT dept, avg WHERE avg > 97", checkQuery);
+		it("[valid/persistence.json] try to visit the dataset added by oldFacade, * select all dept", checkQuery);
 		it("[invalid/invalid.json] Query missing WHERE", checkQuery); // added below
 		it("[valid/mutant.json] * select all dept", checkQuery);
 		it("[invalid/invalid_ResultTooLargeError.json] Query >  more than 5000 results", checkQuery);
@@ -721,9 +722,6 @@ describe("InsightFacade", function () {
 		it("[invalid/invalid_multiple_datasets.json] Query references multiple datasets ", checkQuery);
 		it("[invalid/invalid_second_mutant.json] second_mutant", checkQuery);
 
-		//
-		it("[valid/persistence.json] try to visit the dataset added by oldFacade, * select all dept", checkQuery);
-		//
 		//invalid
 		it("[invalid/aNDMustBeANon-EmptyArray.json] AND must be a non-empty array", checkQuery);
 		it("[invalid/andShouldOnlyHave1Key,Has0.json] and should only have 1 key, has 0 ", checkQuery);
@@ -758,8 +756,8 @@ describe("InsightFacade", function () {
 		it("[valid/sectionsidwild99.json] sectionsidwild99", checkQuery);
 		it("[valid/sectionsidwild99wild.json] sectionsidwild99wild", checkQuery);
 		it("[valid/sectionsidwildNOExamples.json] sectionsidwildNOExamples", checkQuery);
-		it("[valid/validValueTypeInIS,ShouldBeString.json] valid value type in IS, should be string", checkQuery);
-
+		it("[valid/count_Sections_By_Instructor.json] count_Unique_Occurrencesg", checkQuery);
+		it("[valid/count_Unique_Occurrences.json] count_Unique_Occurrences", checkQuery);
 		it("[valid/valid_base_two_test.json] valid base two test", checkQuery);
 		it("[valid/valid_base_one_test.json] valid base one test", checkQuery);
 		it("[valid/valid_simple_filter.json] valid simple filter", checkQuery);
@@ -809,5 +807,6 @@ describe("InsightFacade", function () {
 			"[invalid/invalid_transformation_Cannot_have_underscore.json] invalid_transformation_Cannot_have_underscore",
 			checkQuery
 		);
+		it("[invalid/max_invalid_key.json] max_invalid_key", checkQuery);
 	});
 });
