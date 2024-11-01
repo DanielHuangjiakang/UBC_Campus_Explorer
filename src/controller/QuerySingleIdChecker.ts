@@ -10,7 +10,6 @@ export default class QuerySingleIdChecker {
 
 		// Collect dataset IDs throughout the query
 		this.collectDatasetIds(query, datasetIds);
-
 		return datasetIds.size === 1;
 	}
 
@@ -30,9 +29,9 @@ export default class QuerySingleIdChecker {
 
 		// Validate each column in COLUMNS but ignore custom APPLY keys
 		for (const column of (query as any).OPTIONS.COLUMNS) {
-			// Skip validation for custom APPLY keys without "_"
-			if (!customApplyKeys.has(column) && !column.includes("_")) {
-				throw new InsightError(`Key does not match dataset ID format or custom APPLY key: ${column}`);
+			// Check if column has "_" (indicating dataset ID) and is not in customApplyKeys
+			if (!customApplyKeys.has(column) && column.includes("_")) {
+				this.extractDatasetIdFromKey(column, new Set([column]));
 			}
 		}
 	}
@@ -45,7 +44,7 @@ export default class QuerySingleIdChecker {
 		if (transformations && Array.isArray(transformations.APPLY)) {
 			for (const applyRule of transformations.APPLY) {
 				for (const key in applyRule) {
-					customKeys.add(key); // Add custom APPLY keys (e.g., overallAvg)
+					customKeys.add(key);
 				}
 			}
 		}
@@ -61,6 +60,9 @@ export default class QuerySingleIdChecker {
 						this.extractDatasetIdFromKey(key, datasetIds);
 					} else if (key === "APPLY") {
 						this.collectDatasetIdsFromApply(obj[key], datasetIds);
+					} else if (key === "COLUMNS" && Array.isArray(obj[key])) {
+						// Specifically handle columns as an array
+						this.collectDatasetIdsFromArray(obj[key], datasetIds);
 					} else if (typeof obj[key] === "object" && obj[key] !== null) {
 						this.collectDatasetIds(obj[key], datasetIds);
 					} else if (Array.isArray(obj[key])) {
@@ -77,10 +79,12 @@ export default class QuerySingleIdChecker {
 		datasetIds.add(datasetId);
 	}
 
-	// Collect dataset IDs from an array of objects
+	// Collect dataset IDs from an array of objects or strings
 	private collectDatasetIdsFromArray(array: any[], datasetIds: Set<string>): void {
 		for (const item of array) {
-			if (typeof item === "object" && item !== null) {
+			if (typeof item === "string" && item.includes("_")) {
+				this.extractDatasetIdFromKey(item, datasetIds);
+			} else if (typeof item === "object" && item !== null) {
 				this.collectDatasetIds(item, datasetIds);
 			}
 		}

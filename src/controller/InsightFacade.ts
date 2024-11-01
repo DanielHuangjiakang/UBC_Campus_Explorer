@@ -79,10 +79,7 @@ export default class InsightFacade implements IInsightFacade {
 			this.datasetManager.setDatasetMaps(id, kind, parsedEntries);
 			// this.datasetManager.printEntries();//to do
 		} catch (_) {
-			// Log error for debugging and throw a general error
-			//  console.error(`Failed to add dataset: ${err}`);
 			throw new InsightError("Failed to add dataset");
-			// throw err;
 		}
 
 		return this.datasetManager.getDatasetIDs(); // Return the list of dataset IDs
@@ -154,6 +151,7 @@ export default class InsightFacade implements IInsightFacade {
 		if (queryResults.length > maxResults) {
 			throw new ResultTooLargeError();
 		}
+
 		return queryResults;
 	}
 
@@ -187,7 +185,6 @@ export default class InsightFacade implements IInsightFacade {
 		}
 
 		// Return the list of available datasets
-		// console.log(this.datasetManager.getInsightDataset());
 		return this.datasetManager.getInsightDataset();
 	}
 }
