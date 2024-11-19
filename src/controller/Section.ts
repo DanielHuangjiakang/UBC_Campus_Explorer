@@ -84,7 +84,34 @@ export default class Section {
 		return this.audit;
 	}
 
-	// Validation method
+	// originally from DatasetManager
+	public static validateAndExtract(data: any[]): Section[] {
+		const sections: Section[] = [];
+		const Year1900 = 1900;
+
+		data.forEach((singleSection) => {
+			if (this.isValidSection(singleSection)) {
+				const parsedYear = singleSection.Section !== "overall" ? parseInt(singleSection.Year, 10) : Year1900;
+				sections.push(
+					new Section(
+						singleSection.id.toString(),
+						singleSection.Course,
+						singleSection.Title,
+						singleSection.Professor,
+						singleSection.Subject,
+						parsedYear,
+						singleSection.Avg,
+						singleSection.Pass,
+						singleSection.Fail,
+						singleSection.Audit
+					)
+				);
+			}
+		});
+
+		return sections;
+	}
+
 	private static isValidSection(singleSection: any): boolean {
 		return (
 			typeof singleSection.id === "number" &&
@@ -101,32 +128,44 @@ export default class Section {
 		);
 	}
 
-	// Extraction method
-	public static validateAndExtract(data: any[]): Section[] {
-		const sections: Section[] = [];
-
-		data.forEach((singleSection) => {
-			if (this.isValidSection(singleSection)) {
-				let parsedYear = 1900;
-				if (singleSection.Section !== "overall") {
-					parsedYear = parseInt(singleSection.Year, 10);
-				}
-				const section = new Section(
-					singleSection.id.toString(),
-					singleSection.Course,
-					singleSection.Title,
-					singleSection.Professor,
-					singleSection.Subject,
-					parsedYear,
-					singleSection.Avg,
-					singleSection.Pass,
-					singleSection.Fail,
-					singleSection.Audit
-				);
-				sections.push(section);
-			}
-		});
-
-		return sections;
-	}
+	// public static validateAndExtract(data: any[]): Section[] {
+	// 	const sections: Section[] = [];
+	//
+	// 	data.forEach((singleSection) => {
+	// 		const isValid: boolean =
+	// 			typeof singleSection.id === "number" &&
+	// 			typeof singleSection.Course === "string" &&
+	// 			typeof singleSection.Title === "string" &&
+	// 			typeof singleSection.Professor === "string" &&
+	// 			typeof singleSection.Subject === "string" &&
+	// 			typeof singleSection.Year === "string" &&
+	// 			typeof singleSection.Avg === "number" &&
+	// 			typeof singleSection.Pass === "number" &&
+	// 			typeof singleSection.Fail === "number" &&
+	// 			typeof singleSection.Audit === "number" &&
+	// 			typeof singleSection.Section === "string";
+	//
+	// 		if (isValid) {
+	// 			let parsedYear = 1900;
+	// 			if (singleSection.Section !== "overall") {
+	// 				parsedYear = parseInt(singleSection.Year, 10);
+	// 			}
+	// 			const section = new Section(
+	// 				singleSection.id.toString(),
+	// 				singleSection.Course,
+	// 				singleSection.Title,
+	// 				singleSection.Professor,
+	// 				singleSection.Subject,
+	// 				parsedYear,
+	// 				singleSection.Avg,
+	// 				singleSection.Pass,
+	// 				singleSection.Fail,
+	// 				singleSection.Audit
+	// 			);
+	// 			sections.push(section);
+	// 		}
+	// 	});
+	//
+	// 	return sections;
+	// }
 }
