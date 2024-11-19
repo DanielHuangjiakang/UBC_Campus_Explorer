@@ -19,9 +19,9 @@ describe("Facade C3", function () {
 
 	before(async function () {
 		// TODO: start server here once and handle errors properly
-		validCourseBuffer = fs.readFileSync("test/resources/archives/valid_course.zip");
-		invalidCourseBuffer = fs.readFileSync("test/resources/archives/invalid_section.zip");
-		validRoomBuffer = fs.readFileSync("test/resources/archives/campus.zip");
+		validCourseBuffer = await fs.readFile("test/resources/archives/valid_course.zip");
+		invalidCourseBuffer = await fs.readFile("test/resources/archives/invalid_section.zip");
+		validRoomBuffer = await fs.readFile("test/resources/archives/campus.zip");
 		facade = new InsightFacade();
 		sections = await getContentFromArchives("pair.zip");
 		server = new Server(PORT);
