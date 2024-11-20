@@ -1,3 +1,9 @@
+let map, markers = [];
+const selectedRooms = [];
+const selectedBuildings = [];
+const maxSelectedRooms = 5;
+let timeMarkers = [];
+
 const roomsData = [
     { id: 1, name: 'Room 101', building: 'Engineering', capacity: 30, furniture: ['Tables', 'Chairs'], lat: 49.2606, lng: -123.2460 },
     { id: 2, name: 'Room 202', building: 'Science', capacity: 50, furniture: ['Lab Benches'], lat: 49.2608, lng: -123.2463 },
@@ -6,19 +12,42 @@ const roomsData = [
     { id: 5, name: 'Room 505', building: 'Business', capacity: 60, furniture: ['Conference Table', 'Chairs'], lat: 49.2614, lng: -123.2469 },
 ];
 
-
-let map, markers = [];
-const selectedRooms = [];
-const selectedBuildings = [];
-const maxSelectedRooms = 5;
-let timeMarkers = [];
-
 document.addEventListener('DOMContentLoaded', () => {
-    const queryInput = document.getElementById('query');
-    const searchButton = document.getElementById('searchButton');
+    const buildingInput = document.getElementById('buildingSelect');
+    const minCapacity = document.getElementById('minCapacity');
+    const furnitureInput = document.getElementById('furnitureSelect');
+    const applyButton = document.getElementById('applyButton');
+    const resetButton = document.getElementById('resetButton');
     const availableRooms = document.getElementById('availableRooms');
     const selectedRoomsContainer = document.getElementById('selectedRooms');
     const markersButton  = document.getElementById('markersButton');
+
+    function updateAvailableRooms() {
+        const building = buildingInput.value.toLowerCase();
+        const capacity = parseInt(minCapacity.value || 0);
+        const furniture = furnitureInput.value.toLowerCase();
+
+        const filteredRooms = roomsData.filter(room => {
+            return (!building || room.building.toLowerCase().includes(building)) &&
+                (!capacity || room.capacity >= capacity) &&
+                (!furniture || room.furniture.some(f => f.toLowerCase().includes(furniture)));
+        });
+
+        availableRooms.innerHTML = filteredRooms.map(room => `
+            <div class="room-item">
+                <h4>${room.name}</h4>
+                <p>${room.building}, Capacity: ${room.capacity}</p>
+            </div>
+        `).join('');
+    }
+
+    applyButton.addEventListener('click', updateAvailableRooms);
+    resetButton.addEventListener('click', () => {
+        buildingInput.value = '';
+        minCapacity.value = '';
+        furnitureInput.value = '';
+        updateAvailableRooms();
+    });
 
     markersButton.addEventListener('click', async () => {
         const allShortNames = {
@@ -57,29 +86,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    searchButton.addEventListener('click', () => {
-        const query = queryInput.value.toLowerCase();
-        availableRooms.innerHTML = '';
-        const filteredRooms = roomsData.filter(room => {
-            return room.name.toLowerCase().includes(query) ||
-                room.building.toLowerCase().includes(query) ||
-                room.capacity.toString().includes(query) ||
-                room.furniture.some(f => f.toLowerCase().includes(query));
-        });
-
-        if (filteredRooms.length === 0) {
-            availableRooms.innerHTML = '<p>No rooms found</p>';
-        } else {
-            filteredRooms.forEach(room => {
-                const roomDiv = document.createElement('div');
-                roomDiv.className = 'room-item';
-                roomDiv.innerHTML = `<h4>${room.name}</h4><p>${room.building}, Capacity: ${room.capacity}</p>`;
-                roomDiv.addEventListener('click', () => selectRoom(room));
-                availableRooms.appendChild(roomDiv);
-            });
-        }
-    });
-
     async function fetchRoomsData(queryInput) {
         try {
             const response = await fetch('http://localhost:4321/query', {
@@ -100,14 +106,6 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('Error fetching room data:', error);
             return [];
         }
-    }
-
-    function selectRoom(room) {
-        if (selectedRooms.length >= maxSelectedRooms) return;
-        if (selectedRooms.find(r => r.id === room.id)) return;
-
-        selectedRooms.push(room);
-        updateSelectedRooms();
     }
 
     function updateSelectedRooms() {
@@ -246,103 +244,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // function calculateAndDisplayRoute() {
-    //     if (selectedBuildings.length < 2) {
-    //         // 如果选择的建筑少于2个，清除现有路线和标记
-    //         directionsRenderer.set('directions', null);
-    //         clearTimeMarkers();
-    //         return;
-    //     }
-    //
-    //     const waypoints = selectedBuildings.slice(1, -1).map(building => ({
-    //         location: new google.maps.LatLng(building.rooms_lat, building.rooms_lon),
-    //         stopover: true,
-    //     }));
-    //
-    //     directionsService.route(
-    //         {
-    //             origin: new google.maps.LatLng(selectedBuildings[0].rooms_lat, selectedBuildings[0].rooms_lon),
-    //             destination: new google.maps.LatLng(
-    //                 selectedBuildings[selectedBuildings.length - 1].rooms_lat,
-    //                 selectedBuildings[selectedBuildings.length - 1].rooms_lon
-    //             ),
-    //             waypoints: waypoints,
-    //             travelMode: google.maps.TravelMode.WALKING, // 使用步行模式
-    //         },
-    //         (response, status) => {
-    //             if (status === 'OK') {
-    //                 directionsRenderer.setDirections(response);
-    //
-    //                 // 清除旧的时间标记
-    //                 clearTimeMarkers();
-    //
-    //                 // 获取总步行时间
-    //                 const route = response.routes[0];
-    //                 let totalDuration = 0;
-    //
-    //                 route.legs.forEach((leg, index) => {
-    //                     totalDuration += leg.duration.value; // 秒为单位
-    //
-    //                     // 获取起点和终点建筑名称
-    //                     const startBuilding = selectedBuildings[index].rooms_shortname;
-    //                     const endBuilding = selectedBuildings[index + 1].rooms_shortname;
-    //
-    //                     // 添加步行时间标记
-    //                     const midLat = (leg.start_location.lat() + leg.end_location.lat()) / 2;
-    //                     const midLng = (leg.start_location.lng() + leg.end_location.lng()) / 2;
-    //
-    //                     const timeMarker = new google.maps.Marker({
-    //                         position: { lat: midLat, lng: midLng },
-    //                         map: map,
-    //                         icon: {
-    //                             path: google.maps.SymbolPath.CIRCLE, // 圆形标记
-    //                             scale: 8, // 大小
-    //                             fillColor: '#007BFF', // 填充颜色
-    //                             fillOpacity: 1,
-    //                             strokeWeight: 2,
-    //                             strokeColor: '#FFFFFF', // 边框颜色
-    //                         },
-    //                     });
-    //
-    //                     // 保存到全局数组
-    //                     timeMarkers.push(timeMarker);
-    //
-    //                     // 添加时间文字（信息窗口）
-    //                     // const infoWindow = new google.maps.InfoWindow({
-    //                     //     content: `<div style="color: black; font-size: 12px;">${leg.duration.text}</div>`,
-    //                     //     position: { lat: midLat, lng: midLng },
-    //                     // });
-    //                     // 添加时间文字（信息窗口）
-    //                     const infoWindow = new google.maps.InfoWindow({
-    //                         content: `<div style="color: black; font-size: 12px;">
-    //                                 ${startBuilding} - ${endBuilding} walking time: ${leg.duration.text}
-    //                               </div>`,
-    //                         position: { lat: midLat, lng: midLng },
-    //                     });
-    //
-    //
-    //
-    //
-    //                     // 鼠标悬停显示时间
-    //                     timeMarker.addListener('mouseover', () => {
-    //                         infoWindow.open(map);
-    //                     });
-    //
-    //                     timeMarker.addListener('mouseout', () => {
-    //                         infoWindow.close();
-    //                     });
-    //                 });
-    //
-    //                 // 总时间显示
-    //                 const messageContainer = document.getElementById('selectionMessage');
-    //                 messageContainer.textContent = `Total walking time: ${Math.ceil(totalDuration / 60)} minutes`;
-    //             } else {
-    //                 console.error('Directions request failed due to ' + status);
-    //             }
-    //         }
-    //     );
-    // }
-
     function calculateAndDisplayRoute() {
         if (selectedBuildings.length < 2) {
             directionsRenderer.set('directions', null);
@@ -435,42 +336,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-
-
-
-
-
-
-    // function updateMarkers(rooms) {
-    //     markers.forEach(marker => marker.setMap(null));
-    //     markers = rooms.map(room => {
-    //         const customIcon = {
-    //             url: createCustomMarker(room.rooms_shortname), // 使用自定义图标
-    //             scaledSize: new google.maps.Size(50, 50), // 设置图标的尺寸
-    //             origin: new google.maps.Point(0, 0),
-    //             anchor: new google.maps.Point(25, 25) // 中心点
-    //         };
-    //
-    //         return new google.maps.Marker({
-    //             position: { lat: room.rooms_lat, lng: room.rooms_lon },
-    //             map: map,
-    //             icon: customIcon, // 使用自定义图标
-    //             title: room.rooms_shortname
-    //         });
-    //     });
-    // }
-
-    // function updateMarkers(rooms) {
-    //     markers.forEach(marker => marker.setMap(null));
-    //     markers = rooms.map(room => {
-    //         return new google.maps.Marker({
-    //             position: { lat: room.rooms_lat, lng: room.rooms_lon},
-    //             map: map,
-    //             title: room.rooms_shortname
-    //         });
-    //     });
-    // }
-
     const ctx = document.getElementById('capacityChart').getContext('2d');
     new Chart(ctx, {
         type: 'bar',
@@ -489,6 +354,5 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     });
-
     initMap();
 });
