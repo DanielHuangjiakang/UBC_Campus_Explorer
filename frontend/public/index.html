@@ -1,13 +1,54 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
-    <title>310 Frontend</title>
-    <link href="/style.css" rel="stylesheet"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Explorer</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<button id="click-me-button" class="button">Click Me!</button>
+<div class="container">
+    <!-- Left Panel -->
+    <div class="left-panel">
+        <div class="card">
+            <h2>Query</h2>
+            <div class="query-input">
+                <input type="text" id="query" placeholder="Search rooms by capacity, furniture...">
+                <button id="searchButton">Search</button>
+            </div>
+        </div>
 
-<script type="text/javascript" src="/frontend.js"></script>
+        <div class="card">
+            <h2>Available Rooms</h2>
+            <div id="availableRooms" class="scroll-area">
+                <!-- Dynamic Room List -->
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Room Capacity Distribution</h2>
+            <canvas id="capacityChart"></canvas>
+        </div>
+    </div>
+
+    <!-- Right Panel -->
+    <div class="right-panel">
+        <div class="card">
+            <h2>Selected Rooms</h2>
+            <div id="selectedRooms">
+                <!-- Dynamic Selected Rooms -->
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Campus Map</h2>
+            <div id="map" class="map-container"></div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDv-bhRcRleORvCII1F15AKViA6TvIDybE"></script>
+<script src="frontend.js"></script>
 </body>
 </html>

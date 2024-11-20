@@ -1,14 +1,39 @@
-.button {
-    background-color: #3f51b5;
-    border: none;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
 }
 
-.button:hover {
-    cursor: pointer;
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+.left-panel, .right-panel {
+    flex: 1;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.card {
+    background-color: #fff;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.scroll-area {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.map-container {
+    width: 100%;
+    height: 400px;
+}
+
+#capacityChart {
+    width: 100%;
+    height: 200px;
 }
