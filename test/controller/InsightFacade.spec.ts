@@ -808,5 +808,6 @@ describe("InsightFacade", function () {
 			checkQuery
 		);
 		it("[invalid/max_invalid_key.json] max_invalid_key", checkQuery);
+		it("[valid/testValidlon.json] testValidlon", checkQuery);
 	});
 });
