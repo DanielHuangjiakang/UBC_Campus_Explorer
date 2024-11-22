@@ -184,30 +184,3 @@ export default class Server {
 		return this.insightFacade.listDatasets();
 	}
 }
-
-// private async handleAddDataset(req: Request, res: Response): Promise<void> {
-// 	try {
-// 		const id = req.params.id;
-// 		const kindString = req.params.kind;
-// 		const content = req.body;
-//
-// 		// 将字符串转换为枚举类型
-// 		let kind: InsightDatasetKind;
-// 		if (kindString === "sections") {
-// 			kind = InsightDatasetKind.Sections;
-// 		} else if (kindString === "rooms") {
-// 			kind = InsightDatasetKind.Rooms;
-// 		} else {
-// 			throw new Error("Invalid kind parameter");
-// 		}
-//
-// 		// 使用 this.insightFacade 调用 addDataset 方法
-// 		const result = await this.insightFacade.addDataset(id, content, kind);
-// 		const goodResponseCode = 200;
-// 		res.status(goodResponseCode).json({ result });
-// 	} catch (err) {
-// 		const badResponseCode = 400;
-// 		const errorMessage = (err instanceof Error) ? err.message : "An error occurred";
-// 		res.status(badResponseCode).json({ error: errorMessage });
-// 	}
-// }

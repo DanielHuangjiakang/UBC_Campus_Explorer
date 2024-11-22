@@ -7,13 +7,20 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<!-- Navigation Bar -->
+<nav class="navbar">
+    <div class="navbar-container">
+        <a href="#" class="navbar-logo">UBC CAMPUS EXPLORER</a>
+    </div>
+</nav>
+
 <div class="container">
     <!-- Left Panel -->
     <div class="left-panel">
         <!-- Query Section -->
         <div class="card">
             <div class="query-header">
-                <h2>Query</h2>
+                <h2>BUILDING/ROOM SEARCH</h2>
                 <button id="helpButton" class="help-icon">?</button>
             </div>
             <div class="query-content">
@@ -21,16 +28,7 @@
                     <label for="buildingSelect">Building</label>
                     <input list="buildingOptions" id="buildingSelect" placeholder="Start typing a building name...">
                     <datalist id="buildingOptions">
-                        <option value="AERL - Aquatic Ecosystems Research Laboratory"></option>
-                        <option value="ALRD - Allard Hall"></option>
-                        <option value="ANGU - Henry Angus"></option>
-                        <option value="ANSO - Anthropology and Sociology"></option>
-                        <option value="AUDX - Auditorium Annex"></option>
-                        <option value="BIOL - Biological Sciences"></option>
-                        <option value="BRCS - Brock Commons South"></option>
-                        <option value="BUCH - Buchanan"></option>
-                        <option value="CEME - Civil and Mechanical Engineering"></option>
-                        <option value="CHBE - Chemical and Biological Engineering"></option>
+                        <!-- Options will be dynamically added here by JavaScript -->
                     </datalist>
                 </div>
 
@@ -39,59 +37,75 @@
                     <input type="number" id="minCapacity" placeholder="Enter minimum capacity...">
                 </div>
                 <div class="query-field">
-                    <label for="furnitureSelect">Furniture</label>
-                    <input list="furnitureOptions" id="furnitureSelect" placeholder="Start typing furniture type...">
-                    <datalist id="furnitureOptions">
-                        <option value="Tables"></option>
-                        <option value="Chairs"></option>
-                        <option value="Lab Benches"></option>
-                        <option value="Desks"></option>
-                        <option value="Computers"></option>
-                        <option value="Conference Table"></option>
-                        <option value="Whiteboards"></option>
-                        <option value="Easels"></option>
-                        <option value="Stools"></option>
-                    </datalist>
+                    <label>Furniture Type</label>
+                    <div class="furniture-options">
+                        <!-- Dynamic checkboxes will be added here -->
+                    </div>
                 </div>
                 <div class="query-actions">
                     <button id="applyButton" class="btn btn-apply">Apply</button>
                     <button id="resetButton" class="btn btn-reset">Reset</button>
-                    <button id="professorToolButton" class="btn btn-secondary">Professor Tool</button>
                 </div>
             </div>
         </div>
 
         <div class="card">
-            <h2>Available Rooms</h2>
+            <div class="query-header">
+                <h2>AVAILABLE ROOMS</h2>
+                <button id="helpButton-ar" class="help-icon">?</button>
+            </div>
             <div id="availableRooms" class="scroll-area">
                 <!-- Dynamic Room List -->
             </div>
         </div>
 
         <div class="card">
-            <h2>Room Capacity Distribution</h2>
-            <canvas id="capacityChart"></canvas>
+            <div class="query-header">
+                <h2>ROOM CAPACITY DISTRIBUTION IN BUILDING</h2>
+                <button id="helpButton-vl" class="help-icon">?</button>
+            </div>
+            <div class="query-field">
+                <label for="buildingCapacitySelect">Building</label>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <input list="buildingCapacityOptions" id="buildingCapacitySelect" placeholder="Start typing a building name...">
+                    <datalist id="buildingCapacityOptions">
+                        <!-- Options will be dynamically added here by JavaScript -->
+                    </datalist>
+                    <button id="capacityApplyButton" class="btn btn-apply">Apply</button>
+                </div>
+            </div>
+            <canvas id="buildingCapacityChart"></canvas>
         </div>
     </div>
 
     <!-- Right Panel -->
     <div class="right-panel">
     <div class="card">
-        <h2>Selected Rooms</h2>
+        <div class="query-header">
+            <h2>SELECTED ROOMS</h2>
+            <button id="helpButton-sr" class="help-icon">?</button>
+        </div>
         <div id="selectedRooms">
             <!-- Dynamic Selected Rooms -->
         </div>
     </div>
     <div class="card">
-        <h2>Selected Buildings</h2>
+        <div class="query-header">
+            <h2>SELECTED BUILDINGS</h2>
+            <button id="helpButton-sb" class="help-icon">?</button>
+        </div>
+        <div id="errorNotification" class="error-notification" style="display: none;">
+            Maximum limit reached. You cannot select more than 5 buildings.
+        </div>
         <div id="selectedBuildings" class="selected-buildings-list">
-            <!-- 选中建筑的列表会动态插入到这里 -->
+            <!-- Dynamic Selected Buildings -->
         </div>
     </div>
     <div class="card">
-        <h2>Campus Map</h2>
+        <div class="query-header">
+            <h2>CAMPUS MAP</h2>
+        </div>
         <div id="map" class="map-container"></div>
-        <button id="markersButton">Display All Markers</button> <!-- 按钮放在地图下面 -->
     </div>
 </div>
 </div>
