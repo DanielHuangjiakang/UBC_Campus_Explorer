@@ -4,6 +4,7 @@ import * as http from "http";
 import cors from "cors";
 import InsightFacade from "../controller/InsightFacade";
 import { InsightDataset, InsightDatasetKind, InsightError, InsightResult } from "../controller/IInsightFacade";
+import path from "node:path";
 
 export default class Server {
 	private readonly port: number;
@@ -23,6 +24,7 @@ export default class Server {
 		// NOTE: you can serve static frontend files in from your express server
 		// by uncommenting the line below. This makes files in ./frontend/public
 		// accessible at http://localhost:<port>/
+		this.express.use(express.static(path.join(__dirname, "../../frontend/public")));
 		// this.express.use(express.static("./frontend/public"))
 	}
 
@@ -101,27 +103,6 @@ export default class Server {
 
 		this.express.get("/datasets", this.listDatasets.bind(this));
 	}
-
-	// The next two methods handle the echo service.
-	// These are almost certainly not the best place to put these, but are here for your reference.
-	// By updating the Server.echo function pointer above, these methods can be easily moved.
-	// private static echo(req: Request, res: Response): void {
-	// 	try {
-	// 		Log.info(`Server::echo(..) - params: ${JSON.stringify(req.params)}`);
-	// 		const response = Server.performEcho(req.params.msg);
-	// 		res.status(StatusCodes.OK).json({ result: response });
-	// 	} catch (err) {
-	// 		res.status(StatusCodes.BAD_REQUEST).json({ error: err });
-	// 	}
-	// }
-	//
-	// private static performEcho(msg: string): string {
-	// 	if (typeof msg !== "undefined" && msg !== null) {
-	// 		return `${msg}...${msg}`;
-	// 	} else {
-	// 		return "Message not provided";
-	// 	}
-	// }
 
 	private async addDataset(req: Request, res: Response): Promise<void> {
 		try {
@@ -203,30 +184,3 @@ export default class Server {
 		return this.insightFacade.listDatasets();
 	}
 }
-
-// private async handleAddDataset(req: Request, res: Response): Promise<void> {
-// 	try {
-// 		const id = req.params.id;
-// 		const kindString = req.params.kind;
-// 		const content = req.body;
-//
-// 		// 将字符串转换为枚举类型
-// 		let kind: InsightDatasetKind;
-// 		if (kindString === "sections") {
-// 			kind = InsightDatasetKind.Sections;
-// 		} else if (kindString === "rooms") {
-// 			kind = InsightDatasetKind.Rooms;
-// 		} else {
-// 			throw new Error("Invalid kind parameter");
-// 		}
-//
-// 		// 使用 this.insightFacade 调用 addDataset 方法
-// 		const result = await this.insightFacade.addDataset(id, content, kind);
-// 		const goodResponseCode = 200;
-// 		res.status(goodResponseCode).json({ result });
-// 	} catch (err) {
-// 		const badResponseCode = 400;
-// 		const errorMessage = (err instanceof Error) ? err.message : "An error occurred";
-// 		res.status(badResponseCode).json({ error: errorMessage });
-// 	}
-// }

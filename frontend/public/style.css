@@ -2,11 +2,12 @@ body {
     margin: 0;
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
+    padding-top: 60px; /* Offset content for navbar */
 }
 
 .container {
     display: flex;
-    height: 100vh;
+    min-height: 100vh;
 }
 
 .left-panel, .right-panel {
@@ -67,6 +68,56 @@ body {
     font-size: 14px;
 }
 
+.furniture-box {
+    border: 1px solid #ddd; /* Adds a boundary box */
+    border-radius: 8px; /* Rounded corners */
+    padding: 15px; /* Inner padding */
+    background-color: #fff; /* White background */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    max-height: 100px; /* Set a maximum height */
+    overflow-y: auto; /* Add vertical scroll if content overflows */
+}
+
+.furniture-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* Space between furniture options */
+}
+
+.furniture-options label {
+    display: flex; /* Use flexbox for alignment */
+    align-items: center; /* Vertically center content */
+    justify-content: flex-start; /* Align text and checkbox to the left */
+    font-size: 12px; /* Ensure uniform font size */
+    padding: 8px 10px; /* Adjust padding for spacing */
+    border: 1px solid #ddd; /* Add a border */
+    border-radius: 5px; /* Smooth corners */
+    cursor: pointer; /* Add a pointer cursor */
+    background-color: #f9f9f9; /* Set background color */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    transition: all 0.3s ease; /* Smooth hover animation */
+    white-space: nowrap; /* Prevent text wrapping */
+    gap: 5px; /* Ensure a small gap between checkbox and text */
+    text-align: left; /* Align text to the left */
+}
+
+.furniture-options label:hover {
+    background-color: #e9ecef; /* Highlight on hover */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
+}
+
+.furniture-options label.selected {
+    background-color: #007BFF; /* Blue background for selected */
+    color: #fff; /* White text for better contrast */
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2); /* Sunken effect */
+    transform: translateY(2px); /* Slight downward shift */
+}
+
+.furniture-options input[type="checkbox"] {
+    margin-right: 5px; /* Add spacing between checkbox and text */
+    margin-left: 0; /* Ensure checkbox is flush to the left */
+}
+
 .query-actions {
     display: flex;
     gap: 10px;
@@ -79,6 +130,7 @@ body {
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    transition: all 0.3s ease;
 }
 
 .btn-apply {
@@ -88,6 +140,8 @@ body {
 
 .btn-apply:hover {
     background-color: #0056b3;
+    transform: translateY(-2px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .btn-reset {
@@ -97,6 +151,8 @@ body {
 
 .btn-reset:hover {
     background-color: #c13d20;
+    transform: translateY(-2px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .btn-secondary {
@@ -106,6 +162,8 @@ body {
 
 .btn-secondary:hover {
     background-color: #5a6268;
+    transform: translateY(-2px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .scroll-area {
@@ -119,9 +177,9 @@ body {
 }
 
 .room-item {
-    display: flex; /* Use flexbox to align items in one row */
-    justify-content: space-between; /* Add space between elements */
-    align-items: center; /* Vertically align items in the center */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 5px;
@@ -130,15 +188,15 @@ body {
 }
 
 .room-item h4 {
-    margin: 0; /* Remove margin from the heading */
+    margin: 0;
     font-size: 16px;
     font-weight: bold;
 }
 
 .room-item p {
-    margin: 0; /* Remove margin from the paragraph */
+    margin: 0;
     font-size: 14px;
-    color: #666; /* Optional: Muted text color */
+    color: #666;
 }
 
 .room-item:hover {
@@ -153,4 +211,141 @@ body {
     margin-right: 5px;
     font-size: 12px;
     display: inline-block;
+}
+
+#selectedBuildings {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 0;
+}
+
+.building-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 8px;
+    width: 300px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.building-box h4 {
+    margin: 0 0 5px 0;
+    font-size: 16px;
+    color: #333;
+}
+
+.building-box:hover {
+    background-color: #f9f9f9;
+}
+
+.building-box p {
+    margin: 0;
+    font-size: 13px;
+    color: #555;
+}
+
+.walking-time {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.walking-time img {
+    width: 20px;
+    height: 20px;
+}
+
+.walking-time span {
+    font-size: 12px;
+    color: #777;
+}
+
+.error-notification {
+    position: fixed;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #ff4d4f;
+    color: white;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    display: none;
+}
+
+#buildingCapacityChart {
+    max-width: 100%;
+    height: 300px;
+}
+
+.navbar {
+    width: 100%;
+    height: 60px;
+    background-color: #f8f9fa;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.navbar-container {
+    text-align: center;
+}
+
+.navbar-logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #212529;
+    text-decoration: none;
+    letter-spacing: 2px;
+    transition: color 0.3s ease;
+    line-height: 60px;
+}
+
+.navbar-logo:hover {
+    color: #007BFF;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .left-panel, .right-panel {
+        width: 100%;
+    }
+
+    .furniture-options label {
+        width: calc(50% - 5px);
+    }
+
+    .query-actions {
+        flex-direction: column;
+    }
+
+    .btn {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .map-container {
+        height: 300px;
+    }
 }
