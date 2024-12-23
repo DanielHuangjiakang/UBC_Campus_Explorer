@@ -9,11 +9,11 @@ For information about the project, autotest, and the checkpoints, see the course
 
 Below are previews of our interactive frontend interface, showcasing data visualizations and map features:
 
-![Campus Explorer Frontend](img/campus_explorer_frontend.png)
+![Campus Explorer Frontend](img/campus_explorer_frontend2.png)
 
 <p align="center">
-  <img src="img/campus_explorer_frontend_map.png" alt="Campus Explorer Frontend Map" width="30%">
-  <img src="img/campus_explorer_frontend_bar.png" alt="Campus Explorer Frontend Bar Chart" width="50%">
+  <img src="img/campus_explorer_frontend_map.png" alt="Campus Explorer Frontend Map" width="40%">
+  <img src="img/campus_explorer_frontend_bar.png" alt="Campus Explorer Frontend Bar Chart" width="56%">
 </p>
 
 
