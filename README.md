@@ -5,6 +5,14 @@ Please keep your repository private.
 
 For information about the project, autotest, and the checkpoints, see the course webpage.
 
+## Explore Our Interactive Interface
+
+Below are previews of our interactive frontend interface, showcasing data visualizations and map features:
+
+![Bar Chart Visualization](path/to/bar_chart_image.png)
+
+![Interactive Map](path/to/map_image.png)
+
 ## Project Overview
 
 This project implements a RESTful API designed to query and analyze building and room data on a university campus. The backend processes dataset uploads, performs queries, and returns insights based on the data provided. The frontend visualizes the results and enables users to interact dynamically with campus data, such as viewing room capacities and filtering results based on building features.
