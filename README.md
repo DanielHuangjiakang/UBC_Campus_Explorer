@@ -11,7 +11,12 @@ Below are previews of our interactive frontend interface, showcasing data visual
 
 ![Campus Explorer Frontend](img/campus_explorer_frontend.png)
 
-![Interactive Map](path/to/map_image.png)
+<p align="center">
+  <img src="img/campus_explorer_frontend_map.png" alt="Campus Explorer Frontend Map" width="30%">
+  <img src="img/campus_explorer_frontend_bar.png" alt="Campus Explorer Frontend Bar Chart" width="50%">
+</p>
+
+
 
 ## Project Overview
 
