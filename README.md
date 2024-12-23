@@ -5,6 +5,23 @@ Please keep your repository private.
 
 For information about the project, autotest, and the checkpoints, see the course webpage.
 
+## Project Overview
+
+This project implements a RESTful API designed to query and analyze building and room data on a university campus. The backend processes dataset uploads, performs queries, and returns insights based on the data provided. The frontend visualizes the results and enables users to interact dynamically with campus data, such as viewing room capacities and filtering results based on building features.
+
+Key Features:
+- Upload, query, and delete datasets related to campus rooms and buildings.
+- Interactive frontend for visualizing room capacities using bar charts.
+- RESTful API design emphasizing idempotency, statelessness, and connectedness.
+- Integrated Google Maps JavaScript API for dynamic rendering of campus buildings and calculating walking paths between locations with custom markers.
+- Comprehensive testing strategy combining unit tests for the backend and end-to-end tests for the frontend.
+
+Technologies Used:
+- **Frontend:** HTML, CSS, JavaScript, Google Maps JavaScript API.
+- **Backend:** TypeScript, Node.js, RESTful API.
+- **Testing:** Mocha for unit testing API endpoints and backend logic.
+- **Design Principles:** SOLID principles for scalable and maintainable code structure.
+
 ## Configuring your environment
 
 To start using this project, you need to get your development environment configured so that you can build and execute the code.
