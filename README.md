@@ -20,7 +20,7 @@ Below are previews of our interactive frontend interface, showcasing data visual
 
 ## Project Overview
 
-This project implements a RESTful API designed to query and analyze building and room data on a university campus. The backend processes dataset uploads, performs queries, and returns insights based on the data provided. The frontend visualizes the results and enables users to interact dynamically with campus data, such as viewing room capacities and filtering results based on building features.
+This project features a RESTful API for querying and analyzing campus building and room data. It processes dataset uploads, handles queries, and provides insights. The frontend visualizes results, allowing users to explore room capacities, filter data dynamically, and plan walking routes between buildings using the Google Maps API.
 
 Key Features:
 - Upload, query, and delete datasets related to campus rooms and buildings.
