@@ -9,7 +9,7 @@ For information about the project, autotest, and the checkpoints, see the course
 
 Below are previews of our interactive frontend interface, showcasing data visualizations and map features:
 
-![Bar Chart Visualization](path/to/bar_chart_image.png)
+![Campus Explorer Frontend](img/campus_explorer_frontend.png)
 
 ![Interactive Map](path/to/map_image.png)
 
